@@ -89,7 +89,7 @@ main {
 }
 
 .hero-content {
-    opacity: 0;
+    opacity: 1;
 }
 
 .hero-title {
@@ -104,7 +104,7 @@ main {
 
 .hero-title-line {
     display: block;
-    opacity: 0;
+    opacity: 1;
 }
 
 .hero-subtitle {
@@ -112,7 +112,7 @@ main {
     color: var(--terracota);
     margin-bottom: 1rem;
     font-weight: 600;
-    opacity: 0;
+    opacity: 1;
 }
 
 .hero-description {
@@ -120,14 +120,14 @@ main {
     color: var(--verde);
     margin-bottom: 2.5rem;
     max-width: 500px;
-    opacity: 0;
+    opacity: 1;
 }
 
 .hero-buttons {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
-    opacity: 0;
+    opacity: 1;
 }
 
 .cta-primary,
@@ -172,7 +172,7 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 0;
+    opacity: 1;
 }
 
 .hero-logo {
@@ -214,7 +214,7 @@ main {
     justify-content: center;
     padding: 4rem 2rem;
     background: linear-gradient(135deg, var(--creme) 0%, white 100%);
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.5s ease;
 }
 
@@ -329,7 +329,7 @@ main {
     border-radius: 12px;
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    opacity: 0;
+    opacity: 1;
 }
 
 .about-card:hover {
@@ -374,7 +374,7 @@ main {
     overflow: hidden;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    opacity: 0;
+    opacity: 1;
 }
 
 .product-card:hover {
@@ -488,7 +488,7 @@ main {
 }
 
 .story-text {
-    opacity: 0;
+    opacity: 1;
 }
 
 .story-paragraph {
@@ -503,7 +503,7 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 0;
+    opacity: 1;
 }
 
 .story-image-placeholder {
@@ -557,7 +557,7 @@ main {
     border-top: 4px solid var(--verde);
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
-    opacity: 0;
+    opacity: 1;
 }
 
 .process-step:hover {
@@ -619,7 +619,7 @@ main {
     border-radius: 12px;
     border-left: 5px solid var(--terracota);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    opacity: 0;
+    opacity: 1;
 }
 
 .benefit-card:hover {
@@ -676,7 +676,7 @@ main {
 
 .form-group {
     display: grid;
-    grid-template-columns: 1fr 1.5fr auto;
+    grid-template-columns: 1fr 1.5fr minmax(200px, auto);
     gap: 1rem;
     align-items: center;
 }
@@ -714,6 +714,7 @@ main {
     justify-content: center;
     gap: 0.5rem;
     white-space: nowrap;
+    min-width: 200px;
 }
 
 .lead-form button:hover {
@@ -768,7 +769,7 @@ main {
     padding: 2.5rem;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    opacity: 0;
+    opacity: 1;
 }
 
 .testimonial-icon {
@@ -845,6 +846,9 @@ main {
     align-items: center;
     justify-content: center;
     gap: 0.8rem;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
 }
 
 .contact-form button:hover {
@@ -895,7 +899,7 @@ main {
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    opacity: 0;
+    opacity: 1;
     z-index: 10;
 }
 

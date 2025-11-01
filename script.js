@@ -5,51 +5,10 @@ gsap.registerPlugin(ScrollTrigger);
 const WHATSAPP_NUMBER = '5511999999999'; // SUBSTITUIR com seu número
 const FORM_ENDPOINT = ''; // SUBSTITUIR com endpoint do Google Sheets ou FormSubmit
 
-// Animações iniciais do Hero - Aprimoradas
+// Animações iniciais do Hero - Desabilitadas para evitar bugs
 function initHeroAnimations() {
-    const tl = gsap.timeline({
-        defaults: { ease: 'power3.out' }
-    });
-
-    // Revelar conteúdo com efeito de manifestação
-    tl.to('.hero-content', {
-        opacity: 1,
-        duration: 0.5
-    })
-    .from('.hero-title-line', {
-        y: 120,
-        opacity: 0,
-        rotationX: -90,
-        transformOrigin: 'top center',
-        duration: 1.2,
-        stagger: 0.25,
-        ease: 'power4.out'
-    })
-    .to('.hero-subtitle', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: 'power2.out'
-    }, '-=0.6')
-    .to('.hero-description', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: 'power2.out'
-    }, '-=0.6')
-    .to('.hero-buttons', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: 'power2.out'
-    }, '-=0.6')
-    .to('.hero-image', {
-        opacity: 1,
-        scale: 1,
-        rotation: 0,
-        duration: 1.5,
-        ease: 'elastic.out(1, 0.5)'
-    }, '-=1.2');
+    // Animações desabilitadas - elementos já estão visíveis no CSS
+    return;
 
     // Efeito de brilho sutil no logo após aparecer
     gsap.to('.hero-logo', {
@@ -62,23 +21,10 @@ function initHeroAnimations() {
     });
 }
 
-// Animações dos cards About ao scroll - Aprimoradas
+// Animações dos cards About ao scroll - Simplificadas
 function initAboutAnimations() {
-    // Animação de entrada dos cards
-    gsap.from('.about-card', {
-        scrollTrigger: {
-            trigger: '.about',
-            start: 'top 70%',
-            toggleActions: 'play none none reverse'
-        },
-        y: 100,
-        opacity: 0,
-        scale: 0.8,
-        rotationY: -15,
-        duration: 1,
-        stagger: 0.25,
-        ease: 'power4.out'
-    });
+    // Animações simplificadas - cards já estão visíveis
+    return;
 
     // Efeito de flutuação contínua nos cards (energia espiritual)
     gsap.utils.toArray('.about-card').forEach((card, index) => {
@@ -106,37 +52,9 @@ function initAboutAnimations() {
     });
 }
 
-// Animações dos produtos ao scroll - Aprimoradas
+// Animações dos produtos ao scroll - Simplificadas
 function initProductsAnimations() {
-    // Animação de entrada dos produtos
-    gsap.from('.product-card', {
-        scrollTrigger: {
-            trigger: '.products',
-            start: 'top 70%',
-            toggleActions: 'play none none reverse'
-        },
-        x: -100,
-        y: 50,
-        opacity: 0,
-        rotationY: -20,
-        duration: 1,
-        stagger: 0.2,
-        ease: 'power4.out'
-    });
-
-    // Animação de reveal do placeholder de imagem
-    gsap.from('.product-image-placeholder', {
-        scrollTrigger: {
-            trigger: '.products',
-            start: 'top 60%',
-            toggleActions: 'play none none reverse'
-        },
-        scale: 0.8,
-        opacity: 0,
-        duration: 1.2,
-        stagger: 0.2,
-        ease: 'elastic.out(1, 0.6)'
-    });
+    // Animações de entrada desabilitadas - elementos já estão visíveis
 
     // Hover effect nos cards de produtos
     gsap.utils.toArray('.product-card').forEach(card => {
@@ -164,46 +82,7 @@ function initProductsAnimations() {
 
 // Animação da seção Story
 function initStoryAnimations() {
-    // Animação do texto
-    gsap.from('.story-text', {
-        scrollTrigger: {
-            trigger: '.story',
-            start: 'top 70%',
-            toggleActions: 'play none none reverse'
-        },
-        x: -100,
-        opacity: 0,
-        duration: 1.2,
-        ease: 'power4.out'
-    });
-
-    // Animação dos parágrafos
-    gsap.from('.story-paragraph', {
-        scrollTrigger: {
-            trigger: '.story',
-            start: 'top 65%',
-            toggleActions: 'play none none reverse'
-        },
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: 'power3.out'
-    });
-
-    // Animação da imagem
-    gsap.from('.story-image', {
-        scrollTrigger: {
-            trigger: '.story',
-            start: 'top 70%',
-            toggleActions: 'play none none reverse'
-        },
-        scale: 0,
-        opacity: 0,
-        rotation: -180,
-        duration: 1.5,
-        ease: 'elastic.out(1, 0.5)'
-    });
+    // Animações desabilitadas - elementos já estão visíveis no CSS
 
     // Rotação contínua do ícone
     gsap.to('.story-icon', {
@@ -216,37 +95,9 @@ function initStoryAnimations() {
 
 // Animação da seção Process
 function initProcessAnimations() {
-    // Animação dos steps
-    gsap.from('.process-step', {
-        scrollTrigger: {
-            trigger: '.process',
-            start: 'top 70%',
-            toggleActions: 'play none none reverse'
-        },
-        y: 100,
-        opacity: 0,
-        scale: 0.9,
-        duration: 1,
-        stagger: 0.2,
-        ease: 'power4.out'
-    });
+    // Animações de entrada desabilitadas - elementos já estão visíveis
 
-    // Animação dos números dos steps
-    gsap.from('.step-number', {
-        scrollTrigger: {
-            trigger: '.process',
-            start: 'top 65%',
-            toggleActions: 'play none none reverse'
-        },
-        scale: 0,
-        rotation: -180,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.2,
-        ease: 'elastic.out(1, 0.5)'
-    });
-
-    // Pulso sutil nos números
+    // Pulso sutil nos números (mantido)
     gsap.utils.toArray('.step-number').forEach((num, index) => {
         gsap.to(num, {
             scale: 1.1,
@@ -262,110 +113,21 @@ function initProcessAnimations() {
 
 // Animação da seção Benefits
 function initBenefitsAnimations() {
-    gsap.from('.benefit-card', {
-        scrollTrigger: {
-            trigger: '.benefits',
-            start: 'top 70%',
-            toggleActions: 'play none none reverse'
-        },
-        x: -100,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.2,
-        ease: 'power4.out'
-    });
-
-    // Animação dos números
-    gsap.from('.benefit-number', {
-        scrollTrigger: {
-            trigger: '.benefits',
-            start: 'top 65%',
-            toggleActions: 'play none none reverse'
-        },
-        scale: 0,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: 'back.out(2)'
-    });
+    // Animações desabilitadas - elementos já estão visíveis
+    return;
 }
 
 // Animação da seção Newsletter
 function initNewsletterAnimations() {
-    // Animação do título
-    gsap.from('.newsletter .section-title', {
-        scrollTrigger: {
-            trigger: '.newsletter',
-            start: 'top 70%',
-            toggleActions: 'play none none reverse'
-        },
-        y: -30,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power3.out'
-    });
-
-    // Animação do subtítulo
-    gsap.from('.newsletter-subtitle', {
-        scrollTrigger: {
-            trigger: '.newsletter',
-            start: 'top 70%',
-            toggleActions: 'play none none reverse'
-        },
-        y: 20,
-        opacity: 0,
-        duration: 0.8,
-        delay: 0.2,
-        ease: 'power3.out'
-    });
-
-    // Animação do formulário
-    gsap.from('.lead-form', {
-        scrollTrigger: {
-            trigger: '.newsletter',
-            start: 'top 65%',
-            toggleActions: 'play none none reverse'
-        },
-        y: 40,
-        opacity: 0,
-        duration: 1,
-        delay: 0.4,
-        ease: 'power3.out'
-    });
-
-    // Animação dos inputs
-    gsap.from('.lead-form input, .lead-form button', {
-        scrollTrigger: {
-            trigger: '.newsletter',
-            start: 'top 65%',
-            toggleActions: 'play none none reverse'
-        },
-        scale: 0.9,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.1,
-        delay: 0.6,
-        ease: 'back.out(1.5)'
-    });
+    // Animações desabilitadas - elementos já estão visíveis
+    return;
 }
 
 // Animação da seção Testimonials
 function initTestimonialsAnimations() {
-    gsap.from('.testimonial-card', {
-        scrollTrigger: {
-            trigger: '.testimonials',
-            start: 'top 70%',
-            toggleActions: 'play none none reverse'
-        },
-        y: 100,
-        opacity: 0,
-        scale: 0.8,
-        duration: 1,
-        stagger: 0.2,
-        ease: 'power4.out'
-    });
+    // Animações de entrada desabilitadas - elementos já estão visíveis
 
-    // Efeito de flutuação nos cards de depoimentos
+    // Efeito de flutuação nos cards de depoimentos (mantido)
     gsap.utils.toArray('.testimonial-card').forEach((card, index) => {
         gsap.to(card, {
             y: -10,
@@ -378,64 +140,10 @@ function initTestimonialsAnimations() {
     });
 }
 
-// Animação do formulário ao scroll - Aprimorada
+// Animação do formulário ao scroll - Desabilitada
 function initContactAnimations() {
-    // Animação do título
-    gsap.from('.section-title-light', {
-        scrollTrigger: {
-            trigger: '.contact',
-            start: 'top 70%',
-            toggleActions: 'play none none reverse'
-        },
-        y: -50,
-        opacity: 0,
-        scale: 0.9,
-        duration: 1,
-        ease: 'power4.out'
-    });
-
-    // Animação do subtítulo
-    gsap.from('.contact-subtitle', {
-        scrollTrigger: {
-            trigger: '.contact',
-            start: 'top 70%',
-            toggleActions: 'play none none reverse'
-        },
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        delay: 0.2,
-        ease: 'power3.out'
-    });
-
-    // Animação do formulário
-    gsap.from('.contact-form', {
-        scrollTrigger: {
-            trigger: '.contact',
-            start: 'top 70%',
-            toggleActions: 'play none none reverse'
-        },
-        y: 60,
-        opacity: 0,
-        duration: 1,
-        delay: 0.4,
-        ease: 'power3.out'
-    });
-
-    // Animação individual dos inputs
-    gsap.from('.contact-form .form-row, .contact-form textarea, .contact-form button', {
-        scrollTrigger: {
-            trigger: '.contact',
-            start: 'top 65%',
-            toggleActions: 'play none none reverse'
-        },
-        x: -30,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.15,
-        ease: 'power2.out',
-        delay: 0.6
-    });
+    // Animações desabilitadas - elementos já estão visíveis
+    return;
 }
 
 // Animação do header ao scroll - Aprimorada
@@ -509,36 +217,18 @@ function initParallax() {
 // Animação de reveal nos títulos das seções
 function initTitleRevealAnimations() {
     gsap.utils.toArray('.section-title').forEach(title => {
-        // Split text effect (caractere por caractere)
-        const text = title.textContent;
-        title.innerHTML = '';
-
-        text.split('').forEach((char, index) => {
-            const span = document.createElement('span');
-            span.textContent = char === ' ' ? '\u00A0' : char;
-            span.style.display = 'inline-block';
-            span.style.opacity = '0';
-            title.appendChild(span);
-        });
-
-        gsap.to(title.querySelectorAll('span'), {
+        // Animação simples e suave sem split text
+        gsap.from(title, {
             scrollTrigger: {
                 trigger: title,
                 start: 'top 80%',
-                toggleActions: 'play none none reverse'
+                toggleActions: 'play none none none', // Não reverter
+                once: true // Animar apenas uma vez
             },
-            opacity: 1,
-            y: 0,
-            rotationX: 0,
-            duration: 0.05,
-            stagger: 0.03,
-            ease: 'power2.out',
-            onStart: function() {
-                gsap.from(this.targets(), {
-                    y: 20,
-                    rotationX: -90
-                });
-            }
+            opacity: 0,
+            y: 30,
+            duration: 0.8,
+            ease: 'power3.out'
         });
     });
 }
@@ -912,29 +602,7 @@ function initCarousel() {
         autoplayInterval = setInterval(nextSlide, 5000);
     });
 
-    // Animação inicial da seção
-    gsap.from('.carousel-section .section-title', {
-        scrollTrigger: {
-            trigger: '.carousel-section',
-            start: 'top 70%',
-            toggleActions: 'play none none reverse'
-        },
-        y: -30,
-        opacity: 0,
-        duration: 0.8
-    });
-
-    gsap.from('.carousel', {
-        scrollTrigger: {
-            trigger: '.carousel-section',
-            start: 'top 65%',
-            toggleActions: 'play none none reverse'
-        },
-        y: 50,
-        opacity: 0,
-        duration: 1,
-        delay: 0.2
-    });
+    // Animações da seção desabilitadas - elementos já estão visíveis
 }
 
 // Inicializar todas as animações quando DOM carregar
