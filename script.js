@@ -828,9 +828,119 @@ emailInput.addEventListener('blur', (e) => {
     }
 });
 
+// Carousel
+function initCarousel() {
+    const slides = document.querySelectorAll('.carousel-slide');
+    const track = document.querySelector('.carousel-track');
+    const prevBtn = document.querySelector('.carousel-btn-prev');
+    const nextBtn = document.querySelector('.carousel-btn-next');
+    const dotsContainer = document.querySelector('.carousel-dots');
+
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    // Criar dots
+    slides.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.classList.add('carousel-dot');
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(index));
+        dotsContainer.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll('.carousel-dot');
+
+    function goToSlide(index) {
+        // Remove active de todos
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+
+        // Adiciona active no atual
+        slides[index].classList.add('active');
+        dots[index].classList.add('active');
+
+        // Anima com GSAP
+        gsap.to(track, {
+            x: -index * 100 + '%',
+            duration: 0.8,
+            ease: 'power3.inOut'
+        });
+
+        // Anima a imagem entrando
+        gsap.from(slides[index].querySelector('img'), {
+            scale: 0.8,
+            opacity: 0,
+            duration: 0.6,
+            ease: 'back.out(1.5)',
+            delay: 0.2
+        });
+
+        gsap.from(slides[index].querySelector('p'), {
+            y: 30,
+            opacity: 0,
+            duration: 0.5,
+            delay: 0.4
+        });
+
+        currentSlide = index;
+    }
+
+    function nextSlide() {
+        const next = (currentSlide + 1) % totalSlides;
+        goToSlide(next);
+    }
+
+    function prevSlide() {
+        const prev = (currentSlide - 1 + totalSlides) % totalSlides;
+        goToSlide(prev);
+    }
+
+    // Event listeners
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+
+    // Auto-play
+    let autoplayInterval = setInterval(nextSlide, 5000);
+
+    // Pausar autoplay no hover
+    const carousel = document.querySelector('.carousel');
+    carousel.addEventListener('mouseenter', () => {
+        clearInterval(autoplayInterval);
+    });
+
+    carousel.addEventListener('mouseleave', () => {
+        autoplayInterval = setInterval(nextSlide, 5000);
+    });
+
+    // Animação inicial da seção
+    gsap.from('.carousel-section .section-title', {
+        scrollTrigger: {
+            trigger: '.carousel-section',
+            start: 'top 70%',
+            toggleActions: 'play none none reverse'
+        },
+        y: -30,
+        opacity: 0,
+        duration: 0.8
+    });
+
+    gsap.from('.carousel', {
+        scrollTrigger: {
+            trigger: '.carousel-section',
+            start: 'top 65%',
+            toggleActions: 'play none none reverse'
+        },
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        delay: 0.2
+    });
+}
+
 // Inicializar todas as animações quando DOM carregar
 document.addEventListener('DOMContentLoaded', () => {
     initHeroAnimations();
+    initCarousel();
     initStoryAnimations();
     initAboutAnimations();
     initProcessAnimations();
