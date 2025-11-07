@@ -37,7 +37,7 @@ body {
 .nav {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 1rem 2rem;
+    padding: .25rem 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -184,12 +184,12 @@ main {
 
 /* Carousel Section */
 .carousel-section {
-    padding: 6rem 2rem;
+    padding: 3rem 2rem;
     background-color: white;
 }
 
 .carousel-container {
-    max-width: 1000px;
+    max-width: 1300px;
     margin: 0 auto;
 }
 
@@ -223,11 +223,10 @@ main {
 }
 
 .carousel-slide img {
-    max-width: 400px;
-    width: 100%;
-    height: auto;
-    margin-bottom: 2rem;
-    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.1));
+  width: 100%;
+    max-height: 600px;
+    object-fit: cover; /* preenche cortando excesso */
+    display: block;
 }
 
 .carousel-slide p {
