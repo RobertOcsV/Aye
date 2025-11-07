@@ -56,6 +56,22 @@ function initAboutAnimations() {
 function initProductsAnimations() {
     // Animações de entrada desabilitadas - elementos já estão visíveis
 
+    // Animação das imagens dos produtos ao entrar na viewport
+    gsap.utils.toArray('.product-img').forEach((img, index) => {
+        gsap.from(img, {
+            scrollTrigger: {
+                trigger: img,
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+            },
+            scale: 0.9,
+            opacity: 0,
+            duration: 0.8,
+            delay: index * 0.1,
+            ease: 'power2.out'
+        });
+    });
+
     // Hover effect nos cards de produtos
     gsap.utils.toArray('.product-card').forEach(card => {
         card.addEventListener('mouseenter', () => {
@@ -90,6 +106,28 @@ function initStoryAnimations() {
         duration: 20,
         repeat: -1,
         ease: 'none'
+    });
+
+    // Animação da imagem da story ao entrar na viewport
+    gsap.from('.story-img', {
+        scrollTrigger: {
+            trigger: '.story-img',
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+        },
+        scale: 0.8,
+        opacity: 0,
+        duration: 1,
+        ease: 'power2.out'
+    });
+
+    // Flutuação sutil na imagem
+    gsap.to('.story-img', {
+        y: -10,
+        duration: 2.5,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut'
     });
 }
 
