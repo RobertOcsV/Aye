@@ -408,7 +408,6 @@ leadForm.addEventListener('submit', async (e) => {
 
     // Preparar dados para EmailJS
     const templateParams = {
-        to_email: EMAILJS_RECIPIENT,
         from_name: formData.get('name'),
         from_email: formData.get('email'),
         reply_to: formData.get('email'),
@@ -478,7 +477,6 @@ form.addEventListener('submit', async (e) => {
 
     // Preparar dados para EmailJS
     const templateParams = {
-        to_email: EMAILJS_RECIPIENT,
         from_name: formData.get('name'),
         from_email: formData.get('email'),
         reply_to: formData.get('email'),
