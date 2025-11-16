@@ -1,9 +1,17 @@
 // Registrar plugin ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
+// Inicializar EmailJS
+emailjs.init('8RWTZU4oaOwJ9B8_V');
+
 // Configurações
-const WHATSAPP_NUMBER = '5511999999999'; // SUBSTITUIR com seu número
+const WHATSAPP_NUMBER = '5511979962445'; // SUBSTITUIR com seu número
 const FORM_ENDPOINT = ''; // SUBSTITUIR com endpoint do Google Sheets ou FormSubmit
+
+// Configurações EmailJS
+const EMAILJS_SERVICE_ID = 'service_5zibibsda';
+const EMAILJS_TEMPLATE_ID = 'template_2ng293oConfirma';
+const EMAILJS_RECIPIENT = 'ayearteartesanal@gmail.com'; // SUBSTITUIR com seu email de destino
 
 // Animações iniciais do Hero - Desabilitadas para evitar bugs
 function initHeroAnimations() {
@@ -397,43 +405,28 @@ leadForm.addEventListener('submit', async (e) => {
     submitButton.disabled = true;
 
     const formData = new FormData(leadForm);
-    const data = {
-        name: formData.get('name'),
-        email: formData.get('email'),
-        timestamp: new Date().toISOString(),
-        source: 'Landing Page Ayê - Newsletter'
+
+    // Preparar dados para EmailJS
+    const templateParams = {
+        to_email: EMAILJS_RECIPIENT,
+        from_name: formData.get('name'),
+        from_email: formData.get('email'),
+        reply_to: formData.get('email'),
+        to_name: 'Ayê',
+        message: 'Novo cadastro na newsletter',
+        timestamp: new Date().toLocaleString('pt-BR'),
+        source: 'Newsletter'
     };
 
     try {
-        // INTEGRAÇÃO COM GOOGLE SHEETS OU FORMSUBMIT
-        // Opção 1: FormSubmit (mais fácil)
-        // Descomentar e substituir SEU_EMAIL:
-        /*
-        const response = await fetch('https://formsubmit.co/ajax/SEU_EMAIL@gmail.com', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-        */
+        // Enviar via EmailJS
+        const response = await emailjs.send(
+            EMAILJS_SERVICE_ID,
+            EMAILJS_TEMPLATE_ID,
+            templateParams
+        );
 
-        // Opção 2: Google Sheets Web App
-        // Descomentar e substituir FORM_ENDPOINT:
-        /*
-        const response = await fetch(FORM_ENDPOINT, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        });
-        */
-
-        // Por enquanto, apenas simula sucesso
-        console.log('Lead Newsletter capturado:', data);
+        console.log('Email enviado com sucesso:', response);
 
         // Animação de sucesso
         gsap.to(leadForm, {
@@ -475,54 +468,38 @@ form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const submitButton = form.querySelector('button[type="submit"]');
-    const originalText = submitButton.innerHTML;
+    const originalHTML = submitButton.innerHTML;
 
     // Feedback visual
     submitButton.innerHTML = '<span>Enviando...</span>';
     submitButton.disabled = true;
 
     const formData = new FormData(form);
-    const data = {
-        name: formData.get('name'),
-        email: formData.get('email'),
-        phone: formData.get('phone'),
-        subject: formData.get('subject'),
+
+    // Preparar dados para EmailJS
+    const templateParams = {
+        to_email: EMAILJS_RECIPIENT,
+        from_name: formData.get('name'),
+        from_email: formData.get('email'),
+        reply_to: formData.get('email'),
+        phone: formData.get('phone') || 'Não informado',
+        subject: formData.get('subject') || 'Sem assunto',
         message: formData.get('message'),
-        timestamp: new Date().toISOString(),
-        source: 'Landing Page Ayê - Formulário de Contato'
+        to_name: 'Ayê',
+        timestamp: new Date().toLocaleString('pt-BR'),
+        source: 'Formulário de Contato'
     };
-    
+
     try {
-        // INTEGRAÇÃO COM GOOGLE SHEETS OU FORMSUBMIT
-        // Opção 1: FormSubmit (mais fácil)
-        // Descomentar e substituir SEU_EMAIL:
-        /*
-        const response = await fetch('https://formsubmit.co/ajax/SEU_EMAIL@gmail.com', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-        */
-        
-        // Opção 2: Google Sheets Web App
-        // Descomentar e substituir FORM_ENDPOINT:
-        /*
-        const response = await fetch(FORM_ENDPOINT, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        });
-        */
-        
-        // Por enquanto, apenas simula sucesso
-        console.log('Lead capturado:', data);
-        
+        // Enviar via EmailJS
+        const response = await emailjs.send(
+            EMAILJS_SERVICE_ID,
+            EMAILJS_TEMPLATE_ID,
+            templateParams
+        );
+
+        console.log('Email enviado com sucesso:', response);
+
         // Animação de sucesso
         gsap.to(form, {
             scale: 0.95,
@@ -530,15 +507,15 @@ form.addEventListener('submit', async (e) => {
             yoyo: true,
             repeat: 1
         });
-        
+
         alert('✨ Obrigado! Sua mensagem foi enviada com sucesso. Retornaremos em breve!');
         form.reset();
-        
+
     } catch (error) {
         console.error('Erro ao enviar:', error);
         alert('❌ Erro ao enviar. Por favor, tente novamente.');
     } finally {
-        submitButton.textContent = originalText;
+        submitButton.innerHTML = originalHTML;
         submitButton.disabled = false;
     }
 });
