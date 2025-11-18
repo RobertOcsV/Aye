@@ -5,13 +5,12 @@ gsap.registerPlugin(ScrollTrigger);
 emailjs.init('8RWTZU4oaOwJ9B8_V');
 
 // Configurações
-const WHATSAPP_NUMBER = '5511979962445'; // SUBSTITUIR com seu número
-const FORM_ENDPOINT = ''; // SUBSTITUIR com endpoint do Google Sheets ou FormSubmit
+const WHATSAPP_NUMBER = '5511979962445';
 
 // Configurações EmailJS
 const EMAILJS_SERVICE_ID = 'service_5zibibsda';
-const EMAILJS_TEMPLATE_ID = 'template_2ng293oConfirma';
-const EMAILJS_RECIPIENT = 'ayearteartesanal@gmail.com'; // SUBSTITUIR com seu email de destino
+const EMAILJS_TEMPLATE_ADMIN = 'template_xyx0mqContactUs'; // Para VOCÊ receber
+const EMAILJS_TEMPLATE_AUTOREPLY = 'template_2ng293oConfirma'; 
 
 // Animações iniciais do Hero - Desabilitadas para evitar bugs
 function initHeroAnimations() {
