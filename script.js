@@ -396,37 +396,50 @@ const leadForm = document.getElementById('leadForm');
 
 leadForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-
+    
     const submitButton = leadForm.querySelector('button[type="submit"]');
     const originalHTML = submitButton.innerHTML;
-
-    // Feedback visual
+    
     submitButton.innerHTML = '<span>Enviando...</span>';
     submitButton.disabled = true;
-
+    
     const formData = new FormData(leadForm);
-
-    // Preparar dados para EmailJS
-    const templateParams = {
-        from_name: formData.get('name'),
-        from_email: formData.get('email'),
-        reply_to: formData.get('email'),
-        to_name: 'Ayê',
-        message: 'Novo cadastro na newsletter',
-        timestamp: new Date().toLocaleString('pt-BR'),
-        source: 'Newsletter'
-    };
-
+    
     try {
-        // Enviar via EmailJS
-        const response = await emailjs.send(
+        // 1. Email para VOCÊ (admin)
+        const templateParamsAdmin = {
+            from_name: formData.get('name'),
+            from_email: formData.get('email'),
+            reply_to: formData.get('email'),
+            to_name: 'Ayê',
+            message: 'Novo cadastro na newsletter',
+            timestamp: new Date().toLocaleString('pt-BR'),
+            source: 'Newsletter'
+        };
+        
+        await emailjs.send(
             EMAILJS_SERVICE_ID,
-            EMAILJS_TEMPLATE_ID,
-            templateParams
+            EMAILJS_TEMPLATE_ADMIN,
+            templateParamsAdmin
         );
-
-        console.log('Email enviado com sucesso:', response);
-
+        
+        console.log('Email admin enviado com sucesso');
+        
+        // 2. Email AUTO-REPLY para o CLIENTE
+        const templateParamsCliente = {
+            from_name: formData.get('name'),
+            from_email: formData.get('email'), // Email do cliente
+            message: 'Obrigado por se cadastrar na nossa newsletter!'
+        };
+        
+        await emailjs.send(
+            EMAILJS_SERVICE_ID,
+            EMAILJS_TEMPLATE_AUTOREPLY,
+            templateParamsCliente
+        );
+        
+        console.log('Email confirmação enviado para cliente');
+        
         // Animação de sucesso
         gsap.to(leadForm, {
             scale: 0.95,
@@ -434,10 +447,10 @@ leadForm.addEventListener('submit', async (e) => {
             yoyo: true,
             repeat: 1
         });
-
+        
         alert('✨ Obrigado! Você está cadastrado para receber nossas novidades.');
         leadForm.reset();
-
+        
     } catch (error) {
         console.error('Erro ao enviar:', error);
         alert('❌ Erro ao enviar. Por favor, tente novamente.');
@@ -465,39 +478,52 @@ const form = document.getElementById('contactForm');
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
-
+    
     const submitButton = form.querySelector('button[type="submit"]');
     const originalHTML = submitButton.innerHTML;
-
-    // Feedback visual
+    
     submitButton.innerHTML = '<span>Enviando...</span>';
     submitButton.disabled = true;
-
+    
     const formData = new FormData(form);
-
-    // Preparar dados para EmailJS
-    const templateParams = {
-        from_name: formData.get('name'),
-        from_email: formData.get('email'),
-        reply_to: formData.get('email'),
-        phone: formData.get('phone') || 'Não informado',
-        subject: formData.get('subject') || 'Sem assunto',
-        message: formData.get('message'),
-        to_name: 'Ayê',
-        timestamp: new Date().toLocaleString('pt-BR'),
-        source: 'Formulário de Contato'
-    };
-
+    
     try {
-        // Enviar via EmailJS
-        const response = await emailjs.send(
+        // 1. Email para VOCÊ (admin)
+        const templateParamsAdmin = {
+            from_name: formData.get('name'),
+            from_email: formData.get('email'),
+            reply_to: formData.get('email'),
+            phone: formData.get('phone') || 'Não informado',
+            subject: formData.get('subject') || 'Sem assunto',
+            message: formData.get('message'),
+            to_name: 'Ayê',
+            timestamp: new Date().toLocaleString('pt-BR'),
+            source: 'Formulário de Contato'
+        };
+        
+        await emailjs.send(
             EMAILJS_SERVICE_ID,
-            EMAILJS_TEMPLATE_ID,
-            templateParams
+            EMAILJS_TEMPLATE_ADMIN,
+            templateParamsAdmin
         );
-
-        console.log('Email enviado com sucesso:', response);
-
+        
+        console.log('Email admin enviado com sucesso');
+        
+        // 2. Email AUTO-REPLY para o CLIENTE
+        const templateParamsCliente = {
+            from_name: formData.get('name'),
+            from_email: formData.get('email'), // Email do cliente
+            message: formData.get('message')
+        };
+        
+        await emailjs.send(
+            EMAILJS_SERVICE_ID,
+            EMAILJS_TEMPLATE_AUTOREPLY,
+            templateParamsCliente
+        );
+        
+        console.log('Email confirmação enviado para cliente');
+        
         // Animação de sucesso
         gsap.to(form, {
             scale: 0.95,
@@ -505,10 +531,10 @@ form.addEventListener('submit', async (e) => {
             yoyo: true,
             repeat: 1
         });
-
+        
         alert('✨ Obrigado! Sua mensagem foi enviada com sucesso. Retornaremos em breve!');
         form.reset();
-
+        
     } catch (error) {
         console.error('Erro ao enviar:', error);
         alert('❌ Erro ao enviar. Por favor, tente novamente.');
