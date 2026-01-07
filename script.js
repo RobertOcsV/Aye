@@ -1,178 +1,683 @@
-// Menu Hamburger Toggle
-const hamburger = document.querySelector('.hamburger');
-const navMenu = document.querySelector('.nav-menu');
+// Registrar plugin ScrollTrigger
+gsap.registerPlugin(ScrollTrigger);
 
-if (hamburger) {
-    hamburger.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
+// Inicializar EmailJS
+emailjs.init('8RWTZU4oaOwJ9B8_V');
 
-        // Animação do hamburger
-        const spans = hamburger.querySelectorAll('span');
-        if (navMenu.classList.contains('active')) {
-            spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-            spans[1].style.opacity = '0';
-            spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
-        } else {
-            spans[0].style.transform = 'none';
-            spans[1].style.opacity = '1';
-            spans[2].style.transform = 'none';
-        }
+// Configurações
+const WHATSAPP_NUMBER = '5511979962445';
+
+// Configurações EmailJS
+const EMAILJS_SERVICE_ID = 'service_5zibibsda';
+const EMAILJS_TEMPLATE_ADMIN = 'template_xyx0mqContactUs'; // Para VOCÊ receber
+const EMAILJS_TEMPLATE_AUTOREPLY = 'template_2ng293oConfirma'; 
+
+// Animações iniciais do Hero - Desabilitadas para evitar bugs
+function initHeroAnimations() {
+    // Animações desabilitadas - elementos já estão visíveis no CSS
+    return;
+
+    // Efeito de brilho sutil no logo após aparecer
+    gsap.to('.hero-logo', {
+        filter: 'drop-shadow(0 10px 30px rgba(166, 91, 66, 0.3)) brightness(1.05)',
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        delay: 1.5
+    });
+}
+
+// Animações dos cards About ao scroll - Simplificadas
+function initAboutAnimations() {
+    // Animações simplificadas - cards já estão visíveis
+    return;
+
+    // Efeito de flutuação contínua nos cards (energia espiritual)
+    gsap.utils.toArray('.about-card').forEach((card, index) => {
+        gsap.to(card, {
+            y: -15,
+            duration: 2 + index * 0.5,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut',
+            delay: index * 0.3
+        });
     });
 
-    // Fechar menu ao clicar em um link
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-            navMenu.classList.remove('active');
-            const spans = hamburger.querySelectorAll('span');
-            spans[0].style.transform = 'none';
-            spans[1].style.opacity = '1';
-            spans[2].style.transform = 'none';
+    // Animação dos ícones com brilho
+    gsap.utils.toArray('.card-icon').forEach((icon, index) => {
+        gsap.to(icon, {
+            scale: 1.1,
+            textShadow: '0 0 20px rgba(166, 91, 66, 0.6)',
+            duration: 1.5,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut',
+            delay: index * 0.5
         });
     });
 }
 
-// Smooth Scroll para links internos
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            const offsetTop = target.offsetTop - 80;
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
+// Animações dos produtos ao scroll - Simplificadas
+function initProductsAnimations() {
+    // Animações de entrada desabilitadas - elementos já estão visíveis
+
+    // Animação das imagens dos produtos ao entrar na viewport
+    gsap.utils.toArray('.product-img').forEach((img, index) => {
+        gsap.from(img, {
+            scrollTrigger: {
+                trigger: img,
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+            },
+            scale: 0.9,
+            opacity: 0,
+            duration: 0.8,
+            delay: index * 0.1,
+            ease: 'power2.out'
+        });
+    });
+
+    // Hover effect nos cards de produtos
+    gsap.utils.toArray('.product-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            gsap.to(card, {
+                y: -15,
+                scale: 1.05,
+                boxShadow: '0 20px 50px rgba(166, 91, 66, 0.25)',
+                duration: 0.4,
+                ease: 'power2.out'
             });
-        }
-    });
-});
-
-// Navbar scroll effect
-let lastScroll = 0;
-const navbar = document.querySelector('.navbar');
-
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-
-    if (currentScroll > 100) {
-        navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.15)';
-    } else {
-        navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
-    }
-
-    lastScroll = currentScroll;
-});
-
-// Formulário de Orçamento
-const orcamentoForm = document.getElementById('orcamentoForm');
-
-if (orcamentoForm) {
-    orcamentoForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        // Coletar dados do formulário
-        const formData = {
-            nome: document.getElementById('nome').value,
-            email: document.getElementById('email').value,
-            telefone: document.getElementById('telefone').value,
-            tipoProduto: document.getElementById('tipo-produto').value,
-            descricao: document.getElementById('descricao').value,
-            referencia: document.getElementById('referencia').value,
-            prazo: document.getElementById('prazo').value,
-            newsletter: document.getElementById('newsletter').checked
-        };
-
-        // Validação básica
-        if (!formData.nome || !formData.email || !formData.telefone || !formData.tipoProduto || !formData.descricao) {
-            alert('Por favor, preencha todos os campos obrigatórios.');
-            return;
-        }
-
-        // Validação de email
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(formData.email)) {
-            alert('Por favor, insira um e-mail válido.');
-            return;
-        }
-
-        // Aqui você integraria com um backend ou serviço de email
-        console.log('Dados do formulário:', formData);
-
-        // Simulação de envio
-        const submitButton = orcamentoForm.querySelector('button[type="submit"]');
-        const originalText = submitButton.textContent;
-        submitButton.textContent = 'Enviando...';
-        submitButton.disabled = true;
-
-        setTimeout(() => {
-            alert('Orçamento enviado com sucesso! Entraremos em contato em breve.');
-            orcamentoForm.reset();
-            submitButton.textContent = originalText;
-            submitButton.disabled = false;
-        }, 1500);
-    });
-
-    // Formatação de telefone
-    const telefoneInput = document.getElementById('telefone');
-    if (telefoneInput) {
-        telefoneInput.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-
-            if (value.length <= 11) {
-                if (value.length <= 2) {
-                    e.target.value = value;
-                } else if (value.length <= 6) {
-                    e.target.value = `(${value.slice(0, 2)}) ${value.slice(2)}`;
-                } else if (value.length <= 10) {
-                    e.target.value = `(${value.slice(0, 2)}) ${value.slice(2, 6)}-${value.slice(6)}`;
-                } else {
-                    e.target.value = `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7, 11)}`;
-                }
-            }
         });
-    }
+
+        card.addEventListener('mouseleave', () => {
+            gsap.to(card, {
+                y: 0,
+                scale: 1,
+                boxShadow: '0 5px 20px rgba(0, 0, 0, 0.1)',
+                duration: 0.4,
+                ease: 'power2.out'
+            });
+        });
+    });
 }
 
-// Animação de entrada dos cards de produtos
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
+// Animação da seção Story
+function initStoryAnimations() {
+    // Animações desabilitadas - elementos já estão visíveis no CSS
 
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '0';
-            entry.target.style.transform = 'translateY(30px)';
-
-            setTimeout(() => {
-                entry.target.style.transition = 'all 0.6s ease';
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }, 100);
-
-            observer.unobserve(entry.target);
-        }
+    // Rotação contínua do ícone
+    gsap.to('.story-icon', {
+        rotation: 360,
+        duration: 20,
+        repeat: -1,
+        ease: 'none'
     });
-}, observerOptions);
 
-// Observar elementos para animação
-document.querySelectorAll('.produto-card, .info-card').forEach(card => {
-    observer.observe(card);
+    // Animação da imagem da story ao entrar na viewport
+    gsap.from('.story-img', {
+        scrollTrigger: {
+            trigger: '.story-img',
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+        },
+        scale: 0.8,
+        opacity: 0,
+        duration: 1,
+        ease: 'power2.out'
+    });
+
+    // Flutuação sutil na imagem
+    gsap.to('.story-img', {
+        y: -10,
+        duration: 2.5,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut'
+    });
+}
+
+// Animação da seção Process
+function initProcessAnimations() {
+    // Animações de entrada desabilitadas - elementos já estão visíveis
+
+    // Pulso sutil nos números (mantido)
+    gsap.utils.toArray('.step-number').forEach((num, index) => {
+        gsap.to(num, {
+            scale: 1.1,
+            boxShadow: '0 8px 25px rgba(166, 91, 66, 0.5)',
+            duration: 2,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut',
+            delay: index * 0.3
+        });
+    });
+}
+
+// Animação da seção Benefits
+function initBenefitsAnimations() {
+    // Animações desabilitadas - elementos já estão visíveis
+    return;
+}
+
+// Animação da seção Newsletter
+function initNewsletterAnimations() {
+    // Animações desabilitadas - elementos já estão visíveis
+    return;
+}
+
+// Animação da seção Testimonials
+function initTestimonialsAnimations() {
+    // Animações de entrada desabilitadas - elementos já estão visíveis
+
+    // Efeito de flutuação nos cards de depoimentos (mantido)
+    gsap.utils.toArray('.testimonial-card').forEach((card, index) => {
+        gsap.to(card, {
+            y: -10,
+            duration: 2.5 + index * 0.3,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut',
+            delay: index * 0.2
+        });
+    });
+}
+
+// Animação do formulário ao scroll - Desabilitada
+function initContactAnimations() {
+    // Animações desabilitadas - elementos já estão visíveis
+    return;
+}
+
+// Animação do header ao scroll - Aprimorada
+function initHeaderAnimation() {
+    gsap.to('.header', {
+        scrollTrigger: {
+            trigger: 'body',
+            start: 'top top',
+            end: '+=100',
+            scrub: true
+        },
+        boxShadow: '0 2px 20px rgba(0, 0, 0, 0.1)',
+        backgroundColor: 'rgba(242, 231, 218, 0.98)',
+        ease: 'none'
+    });
+
+    // Animação do logo no header ao scroll
+    gsap.to('.logo', {
+        scrollTrigger: {
+            trigger: 'body',
+            start: 'top top',
+            end: '+=100',
+            scrub: true
+        },
+        scale: 0.9,
+        ease: 'none'
+    });
+}
+
+// Parallax suave e sofisticado
+function initParallax() {
+    // Parallax no hero logo
+    gsap.to('.hero-logo', {
+        scrollTrigger: {
+            trigger: '.hero',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 1
+        },
+        y: 150,
+        scale: 0.7,
+        opacity: 0.3,
+        rotation: 5,
+        ease: 'none'
+    });
+
+    // Parallax nas seções de fundo
+    gsap.to('.about', {
+        scrollTrigger: {
+            trigger: '.about',
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1
+        },
+        backgroundPosition: '50% 100%',
+        ease: 'none'
+    });
+
+    gsap.to('.contact', {
+        scrollTrigger: {
+            trigger: '.contact',
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1
+        },
+        backgroundPosition: '50% 100%',
+        ease: 'none'
+    });
+}
+
+// Animação de reveal nos títulos das seções
+function initTitleRevealAnimations() {
+    gsap.utils.toArray('.section-title').forEach(title => {
+        // Animação simples e suave sem split text
+        gsap.from(title, {
+            scrollTrigger: {
+                trigger: title,
+                start: 'top 80%',
+                toggleActions: 'play none none none', // Não reverter
+                once: true // Animar apenas uma vez
+            },
+            opacity: 0,
+            y: 30,
+            duration: 0.8,
+            ease: 'power3.out'
+        });
+    });
+}
+
+// Hover effects com GSAP nos botões
+function initButtonHoverEffects() {
+    // Botões CTA principais
+    gsap.utils.toArray('.cta-primary, .cta-secondary, .nav-cta').forEach(button => {
+        button.addEventListener('mouseenter', () => {
+            gsap.to(button, {
+                scale: 1.05,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+
+            // Efeito de pulso
+            gsap.to(button, {
+                boxShadow: '0 0 0 10px rgba(166, 91, 66, 0)',
+                duration: 0.6,
+                ease: 'power2.out'
+            });
+        });
+
+        button.addEventListener('mouseleave', () => {
+            gsap.to(button, {
+                scale: 1,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        });
+    });
+
+    // Botão de formulário
+    const formButton = document.querySelector('.lead-form button');
+    formButton.addEventListener('mouseenter', () => {
+        gsap.to(formButton, {
+            scale: 1.03,
+            y: -3,
+            duration: 0.3,
+            ease: 'power2.out'
+        });
+    });
+
+    formButton.addEventListener('mouseleave', () => {
+        gsap.to(formButton, {
+            scale: 1,
+            y: 0,
+            duration: 0.3,
+            ease: 'power2.out'
+        });
+    });
+}
+
+// Scroll indicator animado
+function initScrollIndicator() {
+    // Criar elemento do scroll indicator
+    const scrollIndicator = document.createElement('div');
+    scrollIndicator.className = 'scroll-indicator';
+    scrollIndicator.innerHTML = `
+        <div class="scroll-indicator-line"></div>
+        <div class="scroll-indicator-text">Role para descobrir</div>
+    `;
+    document.querySelector('.hero').appendChild(scrollIndicator);
+
+    // Animação de entrada
+    gsap.from(scrollIndicator, {
+        opacity: 0,
+        y: -20,
+        duration: 1,
+        delay: 2,
+        ease: 'power2.out'
+    });
+
+    // Animação contínua
+    gsap.to('.scroll-indicator-line', {
+        height: '60px',
+        duration: 1.5,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut'
+    });
+
+    // Desaparecer ao scroll
+    gsap.to(scrollIndicator, {
+        scrollTrigger: {
+            trigger: '.about',
+            start: 'top bottom',
+            end: 'top center',
+            scrub: true
+        },
+        opacity: 0,
+        y: -30,
+        ease: 'none'
+    });
+}
+
+// WhatsApp
+document.querySelector('.cta-whatsapp').addEventListener('click', () => {
+    const message = encodeURIComponent('Olá! Vim do site e gostaria de conhecer os produtos da Ayê.');
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
 });
 
-// Prevenção de envio duplicado
-let isSubmitting = false;
+// Scroll suave para formulário
+document.querySelector('.scroll-to-form').addEventListener('click', () => {
+    document.querySelector('.contact').scrollIntoView({
+        behavior: 'smooth'
+    });
+});
 
-if (orcamentoForm) {
-    orcamentoForm.addEventListener('submit', function(e) {
-        if (isSubmitting) {
-            e.preventDefault();
-            return;
-        }
-        isSubmitting = true;
+// Botão do nav também scroll para contato
+document.querySelector('.nav-cta').addEventListener('click', () => {
+    document.querySelector('.contact').scrollIntoView({
+        behavior: 'smooth'
+    });
+});
 
-        setTimeout(() => {
-            isSubmitting = false;
-        }, 3000);
+// Formulário de Newsletter (Lead Form)
+const leadForm = document.getElementById('leadForm');
+
+leadForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const submitButton = leadForm.querySelector('button[type="submit"]');
+    const originalHTML = submitButton.innerHTML;
+    
+    submitButton.innerHTML = '<span>Enviando...</span>';
+    submitButton.disabled = true;
+    
+    const formData = new FormData(leadForm);
+    
+    try {
+        // 1. Email para VOCÊ (admin)
+        const templateParamsAdmin = {
+            from_name: formData.get('name'),
+            from_email: formData.get('email'),
+            reply_to: formData.get('email'),
+            to_name: 'Ayê',
+            message: 'Novo cadastro na newsletter',
+            timestamp: new Date().toLocaleString('pt-BR'),
+            source: 'Newsletter'
+        };
+        
+        await emailjs.send(
+            EMAILJS_SERVICE_ID,
+            EMAILJS_TEMPLATE_ADMIN,
+            templateParamsAdmin
+        );
+        
+        console.log('Email admin enviado com sucesso');
+        
+        // 2. Email AUTO-REPLY para o CLIENTE
+        const templateParamsCliente = {
+            from_name: formData.get('name'),
+            from_email: formData.get('email'), // Email do cliente
+            message: 'Obrigado por se cadastrar na nossa newsletter!'
+        };
+        
+        await emailjs.send(
+            EMAILJS_SERVICE_ID,
+            EMAILJS_TEMPLATE_AUTOREPLY,
+            templateParamsCliente
+        );
+        
+        console.log('Email confirmação enviado para cliente');
+        
+        // Animação de sucesso
+        gsap.to(leadForm, {
+            scale: 0.95,
+            duration: 0.2,
+            yoyo: true,
+            repeat: 1
+        });
+        
+        alert('✨ Obrigado! Você está cadastrado para receber nossas novidades.');
+        leadForm.reset();
+        
+    } catch (error) {
+        console.error('Erro ao enviar:', error);
+        alert('❌ Erro ao enviar. Por favor, tente novamente.');
+    } finally {
+        submitButton.innerHTML = originalHTML;
+        submitButton.disabled = false;
+    }
+});
+
+// Validação de email em tempo real - Newsletter
+const leadEmailInput = leadForm.querySelector('input[type="email"]');
+leadEmailInput.addEventListener('blur', (e) => {
+    const email = e.target.value;
+    const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    if (email && !isValid) {
+        e.target.style.borderColor = '#e74c3c';
+    } else {
+        e.target.style.borderColor = '';
+    }
+});
+
+// Formulário de Contato
+const form = document.getElementById('contactForm');
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const submitButton = form.querySelector('button[type="submit"]');
+    const originalHTML = submitButton.innerHTML;
+    
+    submitButton.innerHTML = '<span>Enviando...</span>';
+    submitButton.disabled = true;
+    
+    const formData = new FormData(form);
+    
+    try {
+        // 1. Email para VOCÊ (admin)
+        const templateParamsAdmin = {
+            from_name: formData.get('name'),
+            from_email: formData.get('email'),
+            reply_to: formData.get('email'),
+            phone: formData.get('phone') || 'Não informado',
+            subject: formData.get('subject') || 'Sem assunto',
+            message: formData.get('message'),
+            to_name: 'Ayê',
+            timestamp: new Date().toLocaleString('pt-BR'),
+            source: 'Formulário de Contato'
+        };
+        
+        await emailjs.send(
+            EMAILJS_SERVICE_ID,
+            EMAILJS_TEMPLATE_ADMIN,
+            templateParamsAdmin
+        );
+        
+        console.log('Email admin enviado com sucesso');
+        
+        // 2. Email AUTO-REPLY para o CLIENTE
+        const templateParamsCliente = {
+            from_name: formData.get('name'),
+            from_email: formData.get('email'), // Email do cliente
+            message: formData.get('message')
+        };
+        
+        await emailjs.send(
+            EMAILJS_SERVICE_ID,
+            EMAILJS_TEMPLATE_AUTOREPLY,
+            templateParamsCliente
+        );
+        
+        console.log('Email confirmação enviado para cliente');
+        
+        // Animação de sucesso
+        gsap.to(form, {
+            scale: 0.95,
+            duration: 0.2,
+            yoyo: true,
+            repeat: 1
+        });
+        
+        alert('✨ Obrigado! Sua mensagem foi enviada com sucesso. Retornaremos em breve!');
+        form.reset();
+        
+    } catch (error) {
+        console.error('Erro ao enviar:', error);
+        alert('❌ Erro ao enviar. Por favor, tente novamente.');
+    } finally {
+        submitButton.innerHTML = originalHTML;
+        submitButton.disabled = false;
+    }
+});
+
+// Validação de email em tempo real
+const emailInput = form.querySelector('input[type="email"]');
+emailInput.addEventListener('blur', (e) => {
+    const email = e.target.value;
+    const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    
+    if (email && !isValid) {
+        e.target.style.outline = '3px solid #e74c3c';
+    } else {
+        e.target.style.outline = '';
+    }
+});
+
+// Carousel
+function initCarousel() {
+    const slides = document.querySelectorAll('.carousel-slide');
+    const track = document.querySelector('.carousel-track');
+    const prevBtn = document.querySelector('.carousel-btn-prev');
+    const nextBtn = document.querySelector('.carousel-btn-next');
+    const dotsContainer = document.querySelector('.carousel-dots');
+
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    // Criar dots
+    slides.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.classList.add('carousel-dot');
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(index));
+        dotsContainer.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll('.carousel-dot');
+
+    function goToSlide(index) {
+        // Remove active de todos
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+
+        // Adiciona active no atual
+        slides[index].classList.add('active');
+        dots[index].classList.add('active');
+
+        // Anima com GSAP
+        gsap.to(track, {
+            x: -index * 100 + '%',
+            duration: 0.8,
+            ease: 'power3.inOut'
+        });
+
+        // Anima a imagem entrando
+        gsap.from(slides[index].querySelector('img'), {
+            scale: 0.8,
+            opacity: 0,
+            duration: 0.6,
+            ease: 'back.out(1.5)',
+            delay: 0.2
+        });
+
+        gsap.from(slides[index].querySelector('p'), {
+            y: 30,
+            opacity: 0,
+            duration: 0.5,
+            delay: 0.4
+        });
+
+        currentSlide = index;
+    }
+
+    function nextSlide() {
+        const next = (currentSlide + 1) % totalSlides;
+        goToSlide(next);
+    }
+
+    function prevSlide() {
+        const prev = (currentSlide - 1 + totalSlides) % totalSlides;
+        goToSlide(prev);
+    }
+
+    // Event listeners
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+
+    // Auto-play
+    let autoplayInterval = setInterval(nextSlide, 5000);
+
+    // Pausar autoplay no hover
+    const carousel = document.querySelector('.carousel');
+    carousel.addEventListener('mouseenter', () => {
+        clearInterval(autoplayInterval);
+    });
+
+    carousel.addEventListener('mouseleave', () => {
+        autoplayInterval = setInterval(nextSlide, 5000);
+    });
+
+    // Animações da seção desabilitadas - elementos já estão visíveis
+}
+
+// Inicializar todas as animações quando DOM carregar
+document.addEventListener('DOMContentLoaded', () => {
+    initHeroAnimations();
+    initCarousel();
+    initStoryAnimations();
+    initAboutAnimations();
+    initProcessAnimations();
+    initProductsAnimations();
+    initBenefitsAnimations();
+    initNewsletterAnimations();
+    initTestimonialsAnimations();
+    initContactAnimations();
+    initHeaderAnimation();
+    initParallax();
+    initTitleRevealAnimations();
+    initButtonHoverEffects();
+    initScrollIndicator();
+
+    // Log para debug
+    console.log('%c🌿 Ayê - Landing Page carregada com GSAP', 'color: #4b6043; font-size: 16px; font-weight: bold;');
+    console.log('%c✨ Animações aprimoradas ativas!', 'color: #A65B42; font-size: 14px; font-weight: bold;');
+    console.log('%c📧 Dois formulários: Newsletter (simples) + Contato (completo)!', 'color: #4b6043; font-size: 12px;');
+    console.log('%c📝 Conteúdo expandido com valores, processo e descrições detalhadas!', 'color: #4b6043; font-size: 12px;');
+    console.log('%c⚠️ Lembre-se de configurar WHATSAPP_NUMBER e FORM_ENDPOINT', 'color: #A65B42; font-size: 12px;');
+});
+
+// Performance: adicionar animações mais suaves em dispositivos móveis
+if (window.innerWidth < 768) {
+    ScrollTrigger.config({
+        autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load'
     });
 }
+
+
+
+
+
+
