@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ayê - Do Orum ao Ayê | Links</title>
+  <meta name="description" content="Ayê - Tradição ancestral encontra tecnologia moderna. Materializamos o sagrado com impressão 3D e acabamento artesanal.">
+  <link rel="icon" type="image/png" href="img.png">
+  <link rel="apple-touch-icon" href="img.png">
+  <!-- Using system fonts Georgia / Times New Roman -->
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --terracota: #A65B42;
+      --terracota-light: #c4795e;
+      --terracota-glow: rgba(166, 91, 66, 0.35);
+      --marrom: #41322A;
+      --marrom-deep: #2e231d;
+      --marrom-soft: rgba(65, 50, 42, 0.6);
+      --verde: #4b6043;
+      --verde-light: #627a58;
+      --creme: #F2E7DA;
+      --creme-soft: #faf4ed;
+      --creme-warm: #ebe0d2;
+      --creme-deep: #e3d5c5;
+      --gold-accent: #b8865a;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      background-color: var(--creme);
+      color: var(--marrom);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ========== BACKGROUND LAYERS ========== */
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .bg-gradient {
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(166, 91, 66, 0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 20% 90%, rgba(75, 96, 67, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 40% at 85% 60%, rgba(166, 91, 66, 0.04) 0%, transparent 50%),
+        linear-gradient(180deg, var(--creme-soft) 0%, var(--creme) 40%, var(--creme-warm) 100%);
+    }
+
+    .bg-noise {
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    /* Sacred geometry background pattern */
+    .bg-sacred {
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='60' cy='60' r='40' fill='none' stroke='%23A65B42' stroke-width='0.5'/%3E%3Ccircle cx='60' cy='60' r='28' fill='none' stroke='%23A65B42' stroke-width='0.3'/%3E%3Ccircle cx='60' cy='60' r='16' fill='none' stroke='%23A65B42' stroke-width='0.3'/%3E%3Cline x1='60' y1='20' x2='60' y2='100' stroke='%23A65B42' stroke-width='0.2'/%3E%3Cline x1='20' y1='60' x2='100' y2='60' stroke='%23A65B42' stroke-width='0.2'/%3E%3Cline x1='31.7' y1='31.7' x2='88.3' y2='88.3' stroke='%23A65B42' stroke-width='0.2'/%3E%3Cline x1='88.3' y1='31.7' x2='31.7' y2='88.3' stroke='%23A65B42' stroke-width='0.2'/%3E%3C/svg%3E");
+      background-size: 120px 120px;
+      animation: sacredDrift 60s linear infinite;
+    }
+
+    @keyframes sacredDrift {
+      from { transform: rotate(0deg) scale(1.1); }
+      to { transform: rotate(360deg) scale(1.1); }
+    }
+
+    /* Floating orbs */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(70px);
+      animation: orbFloat 12s ease-in-out infinite;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .orb-1 {
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(166, 91, 66, 0.08), transparent 70%);
+      top: -100px;
+      right: -80px;
+      animation-duration: 14s;
+    }
+
+    .orb-2 {
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(75, 96, 67, 0.06), transparent 70%);
+      bottom: -60px;
+      left: -60px;
+      animation-duration: 18s;
+      animation-delay: -4s;
+    }
+
+    .orb-3 {
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(184, 134, 90, 0.07), transparent 70%);
+      top: 40%;
+      left: 60%;
+      animation-duration: 16s;
+      animation-delay: -8s;
+    }
+
+    @keyframes orbFloat {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(20px, -30px) scale(1.05); }
+      50% { transform: translate(-15px, 15px) scale(0.95); }
+      75% { transform: translate(25px, 20px) scale(1.02); }
+    }
+
+    /* ========== MAIN CONTAINER ========== */
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 440px;
+      padding: 48px 24px 40px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ========== PROFILE / AVATAR ========== */
+    .avatar-wrapper {
+      position: relative;
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: revealUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+    }
+
+    .avatar-ring {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, var(--terracota), var(--gold-accent), var(--verde));
+      position: relative;
+      animation: avatarPulse 4s ease-in-out infinite;
+    }
+
+    .avatar-ring::before {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(166, 91, 66, 0.25), rgba(75, 96, 67, 0.15));
+      filter: blur(12px);
+      animation: glowBreath 4s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    @keyframes avatarPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(166, 91, 66, 0.15); }
+      50% { transform: scale(1.03); box-shadow: 0 0 20px 4px rgba(166, 91, 66, 0.1); }
+    }
+
+    @keyframes glowBreath {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.08); }
+    }
+
+    .avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--creme-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .avatar-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    /* ========== BRAND TEXT ========== */
+    .brand {
+      text-align: center;
+      margin-bottom: 8px;
+      opacity: 0;
+      animation: revealUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.35s forwards;
+    }
+
+    .brand-name {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 2.6rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--marrom);
+      line-height: 1.1;
+      position: relative;
+      display: inline-block;
+    }
+
+    .brand-name::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--terracota), transparent);
+      animation: lineExpand 1.2s cubic-bezier(0.22, 1, 0.36, 1) 1s forwards;
+    }
+
+    @keyframes lineExpand {
+      to { width: 120%; }
+    }
+
+    .brand-sub {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 0.95rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--terracota);
+      letter-spacing: 0.15em;
+      margin-top: 4px;
+    }
+
+    /* ========== TAGLINE ========== */
+    .tagline {
+      text-align: center;
+      margin-bottom: 36px;
+      opacity: 0;
+      animation: revealUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
+    }
+
+    .tagline p {
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: var(--marrom-soft);
+      letter-spacing: 0.04em;
+      line-height: 1.6;
+      max-width: 300px;
+    }
+
+    /* ========== DIVIDER ========== */
+    .divider {
+      width: 100%;
+      max-width: 280px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(166, 91, 66, 0.25), rgba(184, 134, 90, 0.2), rgba(75, 96, 67, 0.2), transparent);
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: revealFade 1s ease 0.6s forwards;
+    }
+
+    /* ========== LINKS ========== */
+    .links {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+
+    .link-item {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+
+    .link-item:nth-child(1) { animation: revealUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.7s forwards; }
+    .link-item:nth-child(2) { animation: revealUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.85s forwards; }
+    .link-item:nth-child(3) { animation: revealUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 1.0s forwards; }
+
+    .link-btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      padding: 16px 20px;
+      border-radius: 16px;
+      text-decoration: none;
+      color: var(--marrom);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.2) 100%);
+      border: 1px solid rgba(166, 91, 66, 0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 2px 8px rgba(65, 50, 42, 0.04), 0 1px 2px rgba(65, 50, 42, 0.03);
+      transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .link-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--terracota), var(--verde));
+      opacity: 0;
+      transition: opacity 0.45s ease;
+      z-index: 0;
+    }
+
+    .link-btn::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: radial-gradient(circle, rgba(166, 91, 66, 0.06), transparent 70%);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s ease, height 0.6s ease;
+      z-index: 0;
+    }
+
+    .link-btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      border-color: rgba(166, 91, 66, 0.25);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.4) 100%);
+      box-shadow:
+        0 12px 36px rgba(166, 91, 66, 0.12),
+        0 4px 12px rgba(65, 50, 42, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    }
+
+    .link-btn:hover::before {
+      opacity: 0.05;
+    }
+
+    .link-btn:hover::after {
+      width: 400px;
+      height: 400px;
+    }
+
+    .link-btn:active {
+      transform: translateY(-1px) scale(0.99);
+      transition-duration: 0.1s;
+    }
+
+    .link-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+      color: var(--creme-soft);
+      transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .link-icon svg {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .link-btn:hover .link-icon svg {
+      transform: scale(1.1);
+    }
+
+    .link-icon--site {
+      background: linear-gradient(135deg, var(--terracota), var(--terracota-light));
+      box-shadow: 0 4px 12px rgba(166, 91, 66, 0.25);
+    }
+
+    .link-icon--whatsapp {
+      background: linear-gradient(135deg, var(--verde), var(--verde-light));
+      box-shadow: 0 4px 12px rgba(75, 96, 67, 0.25);
+    }
+
+    .link-icon--instagram {
+      background: linear-gradient(135deg, var(--terracota), #c2724f);
+      box-shadow: 0 4px 12px rgba(166, 91, 66, 0.25);
+    }
+
+    .link-text {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 1;
+    }
+
+    .link-title {
+      font-weight: 500;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      color: var(--marrom);
+    }
+
+    .link-desc {
+      font-size: 0.75rem;
+      font-weight: 300;
+      color: rgba(65, 50, 42, 0.5);
+      margin-top: 2px;
+      letter-spacing: 0.02em;
+    }
+
+    .link-arrow {
+      margin-left: auto;
+      position: relative;
+      z-index: 1;
+      opacity: 0.25;
+      color: var(--terracota);
+      transition: all 0.4s ease;
+    }
+
+    .link-arrow svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .link-btn:hover .link-arrow {
+      opacity: 0.7;
+      transform: translateX(4px);
+    }
+
+    /* ========== FOOTER ========== */
+    .footer {
+      margin-top: auto;
+      text-align: center;
+      opacity: 0;
+      animation: revealFade 1s ease 1.3s forwards;
+    }
+
+    .footer-divider {
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(166, 91, 66, 0.25), transparent);
+      margin: 0 auto 16px;
+    }
+
+    .footer-text {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 0.75rem;
+      font-style: italic;
+      color: rgba(65, 50, 42, 0.3);
+      letter-spacing: 0.1em;
+    }
+
+    .footer-values {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 12px;
+    }
+
+    .footer-value {
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(65, 50, 42, 0.25);
+      position: relative;
+    }
+
+    .footer-value:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: -11px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background: rgba(166, 91, 66, 0.3);
+    }
+
+    /* ========== ANIMATIONS ========== */
+    @keyframes revealUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes revealFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* ========== FLOATING PARTICLES ========== */
+    .particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--terracota);
+      border-radius: 50%;
+      opacity: 0;
+      animation: particleRise linear infinite;
+    }
+
+    .particle:nth-child(1) { left: 10%; animation-duration: 16s; animation-delay: 0s; }
+    .particle:nth-child(2) { left: 25%; animation-duration: 20s; animation-delay: -3s; width: 1.5px; height: 1.5px; }
+    .particle:nth-child(3) { left: 40%; animation-duration: 18s; animation-delay: -7s; }
+    .particle:nth-child(4) { left: 55%; animation-duration: 22s; animation-delay: -2s; width: 1px; height: 1px; }
+    .particle:nth-child(5) { left: 70%; animation-duration: 17s; animation-delay: -5s; }
+    .particle:nth-child(6) { left: 85%; animation-duration: 21s; animation-delay: -9s; width: 1.5px; height: 1.5px; }
+    .particle:nth-child(7) { left: 15%; animation-duration: 19s; animation-delay: -12s; width: 1px; height: 1px; }
+    .particle:nth-child(8) { left: 60%; animation-duration: 23s; animation-delay: -6s; }
+    .particle:nth-child(9) { left: 35%; animation-duration: 15s; animation-delay: -10s; width: 1.5px; height: 1.5px; }
+    .particle:nth-child(10) { left: 80%; animation-duration: 20s; animation-delay: -1s; width: 1px; height: 1px; }
+
+    @keyframes particleRise {
+      0% {
+        transform: translateY(100vh) translateX(0);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.12;
+      }
+      50% {
+        opacity: 0.06;
+      }
+      90% {
+        opacity: 0.1;
+      }
+      100% {
+        transform: translateY(-20vh) translateX(30px);
+        opacity: 0;
+      }
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 480px) {
+      .container {
+        padding: 40px 20px 32px;
+      }
+
+      .brand-name {
+        font-size: 2.2rem;
+      }
+
+      .link-btn {
+        padding: 14px 16px;
+      }
+
+      .link-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .link-btn:hover {
+        transform: translateY(-4px) scale(1.025);
+      }
+    }
+
+    /* ========== PREFERS REDUCED MOTION ========== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      .bg-sacred { animation: none; }
+      .avatar-ring, .avatar-ring::before { animation: none; }
+      .particle { animation: none; display: none; }
+      .orb { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background layers -->
+  <div class="bg-layer bg-gradient"></div>
+  <div class="bg-layer bg-noise"></div>
+  <div class="bg-layer bg-sacred"></div>
+
+  <!-- Floating orbs -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <!-- Particles -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <!-- Main content -->
+  <div class="container">
+
+    <!-- Avatar -->
+    <div class="avatar-wrapper">
+      <div class="avatar-ring">
+        <div class="avatar-inner">
+          <img src="img.png" alt="Ayê - Do Orum ao Ayê">
+        </div>
+      </div>
+    </div>
+
+    <!-- Brand -->
+    <div class="brand">
+      <h1 class="brand-name">AYÊ</h1>
+      <p class="brand-sub">Do Orum ao Ayê</p>
+    </div>
+
+    <!-- Tagline -->
+    <div class="tagline">
+      <p>Tradição ancestral encontra tecnologia moderna.<br>Materializamos o sagrado.</p>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider"></div>
+
+    <!-- Links -->
+    <nav class="links" aria-label="Links principais">
+
+      <!-- Site -->
+      <div class="link-item">
+        <a href="https://ayeorum.com.br/" target="_blank" rel="noopener noreferrer" class="link-btn">
+          <div class="link-icon link-icon--site">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+          </div>
+          <div class="link-text">
+            <span class="link-title">Nosso Site</span>
+            <span class="link-desc">ayeorum.com.br</span>
+          </div>
+          <div class="link-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </div>
+        </a>
+      </div>
+
+      <!-- WhatsApp -->
+      <div class="link-item">
+        <a href="https://wa.me/5511965391991?text=Ol%C3%A1!%20Vim%20pelo%20link%20da%20Ay%C3%AA%20e%20gostaria%20de%20saber%20mais!" target="_blank" rel="noopener noreferrer" class="link-btn">
+          <div class="link-icon link-icon--whatsapp">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+          </div>
+          <div class="link-text">
+            <span class="link-title">WhatsApp</span>
+            <span class="link-desc">Fale conosco diretamente</span>
+          </div>
+          <div class="link-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </div>
+        </a>
+      </div>
+
+      <!-- Instagram -->
+      <div class="link-item">
+        <a href="https://www.instagram.com/aye_orum_/" target="_blank" rel="noopener noreferrer" class="link-btn">
+          <div class="link-icon link-icon--instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+          </div>
+          <div class="link-text">
+            <span class="link-title">Instagram</span>
+            <span class="link-desc">@aye_orum_</span>
+          </div>
+          <div class="link-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </div>
+        </a>
+      </div>
+
+    </nav>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-divider"></div>
+      <p class="footer-text">Do Orum ao Ayê, com respeito e devoção.</p>
+      <div class="footer-values">
+        <span class="footer-value">Respeito</span>
+        <span class="footer-value">Qualidade</span>
+        <span class="footer-value">Inovação</span>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>
