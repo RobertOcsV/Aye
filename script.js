@@ -12,20 +12,81 @@ const EMAILJS_SERVICE_ID = 'service_5zibibsda';
 const EMAILJS_TEMPLATE_ADMIN = 'template_xyx0mqContactUs'; // Para VOCÊ receber
 const EMAILJS_TEMPLATE_AUTOREPLY = 'template_2ng293oConfirma'; 
 
-// Animações iniciais do Hero - Desabilitadas para evitar bugs
+// Animações do Hero — frases ciclando em loop
 function initHeroAnimations() {
-    // Animações desabilitadas - elementos já estão visíveis no CSS
-    return;
+    const phrases = document.querySelectorAll('.hero-phrase');
+    const progressBar = document.querySelector('.phrase-progress-bar');
 
-    // Efeito de brilho sutil no logo após aparecer
-    gsap.to('.hero-logo', {
-        filter: 'drop-shadow(0 10px 30px rgba(166, 91, 66, 0.3)) brightness(1.05)',
-        duration: 2,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-        delay: 1.5
+    // Estado inicial: todas invisíveis
+    gsap.set(phrases, { autoAlpha: 0, y: 0, clipPath: 'inset(0 100% 0 0)' });
+
+    // Intro: eyebrow + brand + botões entram uma vez
+    const intro = gsap.timeline({ delay: 0.3 });
+    intro
+        .from('.eyebrow-bar', {
+            scaleX: 0,
+            transformOrigin: 'left center',
+            duration: 0.6,
+            ease: 'power3.out'
+        })
+        .from('.eyebrow-text', { x: -20, opacity: 0, duration: 0.5, ease: 'power2.out' }, '-=0.2')
+        .from('.hero-brand',   { x: -25, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.2')
+        .from('.hero-buttons', { y: 15,  opacity: 0, duration: 0.5, ease: 'power2.out' }, '-=0.1')
+        .add(startCycle);
+
+    // Anéis do 3D stage entram com a intro
+    gsap.from('.hero-3d-ring, .hero-3d-glow', {
+        scale: 0.3,
+        opacity: 0,
+        duration: 1.4,
+        ease: 'power2.out',
+        stagger: 0.2,
+        delay: 0.4
     });
+
+    let idx = 0;
+    // Duração de exibição de cada frase (segundos)
+    const HOLD_DURATION = 5;
+    const IN_DURATION   = 0.8;
+    const OUT_DURATION  = 0.65;
+
+    function startCycle() {
+        showPhrase(idx);
+    }
+
+    function showPhrase(i) {
+        const phrase = phrases[i];
+
+        const tl = gsap.timeline({
+            onComplete: () => {
+                idx = (idx + 1) % phrases.length;
+                showPhrase(idx);
+            }
+        });
+
+        // Entrada: clip-path wipe da esquerda + leve slide
+        tl.fromTo(phrase,
+            { autoAlpha: 0, clipPath: 'inset(0 100% 0 0)', x: -18, y: 0 },
+            { autoAlpha: 1, clipPath: 'inset(0 0% 0 0)',   x: 0,   duration: IN_DURATION, ease: 'power3.out' }
+        )
+        // Pausa para leitura
+        .to(phrase, { duration: HOLD_DURATION })
+        // Saída: flutua para cima e some (como fumaça de vela)
+        .to(phrase, {
+            autoAlpha: 0,
+            y: -30,
+            duration: OUT_DURATION,
+            ease: 'power2.in'
+        });
+
+        // Barra de progresso reinicia e preenche durante entrada + hold
+        if (progressBar) {
+            gsap.fromTo(progressBar,
+                { scaleX: 0 },
+                { scaleX: 1, duration: IN_DURATION + HOLD_DURATION, ease: 'none', transformOrigin: 'left center' }
+            );
+        }
+    }
 }
 
 // Animações dos cards About ao scroll - Simplificadas
@@ -556,10 +617,11 @@ emailInput.addEventListener('blur', (e) => {
     }
 });
 
-// Carousel
+// Carousel (banner — mantido como fallback, guard adicionado)
 function initCarousel() {
     const slides = document.querySelectorAll('.carousel-slide');
     const track = document.querySelector('.carousel-track');
+    if (!slides.length || !track) return; // seção removida — sai silenciosamente
     const prevBtn = document.querySelector('.carousel-btn-prev');
     const nextBtn = document.querySelector('.carousel-btn-next');
     const dotsContainer = document.querySelector('.carousel-dots');
@@ -643,9 +705,181 @@ function initCarousel() {
     // Animações da seção desabilitadas - elementos já estão visíveis
 }
 
+// ─────────────────────────────────────
+// Carousel de Modelos 3D (model-viewer)
+// ─────────────────────────────────────
+function initModelCarousel() {
+    const slides      = document.querySelectorAll('.model-slide');
+    const dotsWrap    = document.querySelector('.model-dots');
+    const prevBtn     = document.querySelector('.model-nav--prev');
+    const nextBtn     = document.querySelector('.model-nav--next');
+
+    if (!slides.length || !dotsWrap) return;
+
+    let current = 0;
+    const total = slides.length;
+
+    // Criar dots dinamicamente
+    slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'model-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', `Modelo ${i + 1}`);
+        dot.addEventListener('click', () => goTo(i));
+        dotsWrap.appendChild(dot);
+    });
+
+    const dots = dotsWrap.querySelectorAll('.model-dot');
+
+    function goTo(index) {
+        if (index === current) return;
+
+        const leaving  = slides[current];
+        const entering = slides[index];
+        const mv       = entering.querySelector('model-viewer');
+
+        // Sai: fade + leve escala para baixo
+        gsap.to(leaving, {
+            opacity: 0,
+            scale: 0.94,
+            duration: 0.35,
+            ease: 'power2.in',
+            onComplete: () => {
+                leaving.classList.remove('active');
+                gsap.set(leaving, { scale: 1, visibility: 'hidden', pointerEvents: 'none' });
+                // Pausa a rotação do modelo que saiu
+                const leavingMv = leaving.querySelector('model-viewer');
+                if (leavingMv) leavingMv.removeAttribute('auto-rotate');
+            }
+        });
+
+        // Entra: fade + escala sobe a partir de 1.04
+        gsap.set(entering, { visibility: 'visible', opacity: 0, scale: 1.04 });
+        entering.classList.add('active');
+        gsap.to(entering, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.5,
+            ease: 'power2.out',
+            delay: 0.25,
+            onStart: () => {
+                entering.style.pointerEvents = 'auto';
+                // Retoma a rotação do modelo que entrou
+                if (mv) mv.setAttribute('auto-rotate', '');
+            }
+        });
+
+        // Atualiza dots
+        dots.forEach((d, i) => d.classList.toggle('active', i === index));
+
+        current = index;
+    }
+
+    const next = () => goTo((current + 1) % total);
+    const prev = () => goTo((current - 1 + total) % total);
+
+    nextBtn.addEventListener('click', next);
+    prevBtn.addEventListener('click', prev);
+
+    // Swipe touch para mobile
+    let touchStartX = 0;
+    const track = document.querySelector('.model-track');
+    if (track) {
+        track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+        track.addEventListener('touchend', e => {
+            const delta = touchStartX - e.changedTouches[0].clientX;
+            if (Math.abs(delta) > 40) delta > 0 ? next() : prev();
+        }, { passive: true });
+    }
+
+    // Estado inicial: garante que só o slide 0 seja visível
+    gsap.set(slides, { opacity: 0, visibility: 'hidden' });
+    gsap.set(slides[0], { opacity: 1, visibility: 'visible' });
+}
+
+// ─────────────────────────────────────
+// Feed do Instagram — Meta Graph API
+// ─────────────────────────────────────
+async function initInstagramFeed() {
+    // ⚠️  Token visível no cliente — adequado para leitura pública.
+    //     Para produção segura, use um proxy serverless (Vercel/Netlify).
+    const TOKEN = 'IGAA747tTt2LhBZAFphU1p4QURWRWtfOENEOUlHLWZA3ZAGhEc3NmZADNsSHBLLUMwNWF3a2FJWmEwTTJWZAkVMWGxraHhQTHlOa0ZAmSnhFalNsYUM3WWFRZA2FPOG5aZAkhTTDlpdXBtZAHBjOHY4eHRFYVlTV1JyVmNVWXpLZADlnUWRxSQZDZD';
+    const grid  = document.getElementById('instagramGrid');
+    if (!grid) return;
+
+    // Skeletons de carregamento
+    grid.innerHTML = Array(6).fill('<div class="ig-skeleton"></div>').join('');
+
+    try {
+        const url = `https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp&limit=9&access_token=${TOKEN}`;
+        const res  = await fetch(url);
+        if (!res.ok) throw new Error(`API ${res.status}`);
+        const { data } = await res.json();
+
+        // Filtra só imagens e álbuns (sem vídeos puros)
+        const posts = (data || []).filter(p => p.media_type !== 'VIDEO').slice(0, 6);
+        if (!posts.length) throw new Error('Nenhum post encontrado');
+
+        grid.innerHTML = '';
+
+        posts.forEach((post, i) => {
+            const imgSrc  = post.media_url || post.thumbnail_url || '';
+            const rawCap  = (post.caption || '').replace(/#\S+/g, '').trim();
+            const caption = rawCap.slice(0, 140) + (rawCap.length > 140 ? '…' : '');
+            const date    = new Date(post.timestamp).toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' });
+            const isAlbum = post.media_type === 'CAROUSEL_ALBUM';
+
+            const a = document.createElement('a');
+            a.className = 'ig-post';
+            a.href      = post.permalink;
+            a.target    = '_blank';
+            a.rel       = 'noopener noreferrer';
+            a.setAttribute('aria-label', caption.slice(0, 60) || 'Post no Instagram');
+
+            a.innerHTML = `
+                <div class="ig-post-img-wrap">
+                    <img src="${imgSrc}" alt="" class="ig-post-img" loading="lazy">
+                    <div class="ig-post-overlay">
+                        ${caption ? `<p class="ig-post-caption">${caption}</p>` : ''}
+                        <span class="ig-post-date">${date}</span>
+                    </div>
+                    ${isAlbum ? `<span class="ig-post-type">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                    </span>` : ''}
+                </div>`;
+
+            grid.appendChild(a);
+
+            // Entrada animada com GSAP ScrollTrigger
+            gsap.from(a, {
+                scrollTrigger: {
+                    trigger: a,
+                    start: 'top 88%',
+                    toggleActions: 'play none none none',
+                    once: true
+                },
+                opacity: 0,
+                y: 22,
+                scale: 0.95,
+                duration: 0.6,
+                ease: 'power2.out',
+                delay: i * 0.08
+            });
+        });
+
+    } catch (err) {
+        console.warn('Instagram feed:', err.message);
+        grid.innerHTML = `
+            <div class="instagram-error">
+                <p>Visite nosso Instagram para ver as últimas novidades ✨</p>
+            </div>`;
+    }
+}
+
 // Inicializar todas as animações quando DOM carregar
 document.addEventListener('DOMContentLoaded', () => {
     initHeroAnimations();
+    initModelCarousel();
+    initInstagramFeed();
     initCarousel();
     initStoryAnimations();
     initAboutAnimations();
