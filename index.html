@@ -5,7 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Ayê - Produtos de Umbanda feitos com tecnologia de impressão 3D">
     <title>Ayê - Do Orum ao Ayê</title>
+    <link rel="icon" type="image/png" href="Img/logo-branco-sem-fundo.png">
+    <link rel="apple-touch-icon" href="Img/logo-branco-sem-fundo.png">
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header class="header">
@@ -20,12 +26,32 @@
     <main>
         <section class="hero">
             <div class="hero-content">
-                <h1 class="hero-title">
-                    <span class="hero-title-line">Do Orum</span>
-                    <span class="hero-title-line">ao Ayê</span>
+
+                <div class="hero-eyebrow">
+                    <span class="eyebrow-bar"></span>
+                    <span class="eyebrow-text">Do Orum ao Ayê</span>
+                </div>
+
+                <h1 class="hero-brand">
+                    <img src="Img/logo-colorido-sem-fundo.png" alt="Ayê" class="hero-brand-logo">
+                    <span class="hero-brand-text">Ayê</span>
                 </h1>
-                <p class="hero-subtitle">Tradição ancestral encontra tecnologia moderna</p>
-                <p class="hero-description">Materializamos o sagrado com impressão 3D e acabamento artesanal. Cada peça é criada com devoção, respeito e axé, pronta para ocupar o lugar que merece: o seu altar, o seu lar, o seu Ayê.</p>
+
+                <div class="hero-phrase-stage">
+                    <div class="hero-phrase phrase-lg phrase-terracota">
+                        É a nossa promessa: somos o canal que traz a força, a presença e o conforto do mundo espiritual (Òrun) para a sua realidade terrena (Àiyé).
+                    </div>
+                    <div class="hero-phrase phrase-lg phrase-terracota">
+                        Nós materializamos a imagem e a essência do seu guia para que você possa ter a sua vela acesa, o seu ponto de luz constante, o seu elo visível de fé. 
+                    </div>
+                    <div class="hero-phrase phrase-lg phrase-terracota">
+                        Aqui nesse plano, a presença e o axé daquele que zela por você, te orienta e te fortalece todos os dias.
+                    </div>
+                </div>
+                <div class="phrase-progress">
+                    <div class="phrase-progress-bar"></div>
+                </div>
+
                 <div class="hero-buttons">
                     <button class="cta-primary cta-whatsapp">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -36,29 +62,125 @@
                     <button class="cta-secondary scroll-to-form">Receber Novidades</button>
                 </div>
             </div>
-            <div class="hero-image">
-                <img src="Img/Ayê-Logo-Principal-horizontal-sem-fundo.png" alt="Ayê" class="hero-logo">
+            <div class="hero-3d-stage">
+                <!-- Anéis decorativos de fundo -->
+
+                <div class="model-carousel">
+                    <div class="model-track">
+                        <!-- Exu -->
+           
+
+    
+                        <!-- Oroiná -->
+                        <div class="model-slide">
+                            <div class="model-viewer-frame">
+                                <model-viewer
+                                    data-src="Img/models/Oroiná.glb"
+                                    alt="Oroiná"
+                                    auto-rotate
+                                    auto-rotate-delay="0"
+                                    rotation-per-second="18deg"
+                                    camera-controls
+                                    shadow-intensity="2.5"
+                                    shadow-softness="0.4"
+                                    exposure="0.85"
+                                    class="model-viewer-el">
+                                </model-viewer>
+                                <div class="model-vignette"></div>
+                            </div>
+                            <p class="model-label">Oroiná</p>
+                        </div>
+
+                        <!-- Pomba Gira -->
+                        <div class="model-slide">
+                            <div class="model-viewer-frame">
+                                <model-viewer
+                                    data-src="Img/models/Pombogira.glb"
+                                    alt="Pomba Gira"
+                                    auto-rotate
+                                    auto-rotate-delay="0"
+                                    rotation-per-second="18deg"
+                                    camera-controls
+                                    shadow-intensity="2.5"
+                                    shadow-softness="0.4"
+                                    exposure="0.85"
+                                    class="model-viewer-el">
+                                </model-viewer>
+                                <div class="model-vignette"></div>
+                            </div>
+                            <p class="model-label">Pomba Gira</p>
+                        </div>
+
+                        <!-- Navalha -->
+                        <div class="model-slide">
+                            <div class="model-viewer-frame">
+                                <model-viewer
+                                    data-src="Img/models/navalha.glb"
+                                    alt="Navalha Ritual"
+                                    auto-rotate
+                                    auto-rotate-delay="0"
+                                    rotation-per-second="18deg"
+                                    camera-controls
+                                    shadow-intensity="2.5"
+                                    shadow-softness="0.4"
+                                    exposure="0.85"
+                                    class="model-viewer-el">
+                                </model-viewer>
+                                <div class="model-vignette"></div>
+                            </div>
+                            <p class="model-label">Ferramentas Ritualísticas</p>
+                        </div>
+                    </div>
+
+                    <!-- Navegação -->
+                    <div class="model-footer">
+                        <button class="model-nav model-nav--prev" aria-label="Modelo anterior">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                                <polyline points="15 18 9 12 15 6"/>
+                            </svg>
+                        </button>
+                        <div class="model-dots"></div>
+                        <button class="model-nav model-nav--next" aria-label="Próximo modelo">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                                <polyline points="9 18 15 12 9 6"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                </div><!-- /.model-carousel -->
             </div>
         </section>
 
-        <section class="carousel-section">
-            <div class="carousel-container">
-                <h2 class="section-title">Nossa Galeria</h2>
-                <div class="carousel">
-                    <div class="carousel-track">
-                        <div class="carousel-slide active">
-                            <img src="Img/Banner4.jpg" alt="Produtos Ayê">
-                            <p>Produtos de qualidade para Umbanda</p>
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="Img/Banner2.jpg" alt="Orixás em impressão 3D">
-                        </div>
-             
+        <section class="instagram-section">
+            <div class="instagram-container">
+
+                <div class="instagram-header">
+                    <div class="instagram-handle">
+                        <svg class="ig-logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                        </svg>
+                        <span>@aye_orum_</span>
                     </div>
-                    <button class="carousel-btn carousel-btn-prev" aria-label="Anterior">‹</button>
-                    <button class="carousel-btn carousel-btn-next" aria-label="Próximo">›</button>
-                    <div class="carousel-dots"></div>
+                    <h2 class="section-title">No Instagram</h2>
+                    <p class="instagram-subtitle">Axé, criações e momentos da nossa jornada espiritual</p>
                 </div>
+
+                <!-- Posts injetados via API — skeletons aparecem enquanto carrega -->
+                <div class="instagram-grid" id="instagramGrid"></div>
+
+                <div class="instagram-footer">
+                    <a href="https://www.instagram.com/aye_orum_" target="_blank" rel="noopener noreferrer" class="instagram-cta-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                        </svg>
+                        <span>Seguir no Instagram</span>
+                    </a>
+                </div>
+
             </div>
         </section>
 
@@ -256,6 +378,7 @@
   gtag('config', 'G-D40WFTV3HV');
 </script>
 
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
