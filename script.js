@@ -827,7 +827,7 @@ function initModelCarousel() {
 async function initInstagramFeed() {
     // ⚠️  Token visível no cliente — adequado para leitura pública.
     //     Para produção segura, use um proxy serverless (Vercel/Netlify).
-    const TOKEN = 'IGAALaS6fPPItBZAFlfajJaVkh2ZAVUwSUNTdjFxWWkzYkRQdnB4djFILWhpUjhNMk5CX0tNZAW9jMjlEeTE5SFYtNlBJN0pBN3daWXNqbXFrWHJqSlE2Ym5NdWtIOUVHLWMzWHhmUS1IT3UyclpHNEt0TFF4cUdfVU9peFRWcFNQdwZDZD';
+    const TOKEN = 'IGAA747tTt2LhBZAFphU1p4QURWRWtfOENEOUlHLWZA3ZAGhEc3NmZADNsSHBLLUMwNWF3a2FJWmEwTTJWZAkVMWGxraHhQTHlOa0ZAmSnhFalNsYUM3WWFRZA2FPOG5aZAkhTTDlpdXBtZAHBjOHY4eHRFYVlTV1JyVmNVWXpLZADlnUWRxSQZDZD';
     const grid  = document.getElementById('instagramGrid');
     if (!grid) return;
 
