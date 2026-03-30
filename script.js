@@ -34,15 +34,18 @@ function initHeroAnimations() {
         .from('.hero-buttons', { y: 15,  opacity: 0, duration: 0.5, ease: 'power2.out' }, '-=0.1')
         .add(startCycle);
 
-    // Anéis do 3D stage entram com a intro
-    gsap.from('.hero-3d-ring, .hero-3d-glow', {
-        scale: 0.3,
-        opacity: 0,
-        duration: 1.4,
-        ease: 'power2.out',
-        stagger: 0.2,
-        delay: 0.4
-    });
+    // Anéis do 3D stage entram com a intro (somente se existirem no DOM)
+    const rings = document.querySelectorAll('.hero-3d-ring, .hero-3d-glow');
+    if (rings.length) {
+        gsap.from(rings, {
+            scale: 0.3,
+            opacity: 0,
+            duration: 1.4,
+            ease: 'power2.out',
+            stagger: 0.2,
+            delay: 0.4
+        });
+    }
 
     let idx = 0;
     // Duração de exibição de cada frase (segundos)
@@ -92,32 +95,6 @@ function initHeroAnimations() {
 // Animações dos cards About ao scroll - Simplificadas
 function initAboutAnimations() {
     // Animações simplificadas - cards já estão visíveis
-    return;
-
-    // Efeito de flutuação contínua nos cards (energia espiritual)
-    gsap.utils.toArray('.about-card').forEach((card, index) => {
-        gsap.to(card, {
-            y: -15,
-            duration: 2 + index * 0.5,
-            repeat: -1,
-            yoyo: true,
-            ease: 'sine.inOut',
-            delay: index * 0.3
-        });
-    });
-
-    // Animação dos ícones com brilho
-    gsap.utils.toArray('.card-icon').forEach((icon, index) => {
-        gsap.to(icon, {
-            scale: 1.1,
-            textShadow: '0 0 20px rgba(166, 91, 66, 0.6)',
-            duration: 1.5,
-            repeat: -1,
-            yoyo: true,
-            ease: 'sine.inOut',
-            delay: index * 0.5
-        });
-    });
 }
 
 // Animações dos produtos ao scroll - Simplificadas
@@ -167,14 +144,6 @@ function initProductsAnimations() {
 // Animação da seção Story
 function initStoryAnimations() {
     // Animações desabilitadas - elementos já estão visíveis no CSS
-
-    // Rotação contínua do ícone
-    gsap.to('.story-icon', {
-        rotation: 360,
-        duration: 20,
-        repeat: -1,
-        ease: 'none'
-    });
 
     // Animação da imagem da story ao entrar na viewport
     gsap.from('.story-img', {
@@ -282,7 +251,7 @@ function initHeaderAnimation() {
 // Parallax suave e sofisticado
 function initParallax() {
     // Parallax no hero logo
-    gsap.to('.hero-logo', {
+    gsap.to('.hero-brand-logo', {
         scrollTrigger: {
             trigger: '.hero',
             start: 'top top',
@@ -483,23 +452,19 @@ leadForm.addEventListener('submit', async (e) => {
             templateParamsAdmin
         );
         
-        console.log('Email admin enviado com sucesso');
-        
         // 2. Email AUTO-REPLY para o CLIENTE
         const templateParamsCliente = {
             from_name: formData.get('name'),
             from_email: formData.get('email'), // Email do cliente
             message: 'Obrigado por se cadastrar na nossa newsletter!'
         };
-        
+
         await emailjs.send(
             EMAILJS_SERVICE_ID,
             EMAILJS_TEMPLATE_AUTOREPLY,
             templateParamsCliente
         );
-        
-        console.log('Email confirmação enviado para cliente');
-        
+
         // Animação de sucesso
         gsap.to(leadForm, {
             scale: 0.95,
@@ -511,8 +476,7 @@ leadForm.addEventListener('submit', async (e) => {
         alert('✨ Obrigado! Você está cadastrado para receber nossas novidades.');
         leadForm.reset();
         
-    } catch (error) {
-        console.error('Erro ao enviar:', error);
+    } catch {
         alert('❌ Erro ao enviar. Por favor, tente novamente.');
     } finally {
         submitButton.innerHTML = originalHTML;
@@ -567,23 +531,19 @@ form.addEventListener('submit', async (e) => {
             templateParamsAdmin
         );
         
-        console.log('Email admin enviado com sucesso');
-        
         // 2. Email AUTO-REPLY para o CLIENTE
         const templateParamsCliente = {
             from_name: formData.get('name'),
             from_email: formData.get('email'), // Email do cliente
             message: formData.get('message')
         };
-        
+
         await emailjs.send(
             EMAILJS_SERVICE_ID,
             EMAILJS_TEMPLATE_AUTOREPLY,
             templateParamsCliente
         );
-        
-        console.log('Email confirmação enviado para cliente');
-        
+
         // Animação de sucesso
         gsap.to(form, {
             scale: 0.95,
@@ -595,8 +555,7 @@ form.addEventListener('submit', async (e) => {
         alert('✨ Obrigado! Sua mensagem foi enviada com sucesso. Retornaremos em breve!');
         form.reset();
         
-    } catch (error) {
-        console.error('Erro ao enviar:', error);
+    } catch {
         alert('❌ Erro ao enviar. Por favor, tente novamente.');
     } finally {
         submitButton.innerHTML = originalHTML;
@@ -891,8 +850,7 @@ async function initInstagramFeed() {
             });
         });
 
-    } catch (err) {
-        console.warn('Instagram feed:', err.message);
+    } catch {
         grid.innerHTML = `
             <div class="instagram-error">
                 <p>Visite nosso Instagram para ver as últimas novidades ✨</p>
@@ -920,12 +878,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initButtonHoverEffects();
     initScrollIndicator();
 
-    // Log para debug
-    console.log('%c🌿 Ayê - Landing Page carregada com GSAP', 'color: #4b6043; font-size: 16px; font-weight: bold;');
-    console.log('%c✨ Animações aprimoradas ativas!', 'color: #A65B42; font-size: 14px; font-weight: bold;');
-    console.log('%c📧 Dois formulários: Newsletter (simples) + Contato (completo)!', 'color: #4b6043; font-size: 12px;');
-    console.log('%c📝 Conteúdo expandido com valores, processo e descrições detalhadas!', 'color: #4b6043; font-size: 12px;');
-    console.log('%c⚠️ Lembre-se de configurar WHATSAPP_NUMBER e FORM_ENDPOINT', 'color: #A65B42; font-size: 12px;');
 });
 
 // Performance: adicionar animações mais suaves em dispositivos móveis
