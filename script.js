@@ -5,7 +5,7 @@ gsap.registerPlugin(ScrollTrigger);
 emailjs.init('8RWTZU4oaOwJ9B8_V');
 
 // Configurações
-const WHATSAPP_NUMBER = '5511979962445';
+const WHATSAPP_NUMBER = '5511965391991';
 
 // Configurações EmailJS
 const EMAILJS_SERVICE_ID = 'service_5zibibsda';
@@ -20,38 +20,51 @@ function initHeroAnimations() {
     // Estado inicial: todas invisíveis
     gsap.set(phrases, { autoAlpha: 0, y: 0, clipPath: 'inset(0 100% 0 0)' });
 
-    // Intro: eyebrow + brand + botões entram uma vez
-    const intro = gsap.timeline({ delay: 0.3 });
-    intro
-        .from('.eyebrow-bar', {
-            scaleX: 0,
-            transformOrigin: 'left center',
-            duration: 0.6,
-            ease: 'power3.out'
-        })
-        .from('.eyebrow-text', { x: -20, opacity: 0, duration: 0.5, ease: 'power2.out' }, '-=0.2')
-        .from('.hero-brand',   { x: -25, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.2')
-        .from('.hero-buttons', { y: 15,  opacity: 0, duration: 0.5, ease: 'power2.out' }, '-=0.1')
-        .add(startCycle);
-
-    // Anéis do 3D stage entram com a intro (somente se existirem no DOM)
-    const rings = document.querySelectorAll('.hero-3d-ring, .hero-3d-glow');
-    if (rings.length) {
-        gsap.from(rings, {
-            scale: 0.3,
-            opacity: 0,
-            duration: 1.4,
-            ease: 'power2.out',
-            stagger: 0.2,
-            delay: 0.4
-        });
-    }
+    // Se a página foi carregada com scroll já descido (ex: F5 no meio da página),
+    // ignora a intro e mostra os elementos do hero imediatamente — evita logo travada
+    const pageLoadedScrolled = window.scrollY > 100;
 
     let idx = 0;
+
     // Duração de exibição de cada frase (segundos)
     const HOLD_DURATION = 5;
     const IN_DURATION   = 0.8;
     const OUT_DURATION  = 0.65;
+
+    if (pageLoadedScrolled) {
+        // Garante que os elementos do hero estejam visíveis sem animação de entrada
+        gsap.set(['.eyebrow-bar', '.eyebrow-text', '.hero-brand', '.hero-buttons'], {
+            clearProps: 'all'
+        });
+        startCycle();
+    } else {
+        // Intro normal: eyebrow + brand + botões entram uma vez
+        const intro = gsap.timeline({ delay: 0.3 });
+        intro
+            .from('.eyebrow-bar', {
+                scaleX: 0,
+                transformOrigin: 'left center',
+                duration: 0.6,
+                ease: 'power3.out'
+            })
+            .from('.eyebrow-text', { x: -20, opacity: 0, duration: 0.5, ease: 'power2.out' }, '-=0.2')
+            .from('.hero-brand',   { x: -25, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.2')
+            .from('.hero-buttons', { y: 15,  opacity: 0, duration: 0.5, ease: 'power2.out' }, '-=0.1')
+            .add(startCycle);
+
+        // Anéis do 3D stage entram com a intro (somente se existirem no DOM)
+        const rings = document.querySelectorAll('.hero-3d-ring, .hero-3d-glow');
+        if (rings.length) {
+            gsap.from(rings, {
+                scale: 0.3,
+                opacity: 0,
+                duration: 1.4,
+                ease: 'power2.out',
+                stagger: 0.2,
+                delay: 0.4
+            });
+        }
+    }
 
     function startCycle() {
         showPhrase(idx);
@@ -336,25 +349,16 @@ function initButtonHoverEffects() {
         });
     });
 
-    // Botão de formulário
+    // Botão de formulário (newsletter — apenas se presente)
     const formButton = document.querySelector('.lead-form button');
-    formButton.addEventListener('mouseenter', () => {
-        gsap.to(formButton, {
-            scale: 1.03,
-            y: -3,
-            duration: 0.3,
-            ease: 'power2.out'
+    if (formButton) {
+        formButton.addEventListener('mouseenter', () => {
+            gsap.to(formButton, { scale: 1.03, y: -3, duration: 0.3, ease: 'power2.out' });
         });
-    });
-
-    formButton.addEventListener('mouseleave', () => {
-        gsap.to(formButton, {
-            scale: 1,
-            y: 0,
-            duration: 0.3,
-            ease: 'power2.out'
+        formButton.addEventListener('mouseleave', () => {
+            gsap.to(formButton, { scale: 1, y: 0, duration: 0.3, ease: 'power2.out' });
         });
-    });
+    }
 }
 
 // Scroll indicator animado
@@ -420,161 +424,74 @@ document.querySelector('.nav-cta').addEventListener('click', () => {
     });
 });
 
-// Formulário de Newsletter (Lead Form)
+// Formulário de Newsletter (Lead Form) — apenas se a seção estiver presente no HTML
 const leadForm = document.getElementById('leadForm');
 
-leadForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const submitButton = leadForm.querySelector('button[type="submit"]');
-    const originalHTML = submitButton.innerHTML;
-    
-    submitButton.innerHTML = '<span>Enviando...</span>';
-    submitButton.disabled = true;
-    
-    const formData = new FormData(leadForm);
-    
-    try {
-        // 1. Email para VOCÊ (admin)
-        const templateParamsAdmin = {
-            from_name: formData.get('name'),
-            from_email: formData.get('email'),
-            reply_to: formData.get('email'),
-            to_name: 'Ayê',
-            message: 'Novo cadastro na newsletter',
-            timestamp: new Date().toLocaleString('pt-BR'),
-            source: 'Newsletter'
-        };
-        
-        await emailjs.send(
-            EMAILJS_SERVICE_ID,
-            EMAILJS_TEMPLATE_ADMIN,
-            templateParamsAdmin
-        );
-        
-        // 2. Email AUTO-REPLY para o CLIENTE
-        const templateParamsCliente = {
-            from_name: formData.get('name'),
-            from_email: formData.get('email'), // Email do cliente
-            message: 'Obrigado por se cadastrar na nossa newsletter!'
-        };
+if (leadForm) {
+    leadForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-        await emailjs.send(
-            EMAILJS_SERVICE_ID,
-            EMAILJS_TEMPLATE_AUTOREPLY,
-            templateParamsCliente
-        );
+        const submitButton = leadForm.querySelector('button[type="submit"]');
+        const originalHTML = submitButton.innerHTML;
 
-        // Animação de sucesso
-        gsap.to(leadForm, {
-            scale: 0.95,
-            duration: 0.2,
-            yoyo: true,
-            repeat: 1
+        submitButton.innerHTML = '<span>Enviando...</span>';
+        submitButton.disabled = true;
+
+        const formData = new FormData(leadForm);
+
+        try {
+            const templateParamsAdmin = {
+                from_name: formData.get('name'),
+                from_email: formData.get('email'),
+                reply_to: formData.get('email'),
+                to_name: 'Ayê',
+                message: 'Novo cadastro na newsletter',
+                timestamp: new Date().toLocaleString('pt-BR'),
+                source: 'Newsletter'
+            };
+
+            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ADMIN, templateParamsAdmin);
+
+            const templateParamsCliente = {
+                from_name: formData.get('name'),
+                from_email: formData.get('email'),
+                message: 'Obrigado por se cadastrar na nossa newsletter!'
+            };
+
+            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_AUTOREPLY, templateParamsCliente);
+
+            gsap.to(leadForm, { scale: 0.95, duration: 0.2, yoyo: true, repeat: 1 });
+            alert('✨ Obrigado! Você está cadastrado para receber nossas novidades.');
+            leadForm.reset();
+
+        } catch {
+            alert('❌ Erro ao enviar. Por favor, tente novamente.');
+        } finally {
+            submitButton.innerHTML = originalHTML;
+            submitButton.disabled = false;
+        }
+    });
+
+    const leadEmailInput = leadForm.querySelector('input[type="email"]');
+    if (leadEmailInput) {
+        leadEmailInput.addEventListener('blur', (e) => {
+            const email = e.target.value;
+            const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            e.target.style.borderColor = (email && !isValid) ? '#e74c3c' : '';
         });
-        
-        alert('✨ Obrigado! Você está cadastrado para receber nossas novidades.');
-        leadForm.reset();
-        
-    } catch {
-        alert('❌ Erro ao enviar. Por favor, tente novamente.');
-    } finally {
-        submitButton.innerHTML = originalHTML;
-        submitButton.disabled = false;
     }
-});
+}
 
-// Validação de email em tempo real - Newsletter
-const leadEmailInput = leadForm.querySelector('input[type="email"]');
-leadEmailInput.addEventListener('blur', (e) => {
-    const email = e.target.value;
-    const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-    if (email && !isValid) {
-        e.target.style.borderColor = '#e74c3c';
-    } else {
-        e.target.style.borderColor = '';
-    }
-});
-
-// Formulário de Contato
-const form = document.getElementById('contactForm');
-
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const submitButton = form.querySelector('button[type="submit"]');
-    const originalHTML = submitButton.innerHTML;
-    
-    submitButton.innerHTML = '<span>Enviando...</span>';
-    submitButton.disabled = true;
-    
-    const formData = new FormData(form);
-    
-    try {
-        // 1. Email para VOCÊ (admin)
-        const templateParamsAdmin = {
-            from_name: formData.get('name'),
-            from_email: formData.get('email'),
-            reply_to: formData.get('email'),
-            phone: formData.get('phone') || 'Não informado',
-            subject: formData.get('subject') || 'Sem assunto',
-            message: formData.get('message'),
-            to_name: 'Ayê',
-            timestamp: new Date().toLocaleString('pt-BR'),
-            source: 'Formulário de Contato'
-        };
-        
-        await emailjs.send(
-            EMAILJS_SERVICE_ID,
-            EMAILJS_TEMPLATE_ADMIN,
-            templateParamsAdmin
-        );
-        
-        // 2. Email AUTO-REPLY para o CLIENTE
-        const templateParamsCliente = {
-            from_name: formData.get('name'),
-            from_email: formData.get('email'), // Email do cliente
-            message: formData.get('message')
-        };
-
-        await emailjs.send(
-            EMAILJS_SERVICE_ID,
-            EMAILJS_TEMPLATE_AUTOREPLY,
-            templateParamsCliente
-        );
-
-        // Animação de sucesso
-        gsap.to(form, {
-            scale: 0.95,
-            duration: 0.2,
-            yoyo: true,
-            repeat: 1
-        });
-        
-        alert('✨ Obrigado! Sua mensagem foi enviada com sucesso. Retornaremos em breve!');
-        form.reset();
-        
-    } catch {
-        alert('❌ Erro ao enviar. Por favor, tente novamente.');
-    } finally {
-        submitButton.innerHTML = originalHTML;
-        submitButton.disabled = false;
-    }
-});
-
-// Validação de email em tempo real
-const emailInput = form.querySelector('input[type="email"]');
-emailInput.addEventListener('blur', (e) => {
-    const email = e.target.value;
-    const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    
-    if (email && !isValid) {
-        e.target.style.outline = '3px solid #e74c3c';
-    } else {
-        e.target.style.outline = '';
-    }
-});
+// Formulário de Contato — envio direto via WhatsApp
+const sendWhatsappBtn = document.getElementById('sendWhatsapp');
+if (sendWhatsappBtn) {
+    sendWhatsappBtn.addEventListener('click', () => {
+        const textarea = document.getElementById('whatsappMessage');
+        const msg = textarea ? textarea.value.trim() : '';
+        const text = msg || 'Olá! Vim do site e gostaria de conhecer os produtos da Ayê.';
+        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
+    });
+}
 
 // Carousel (banner — mantido como fallback, guard adicionado)
 function initCarousel() {
@@ -689,11 +606,24 @@ function initModelCarousel() {
 
     const dots = dotsWrap.querySelectorAll('.model-dot');
 
+    // Esconde o overlay de loading quando o modelo termina de carregar
+    function setupLoadingOverlay(slide) {
+        const mv = slide.querySelector('model-viewer');
+        const overlay = slide.querySelector('.model-loading-overlay');
+        if (!mv || !overlay) return;
+        mv.addEventListener('load', () => {
+            overlay.classList.add('hidden');
+        }, { once: true });
+    }
+
     // Carrega o src de um model-viewer a partir do data-src (se ainda não carregado)
     function loadModel(slide) {
         const mv = slide.querySelector('model-viewer');
         if (mv && !mv.getAttribute('src') && mv.dataset.src) {
+            const overlay = slide.querySelector('.model-loading-overlay');
+            if (overlay) overlay.classList.remove('hidden');
             mv.setAttribute('src', mv.dataset.src);
+            setupLoadingOverlay(slide);
         }
     }
 
@@ -772,6 +702,9 @@ function initModelCarousel() {
     // Estado inicial: garante que só o slide 0 seja visível
     gsap.set(slides, { opacity: 0, visibility: 'hidden' });
     gsap.set(slides[0], { opacity: 1, visibility: 'visible' });
+
+    // Configura overlay de loading para cada slide
+    slides.forEach(slide => setupLoadingOverlay(slide));
 
     // Pré-carrega o segundo modelo logo após o primeiro terminar de carregar
     const firstMv = slides[0].querySelector('model-viewer');
@@ -877,6 +810,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initTitleRevealAnimations();
     initButtonHoverEffects();
     initScrollIndicator();
+
+    // Força recálculo do ScrollTrigger após tudo inicializado.
+    // Essencial quando a página carrega em scroll diferente de 0 (F5 no meio da página).
+    ScrollTrigger.refresh();
 
 });
 

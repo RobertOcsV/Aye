@@ -434,6 +434,45 @@ main {
     }
 }
 
+/* Loading overlay — logo Ayê com animação de pulso espiritual */
+.model-loading-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: rgba(242, 231, 218, 0.55);
+    backdrop-filter: blur(4px);
+    transition: opacity 0.4s ease;
+}
+
+.model-loading-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.model-loading-logo {
+    width: 90px;
+    height: auto;
+    animation: aye-loading-pulse 1.8s ease-in-out infinite;
+    filter: drop-shadow(0 0 12px rgba(166, 91, 66, 0.5));
+}
+
+@keyframes aye-loading-pulse {
+    0%, 100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 8px rgba(166, 91, 66, 0.4));
+        opacity: 0.85;
+    }
+    50% {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 22px rgba(166, 91, 66, 0.75));
+        opacity: 1;
+    }
+}
+
 /* O elemento model-viewer */
 .model-viewer-el {
     width: 100%;
@@ -1488,6 +1527,62 @@ main {
 
 .contact-form button:hover svg {
     transform: translateX(5px);
+}
+
+/* WhatsApp Contact Form — seção simplificada */
+.whatsapp-contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    max-width: 560px;
+    margin: 0 auto;
+}
+
+.whatsapp-contact-form textarea {
+    padding: 1.2rem;
+    border: 2px solid rgba(242, 231, 218, 0.4);
+    border-radius: 10px;
+    background-color: rgba(242, 231, 218, 0.15);
+    color: var(--creme);
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.6;
+    resize: vertical;
+    min-height: 130px;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.whatsapp-contact-form textarea::placeholder {
+    color: rgba(242, 231, 218, 0.6);
+}
+
+.whatsapp-contact-form textarea:focus {
+    outline: none;
+    border-color: var(--creme);
+    background-color: rgba(242, 231, 218, 0.25);
+}
+
+.cta-whatsapp-contact {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    background-color: #25D366;
+    color: #fff;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cta-whatsapp-contact:hover {
+    background-color: #1ebe5d;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(37, 211, 102, 0.35);
 }
 
 /* Footer */

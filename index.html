@@ -70,6 +70,9 @@
                         <!-- Oroiná -->
                         <div class="model-slide active">
                             <div class="model-viewer-frame">
+                                <div class="model-loading-overlay">
+                                    <img src="Img/logo-colorido-sem-fundo.png" alt="" class="model-loading-logo">
+                                </div>
                                 <model-viewer
                                     src="Img/models/Oroiná.glb"
                                     alt="Oroiná"
@@ -90,6 +93,9 @@
                         <!-- Pomba Gira -->
                         <div class="model-slide">
                             <div class="model-viewer-frame">
+                                <div class="model-loading-overlay">
+                                    <img src="Img/logo-colorido-sem-fundo.png" alt="" class="model-loading-logo">
+                                </div>
                                 <model-viewer
                                     data-src="Img/models/Pombogira.glb"
                                     alt="Pomba Gira"
@@ -110,6 +116,9 @@
                         <!-- Navalha -->
                         <div class="model-slide">
                             <div class="model-viewer-frame">
+                                <div class="model-loading-overlay">
+                                    <img src="Img/logo-colorido-sem-fundo.png" alt="" class="model-loading-logo">
+                                </div>
                                 <model-viewer
                                     data-src="Img/models/navalha.glb"
                                     alt="Navalha Ritual"
@@ -252,7 +261,7 @@
             </div>
         </section>
 
-        <section class="products">
+        <!-- <section class="products">
             <h2 class="section-title">Nossos Produtos</h2>
             <p class="section-subtitle">Cada item é criado com dedicação, tecnologia e respeito aos fundamentos sagrados</p>
             <div class="products-grid">
@@ -285,9 +294,9 @@
                     <p>Porta-velas, incensários, tigelas para oferendas, garrafeiras, suportes, cuias e gamelas. Resistentes, laváveis e apropriados para uso contínuo em terreiros.</p>
                 </div>
             </div>
-        </section>
+        </section> -->
 
-        <section class="testimonials">
+        <!-- <section class="testimonials">
             <div class="testimonials-content">
                 <h2 class="section-title-light">Depoimentos</h2>
                 <p class="testimonials-subtitle">O que dizem nossos clientes e parceiros espirituais</p>
@@ -309,9 +318,9 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
-        <section class="newsletter">
+        <!-- <section class="newsletter">
             <div class="newsletter-content">
                 <h2 class="section-title">Receba Novidades e Ofertas Exclusivas</h2>
                 <p class="newsletter-subtitle">Cadastre-se e fique por dentro de lançamentos, promoções e conteúdos sobre Umbanda</p>
@@ -329,36 +338,28 @@
                 </form>
                 <p class="newsletter-disclaimer">🔒 Seus dados estão seguros. Não compartilhamos com terceiros.</p>
             </div>
-        </section>
+        </section> -->
 
         <section class="contact">
             <div class="contact-content">
                 <h2 class="section-title-light">Entre em Contato</h2>
-                <p class="contact-subtitle">Tire suas dúvidas, faça orçamentos ou nos envie uma mensagem. Estamos aqui para ajudar!</p>
-                <form id="contactForm" class="contact-form">
-                    <div class="form-row">
-                        <input type="text" name="name" placeholder="Seu nome completo *" required>
-                        <input type="email" name="email" placeholder="Seu melhor email *" required>
-                    </div>
-                    <div class="form-row">
-                        <input type="tel" name="phone" placeholder="Telefone/WhatsApp">
-                        <input type="text" name="subject" placeholder="Assunto">
-                    </div>
-                    <textarea name="message" rows="6" placeholder="Sua mensagem *" required></textarea>
-                    <button type="submit">
-                        <span>Enviar Mensagem</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                <p class="contact-subtitle">Escreva sua mensagem e falaremos com você direto pelo WhatsApp.</p>
+                <div class="whatsapp-contact-form">
+                    <textarea id="whatsappMessage" rows="5" placeholder="Digite sua mensagem aqui..."></textarea>
+                    <button class="cta-whatsapp-contact" id="sendWhatsapp">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
                         </svg>
+                        Enviar pelo WhatsApp
                     </button>
-                </form>
+                </div>
             </div>
         </section>
     </main>
 
     <footer class="footer">
         <div class="footer-content">
-            <img src="Img/logo-principal-sem-fundo-branco.png" alt="Ayê" class="footer-logo">
+            <img src="Img/Ayê-Logo-Principal-horizontal-branco-sem-fundo.png" alt="Ayê" class="footer-logo">
             <p>&copy; 2025 Ayê - Do Orum ao Ayê. Todos os direitos reservados.</p>
         </div>
     </footer>

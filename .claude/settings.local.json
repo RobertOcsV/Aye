@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(dir:*)",
-      "WebSearch"
+      "WebSearch",
+      "Skill(update-config)"
     ],
     "deny": [],
     "ask": []
