@@ -1586,26 +1586,327 @@ main {
 }
 
 /* Footer */
-.footer {
-    background-color: var(--marrom);
-    padding: 3rem 2rem;
-    text-align: center;
+/* ═══════════════════════════════════════════
+   BG-EARTH-WRAP — tiled bg across sections
+   ═══════════════════════════════════════════ */
+.bg-earth-wrap {
+    position: relative;
 }
 
-.footer-content {
-    max-width: 1400px;
+.bg-earth-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('Img/bgimg.png');
+    background-repeat: repeat;
+    background-size: auto;
+    opacity: 0.02;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.bg-earth-wrap > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* ═══════════════════════════════════════════
+   FOOTER — Earthy, spiritual, warm
+   ═══════════════════════════════════════════ */
+.footer {
+    background: linear-gradient(175deg, rgba(53, 40, 32, 0.92) 0%, rgba(65, 50, 42, 0.90) 40%, rgba(42, 31, 24, 0.92) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* bg image now on .bg-earth-wrap */
+
+/* Warm glow at top */
+.footer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--terracota), rgba(184, 134, 90, 0.6), var(--terracota), transparent);
+    box-shadow: 0 0 20px rgba(166, 91, 66, 0.3), 0 0 60px rgba(166, 91, 66, 0.1);
+}
+
+.footer-container {
+    max-width: 1000px;
     margin: 0 auto;
+    padding: 3.5rem 2rem 2rem;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* ── Sacred decorative border ── */
+.footer-sacred-border {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 0.5rem;
+}
+
+.footer-border-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--terracota);
+    opacity: 0.5;
+}
+
+.footer-border-line {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(166, 91, 66, 0.1), rgba(166, 91, 66, 0.4), rgba(166, 91, 66, 0.1));
+}
+
+.footer-border-symbol {
+    color: var(--terracota);
+    font-size: 0.7rem;
+    opacity: 0.6;
+    letter-spacing: 0.2em;
+}
+
+/* ── Brand section ── */
+.footer-brand {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
 }
 
 .footer-logo {
-    width: 18em;
-    height: 9em;
+    width: 14em;
+    height: auto;
     filter: brightness(0) invert(1);
+    opacity: 0.9;
+    transition: opacity 0.4s ease;
 }
 
-.footer p {
+.footer-logo:hover {
+    opacity: 1;
+}
+
+.footer-tagline {
+    font-family: 'Lora', Georgia, serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: rgba(242, 231, 218, 0.9);
+    letter-spacing: 0.04em;
+    line-height: 1.6;
+    max-width: 360px;
+}
+
+/* ── Social / Contact links ── */
+.footer-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.footer-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 100px;
+    border: 1px solid rgba(242, 231, 218, 0.08);
+    background: rgba(242, 231, 218, 0.04);
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.footer-link::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 100px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 0;
+}
+
+.footer-link svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.footer-link-label {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    position: relative;
+    z-index: 1;
+    transition: color 0.4s ease;
+}
+
+/* Instagram variant */
+.footer-link--instagram {
+    color: rgba(242, 231, 218, 0.55);
+}
+
+.footer-link--instagram::before {
+    background: linear-gradient(135deg, rgba(166, 91, 66, 0.2), rgba(194, 114, 79, 0.15));
+}
+
+.footer-link--instagram:hover {
     color: var(--creme);
-    font-size: 0.95rem;
+    border-color: rgba(166, 91, 66, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(166, 91, 66, 0.15);
+}
+
+.footer-link--instagram:hover::before {
+    opacity: 1;
+}
+
+.footer-link--instagram:hover svg {
+    transform: rotate(-8deg) scale(1.1);
+}
+
+/* WhatsApp variant */
+.footer-link--whatsapp {
+    color: rgba(242, 231, 218, 0.55);
+}
+
+.footer-link--whatsapp::before {
+    background: linear-gradient(135deg, rgba(75, 96, 67, 0.25), rgba(98, 122, 88, 0.15));
+}
+
+.footer-link--whatsapp:hover {
+    color: var(--creme);
+    border-color: rgba(75, 96, 67, 0.45);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(75, 96, 67, 0.15);
+}
+
+.footer-link--whatsapp:hover::before {
+    opacity: 1;
+}
+
+.footer-link--whatsapp:hover svg {
+    transform: scale(1.15);
+}
+
+/* Email variant */
+.footer-link--email {
+    color: rgba(242, 231, 218, 0.55);
+}
+
+.footer-link--email::before {
+    background: linear-gradient(135deg, rgba(184, 134, 90, 0.2), rgba(166, 91, 66, 0.1));
+}
+
+.footer-link--email:hover {
+    color: var(--creme);
+    border-color: rgba(184, 134, 90, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(184, 134, 90, 0.12);
+}
+
+.footer-link--email:hover::before {
+    opacity: 1;
+}
+
+.footer-link--email:hover svg {
+    transform: translateX(2px);
+}
+
+/* ── Bottom bar ── */
+.footer-bottom {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(242, 231, 218, 0.06);
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.footer-copy {
+    font-size: 0.72rem;
+    color: rgba(242, 231, 218, 0.9);
+    letter-spacing: 0.04em;
+}
+
+.footer-values {
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+}
+
+.footer-values span {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 0.65rem;
+    font-style: italic;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(242, 231, 218, 0.9);
+    position: relative;
+}
+
+.footer-values span:not(:last-child)::after {
+    content: '·';
+    position: absolute;
+    right: -0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(166, 91, 66, 0.35);
+    font-style: normal;
+}
+
+/* ── Footer responsive ── */
+@media (max-width: 768px) {
+    .footer-container {
+        padding: 2.5rem 1.5rem 1.5rem;
+        gap: 1.5rem;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 0.8rem;
+        width: 100%;
+    }
+
+    .footer-link {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 20px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.6rem;
+    }
+
+    .footer-border-line {
+        width: 40px;
+    }
+
+    .footer-logo {
+        width: 11em;
+    }
 }
 
 /* Scroll Indicator */
