@@ -717,9 +717,6 @@ function initModelCarousel() {
 // Feed do Instagram — Meta Graph API
 // ─────────────────────────────────────
 async function initInstagramFeed() {
-    // ⚠️  Token visível no cliente — adequado para leitura pública.
-    //     Para produção segura, use um proxy serverless (Vercel/Netlify).
-    const TOKEN = 'IGAALaS6fPPItBZAFlHMnNuRllEM0xwUVdQNUU4VHlObDU5U0txM09sbklSNnlYaS11bHJDVFBPNGNyWXp6dWdsMXRwTlpVQ2pHaG5XZAmREQXVIR3MxT1Nod0pPaUFjY1FvRFBOeGVqZA0tHZAkhqLWdOMk9kMnUzTlFkYl9lVG44YwZDZD';
     const grid  = document.getElementById('instagramGrid');
     if (!grid) return;
 
@@ -727,8 +724,8 @@ async function initInstagramFeed() {
     grid.innerHTML = Array(6).fill('<div class="ig-skeleton"></div>').join('');
 
     try {
-        const url = `https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp&limit=9&access_token=${TOKEN}`;
-        const res  = await fetch(url);
+        // Chama o proxy serverless — token fica seguro no servidor
+        const res  = await fetch('/api/instagram');
         if (!res.ok) throw new Error(`API ${res.status}`);
         const { data } = await res.json();
 

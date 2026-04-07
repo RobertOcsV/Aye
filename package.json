@@ -1,0 +1,24 @@
+{
+  "name": "aye",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "optimize-models": "gltf-transform optimize Img/models/Oroina.glb Img/models/web/Oroina-web.glb --compress draco && gltf-transform optimize Img/models/Pombogira.glb Img/models/web/Pombogira-web.glb --compress draco && gltf-transform optimize Img/models/navalha.glb Img/models/web/navalha-web.glb --compress draco"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RobertOcsV/Aye.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/RobertOcsV/Aye/issues"
+  },
+  "homepage": "https://github.com/RobertOcsV/Aye#readme",
+  "devDependencies": {
+    "@gltf-transform/cli": "^4.3.0"
+  }
+}

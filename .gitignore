@@ -1,0 +1,20 @@
+# Dependências
+node_modules/
+
+# Modelos 3D originais (pesados demais para o repo)
+# Apenas os otimizados em Img/models/web/ devem subir
+Img/models/*.glb
+Img/navalha.glb
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Variáveis de ambiente (nunca commitar tokens/secrets)
+.env
+.env.local
+.env.production
+
+# Logs
+npm-debug.log*
