@@ -1,0 +1,671 @@
+/* ═══════════════════════════════════════════════
+   Ayê — Catálogo Sagrado
+   Paleta e tipografia herdadas do site principal
+═══════════════════════════════════════════════ */
+
+:root {
+    --terracota: #A65B42;
+    --terracota-light: #c4826a;
+    --marrom: #41322A;
+    --marrom-deep: #2a1f18;
+    --verde: #4b6043;
+    --verde-light: #6a8460;
+    --creme: #F2E7DA;
+    --creme-dark: #e6d5c3;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Raleway', sans-serif;
+    background-color: var(--creme);
+    color: var(--marrom);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Lora', Georgia, serif;
+}
+
+/* ──────────────────────────────────
+   HEADER
+────────────────────────────────── */
+.cat-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(242, 231, 218, 0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(75, 96, 67, 0.15);
+}
+
+.cat-nav {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0.6rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cat-logo-link { display: flex; }
+
+.cat-logo {
+    width: 60px;
+    height: auto;
+}
+
+.cat-nav-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.cat-nav-eyebrow {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--terracota);
+    font-weight: 500;
+}
+
+.cat-nav-back {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--marrom);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.3s ease;
+}
+
+.cat-nav-back:hover {
+    color: var(--terracota);
+}
+
+/* ──────────────────────────────────
+   HERO DO CATÁLOGO
+────────────────────────────────── */
+.cat-hero {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+    background:
+        radial-gradient(ellipse at 30% 20%, rgba(166, 91, 66, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 80%, rgba(75, 96, 67, 0.06) 0%, transparent 50%),
+        var(--creme);
+    position: relative;
+    overflow: hidden;
+}
+
+.cat-hero-grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 200px;
+    pointer-events: none;
+}
+
+.cat-hero-content {
+    max-width: 700px;
+    position: relative;
+    z-index: 1;
+}
+
+.cat-hero-eyebrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--terracota);
+    font-weight: 400;
+}
+
+.cat-eyebrow-line {
+    display: block;
+    width: 50px;
+    height: 1px;
+    background: var(--terracota);
+    opacity: 0.4;
+}
+
+.cat-hero-title {
+    font-family: 'Lora', Georgia, serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 700;
+    color: var(--marrom);
+    line-height: 0.95;
+    margin-bottom: 1.8rem;
+    letter-spacing: -0.02em;
+}
+
+.cat-hero-title em {
+    font-style: italic;
+    color: var(--terracota);
+    font-weight: 400;
+}
+
+.cat-hero-sub {
+    font-size: 1.05rem;
+    color: var(--marrom);
+    opacity: 0.7;
+    max-width: 520px;
+    margin: 0 auto 3rem;
+    line-height: 1.7;
+}
+
+.cat-hero-scroll-hint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.cat-scroll-line {
+    width: 1.5px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--terracota), transparent);
+    border-radius: 2px;
+}
+
+.cat-hero-scroll-hint span {
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--verde);
+    font-weight: 600;
+}
+
+/* ──────────────────────────────────
+   GRID DE PRODUTOS
+────────────────────────────────── */
+.cat-products {
+    padding: 6rem 2rem;
+    background: var(--creme);
+}
+
+.cat-products-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8rem;
+}
+
+/* ──────────────────────────────────
+   CARD DO PRODUTO
+────────────────────────────────── */
+.cat-product {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+/* Alterna layout: produtos pares invertidos */
+.cat-product:nth-child(even) {
+    direction: rtl;
+}
+
+.cat-product:nth-child(even) > * {
+    direction: ltr;
+}
+
+/* ── Visual (3D / Imagem / Descrição) ── */
+.cat-product-visual {
+    position: relative;
+    aspect-ratio: 4 / 3.5;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--marrom-deep);
+    box-shadow:
+        0 30px 80px rgba(65, 50, 42, 0.2),
+        0 0 0 1px rgba(166, 91, 66, 0.08);
+    contain: layout size style;
+    transform: translateZ(0);
+}
+
+/* Páginas internas */
+.cat-page {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.05s;
+}
+
+.cat-page.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* Página: Modelo 3D */
+.cat-model-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    contain: strict;
+}
+
+.cat-model-viewer {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    --poster-color: transparent;
+    display: block;
+    position: absolute;
+    inset: 0;
+}
+
+.cat-model-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        ellipse 85% 85% at 50% 50%,
+        transparent 40%,
+        rgba(42, 31, 24, 0.35) 75%,
+        rgba(42, 31, 24, 0.6) 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+.cat-page-label {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(242, 231, 218, 0.45);
+    z-index: 2;
+    font-weight: 500;
+}
+
+/* Página: Imagem */
+.cat-img-wrap {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.cat-product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Página: Descrição */
+.cat-page--desc {
+    background:
+        radial-gradient(ellipse at 20% 80%, rgba(166, 91, 66, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(75, 96, 67, 0.08) 0%, transparent 50%),
+        var(--marrom-deep);
+    padding: 3rem;
+}
+
+.cat-desc-content {
+    max-width: 400px;
+    text-align: center;
+}
+
+.cat-desc-icon {
+    font-size: 1.8rem;
+    color: var(--terracota-light);
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.cat-desc-title {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--creme);
+    margin-bottom: 1rem;
+    letter-spacing: 0.04em;
+}
+
+.cat-desc-text {
+    font-size: 0.92rem;
+    color: rgba(242, 231, 218, 0.75);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.cat-desc-specs {
+    list-style: none;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.cat-desc-specs li {
+    font-size: 0.82rem;
+    color: rgba(242, 231, 218, 0.6);
+    padding-left: 1rem;
+    position: relative;
+}
+
+.cat-desc-specs li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--terracota-light);
+}
+
+.cat-desc-specs strong {
+    color: rgba(242, 231, 218, 0.85);
+    font-weight: 600;
+}
+
+/* ── Indicador de página (dots) ── */
+.cat-page-indicator {
+    position: absolute;
+    top: 1.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    z-index: 10;
+}
+
+.cat-page-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(242, 231, 218, 0.4);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.35s ease;
+    padding: 0;
+}
+
+.cat-page-dot.active {
+    background: var(--terracota);
+    border-color: var(--terracota);
+    transform: scale(1.3);
+    box-shadow: 0 0 10px rgba(166, 91, 66, 0.5);
+}
+
+/* ── Setas prev/next ── */
+.cat-nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(242, 231, 218, 0.15);
+    background: rgba(42, 31, 24, 0.6);
+    backdrop-filter: blur(8px);
+    color: var(--creme);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.3s ease;
+    opacity: 0;
+}
+
+.cat-product-visual:hover .cat-nav-arrow {
+    opacity: 1;
+}
+
+.cat-nav-arrow:hover {
+    background: var(--terracota);
+    border-color: var(--terracota);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.cat-nav-arrow--prev { left: 1rem; }
+.cat-nav-arrow--next { right: 1rem; }
+
+/* ── Info do produto ── */
+.cat-product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.cat-product-tag {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--verde);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.cat-product-tag::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--verde);
+    opacity: 0.5;
+}
+
+.cat-product-name {
+    font-family: 'Lora', Georgia, serif;
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    color: var(--marrom);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+}
+
+.cat-product-excerpt {
+    font-size: 1rem;
+    color: var(--marrom);
+    opacity: 0.6;
+    font-style: italic;
+    font-family: 'Lora', Georgia, serif;
+    max-width: 320px;
+}
+
+.cat-product-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.8rem;
+    padding: 0.9rem 1.8rem;
+    background: #25D366;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: fit-content;
+}
+
+.cat-product-cta:hover {
+    background: #20BA5A;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+}
+
+/* ──────────────────────────────────
+   CTA FINAL
+────────────────────────────────── */
+.cat-final-cta {
+    padding: 8rem 2rem;
+    background: var(--marrom-deep);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.cat-final-grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 200px;
+    pointer-events: none;
+}
+
+.cat-final-content {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.cat-final-title {
+    font-family: 'Lora', Georgia, serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: var(--creme);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.cat-final-sub {
+    font-size: 1rem;
+    color: rgba(242, 231, 218, 0.6);
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+}
+
+.cat-final-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 1rem 2.2rem;
+    background: var(--terracota);
+    color: var(--creme);
+    border: none;
+    border-radius: 8px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cat-final-btn:hover {
+    background: var(--terracota-light);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(166, 91, 66, 0.35);
+}
+
+/* ──────────────────────────────────
+   FOOTER
+────────────────────────────────── */
+.cat-footer {
+    padding: 2rem;
+    text-align: center;
+    background: var(--marrom-deep);
+    border-top: 1px solid rgba(242, 231, 218, 0.06);
+}
+
+.cat-footer p {
+    font-size: 0.72rem;
+    color: rgba(242, 231, 218, 0.4);
+    letter-spacing: 0.05em;
+}
+
+/* ──────────────────────────────────
+   RESPONSIVE
+────────────────────────────────── */
+@media (max-width: 968px) {
+    .cat-product {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .cat-product:nth-child(even) {
+        direction: ltr;
+    }
+
+    .cat-product-visual {
+        aspect-ratio: 1 / 1;
+    }
+
+    .cat-product-info {
+        text-align: center;
+        align-items: center;
+    }
+
+    .cat-product-excerpt {
+        max-width: 100%;
+    }
+
+    .cat-product-tag::before {
+        display: none;
+    }
+
+    .cat-products-container {
+        gap: 5rem;
+    }
+
+    .cat-nav-arrow {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 600px) {
+    .cat-hero {
+        min-height: 70vh;
+        padding: 7rem 1.5rem 3rem;
+    }
+
+    .cat-hero-title {
+        font-size: clamp(2.4rem, 12vw, 4rem);
+    }
+
+    .cat-products {
+        padding: 3rem 1rem;
+    }
+
+    .cat-product-visual {
+        aspect-ratio: 3 / 4;
+        border-radius: 12px;
+    }
+
+    .cat-page--desc {
+        padding: 2rem 1.5rem;
+    }
+
+    .cat-nav-eyebrow {
+        display: none;
+    }
+
+    .cat-final-cta {
+        padding: 5rem 1.5rem;
+    }
+}

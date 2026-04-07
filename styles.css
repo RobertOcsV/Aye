@@ -58,6 +58,43 @@ h1, h2, h3, h4, h5, h6 {
     display: block;
 }
 
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-link-catalog {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--marrom);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.3s ease;
+    padding: 0.5rem 0;
+    position: relative;
+}
+
+.nav-link-catalog::after {
+    content: '';
+    position: absolute;
+    bottom: 0.3rem;
+    left: 0;
+    width: 0;
+    height: 1.5px;
+    background: var(--terracota);
+    transition: width 0.3s ease;
+}
+
+.nav-link-catalog:hover {
+    color: var(--terracota);
+}
+
+.nav-link-catalog:hover::after {
+    width: 100%;
+}
+
 .nav-cta {
     background-color: var(--verde);
     color: var(--creme);

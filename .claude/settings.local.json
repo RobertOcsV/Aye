@@ -3,7 +3,13 @@
     "allow": [
       "Bash(dir:*)",
       "WebSearch",
-      "Skill(update-config)"
+      "Skill(update-config)",
+      "Bash(ls -lh D:/Versionados_Projetos/Aye/Img/*.glb)",
+      "Bash(find D:/Versionados_Projetos/Aye -name \"*.glb\" -exec ls -lh {} \\\\;)",
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Bash(npx gltf-transform:*)",
+      "Bash(ls:*)"
     ],
     "deny": [],
     "ask": []

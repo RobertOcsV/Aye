@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ayê - Catálogo de produtos sagrados feitos com impressão 3D">
+    <title>Ayê - Catálogo Sagrado</title>
+    <link rel="icon" type="image/png" href="Img/logo-branco-sem-fundo.png">
+    <link rel="apple-touch-icon" href="Img/logo-branco-sem-fundo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="catalogo.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="cat-header">
+        <nav class="cat-nav">
+            <a href="index.html" class="cat-logo-link">
+                <img src="Img/logo-colorido-sem-fundo.png" alt="Ayê" class="cat-logo">
+            </a>
+            <div class="cat-nav-center">
+                <span class="cat-nav-eyebrow">Catálogo Sagrado</span>
+            </div>
+            <a href="index.html" class="cat-nav-back">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+                Voltar
+            </a>
+        </nav>
+    </header>
+
+    <!-- Hero do Catálogo -->
+    <section class="cat-hero">
+        <div class="cat-hero-grain"></div>
+        <div class="cat-hero-content">
+            <div class="cat-hero-eyebrow">
+                <span class="cat-eyebrow-line"></span>
+                <span>Do Orum ao Ayê</span>
+                <span class="cat-eyebrow-line"></span>
+            </div>
+            <h1 class="cat-hero-title">Catálogo<br><em>Sagrado</em></h1>
+            <p class="cat-hero-sub">Cada peça carrega a energia e a devoção de quem acredita. Explore nossos modelos, conheça os detalhes e sinta a presença do sagrado.</p>
+            <div class="cat-hero-scroll-hint">
+                <div class="cat-scroll-line"></div>
+                <span>Explore</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Grid de Produtos -->
+    <section class="cat-products">
+        <div class="cat-products-container">
+
+            <!-- ═══════════════ PRODUTO 1: Oroiná ═══════════════ -->
+            <article class="cat-product" data-product="oroina">
+
+                <div class="cat-product-visual">
+                    <!-- Indicador de página atual -->
+                    <div class="cat-page-indicator">
+                        <button class="cat-page-dot active" data-page="0" aria-label="Modelo 3D"></button>
+                        <button class="cat-page-dot" data-page="1" aria-label="Imagem"></button>
+                        <button class="cat-page-dot" data-page="2" aria-label="Descrição"></button>
+                    </div>
+
+                    <!-- Página 1: Modelo 3D -->
+                    <div class="cat-page cat-page--3d active">
+                        <div class="cat-model-wrap">
+                            <model-viewer
+                                src="Img/models/web/Oroina-web.glb"
+                                alt="Oroiná — Modelo 3D"
+                                auto-rotate
+                                auto-rotate-delay="0"
+                                rotation-per-second="18deg"
+                                camera-controls
+                                shadow-intensity="0"
+                                shadow-softness="0"
+                                exposure="0.85"
+                                class="cat-model-viewer">
+                            </model-viewer>
+                            <div class="cat-model-vignette"></div>
+                        </div>
+                        <span class="cat-page-label">Arraste para girar</span>
+                    </div>
+
+                    <!-- Página 2: Imagem -->
+                    <div class="cat-page cat-page--img">
+                        <div class="cat-img-wrap">
+                            <img src="Img/card2.jpg" alt="Oroiná — Foto do produto" class="cat-product-img" loading="lazy">
+                        </div>
+                    </div>
+
+                    <!-- Página 3: Descrição -->
+                    <div class="cat-page cat-page--desc">
+                        <div class="cat-desc-content">
+                            <div class="cat-desc-icon">&#10041;</div>
+                            <h3 class="cat-desc-title">Sobre a Peça</h3>
+                            <p class="cat-desc-text">Oroiná, o Orixá do fogo e dos vulcões, guardião da energia transformadora. Esta escultura captura sua essência com detalhes minuciosos — das chamas que o envolvem até a expressão de força e renovação.</p>
+                            <ul class="cat-desc-specs">
+                                <li><strong>Material:</strong> PLA+ de alta resistência</li>
+                                <li><strong>Acabamento:</strong> Pintura manual artística</li>
+                                <li><strong>Altura:</strong> Personalizado sob encomenda</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Navegação prev/next -->
+                    <button class="cat-nav-arrow cat-nav-arrow--prev" aria-label="Anterior">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <button class="cat-nav-arrow cat-nav-arrow--next" aria-label="Próximo">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
+
+                <div class="cat-product-info">
+                    <span class="cat-product-tag">Orixá</span>
+                    <h2 class="cat-product-name">Oroiná</h2>
+                    <p class="cat-product-excerpt">Fogo sagrado que transforma e renova</p>
+                    <a href="https://wa.me/5511965391991?text=Ol%C3%A1!%20Tenho%20interesse%20na%20pe%C3%A7a%20Oroin%C3%A1!" target="_blank" rel="noopener noreferrer" class="cat-product-cta">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        Quero essa peça
+                    </a>
+                </div>
+            </article>
+
+            <!-- ═══════════════ PRODUTO 2: Pomba Gira ═══════════════ -->
+            <article class="cat-product" data-product="pombagira">
+
+                <div class="cat-product-visual">
+                    <div class="cat-page-indicator">
+                        <button class="cat-page-dot active" data-page="0" aria-label="Modelo 3D"></button>
+                        <button class="cat-page-dot" data-page="1" aria-label="Imagem"></button>
+                        <button class="cat-page-dot" data-page="2" aria-label="Descrição"></button>
+                    </div>
+
+                    <div class="cat-page cat-page--3d active">
+                        <div class="cat-model-wrap">
+                            <model-viewer
+                                src="Img/models/web/Pombogira-web.glb"
+                                alt="Pomba Gira — Modelo 3D"
+                                auto-rotate
+                                auto-rotate-delay="0"
+                                rotation-per-second="18deg"
+                                camera-controls
+                                shadow-intensity="0"
+                                shadow-softness="0"
+                                exposure="0.85"
+                                class="cat-model-viewer">
+                            </model-viewer>
+                            <div class="cat-model-vignette"></div>
+                        </div>
+                        <span class="cat-page-label">Arraste para girar</span>
+                    </div>
+
+                    <div class="cat-page cat-page--img">
+                        <div class="cat-img-wrap">
+                            <img src="Img/card1.jpg" alt="Pomba Gira — Foto do produto" class="cat-product-img" loading="lazy">
+                        </div>
+                    </div>
+
+                    <div class="cat-page cat-page--desc">
+                        <div class="cat-desc-content">
+                            <div class="cat-desc-icon">&#10041;</div>
+                            <h3 class="cat-desc-title">Sobre a Peça</h3>
+                            <p class="cat-desc-text">Pomba Gira, senhora dos caminhos e da sensualidade sagrada, guardiã da força feminina. Escultura que traduz sua presença magnética — dos tecidos esvoaçantes até o olhar desafiador que protege e empodera.</p>
+                            <ul class="cat-desc-specs">
+                                <li><strong>Material:</strong> PLA+ de alta resistência</li>
+                                <li><strong>Acabamento:</strong> Pintura manual artística</li>
+                                <li><strong>Altura:</strong> Personalizado sob encomenda</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <button class="cat-nav-arrow cat-nav-arrow--prev" aria-label="Anterior">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <button class="cat-nav-arrow cat-nav-arrow--next" aria-label="Próximo">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
+
+                <div class="cat-product-info">
+                    <span class="cat-product-tag">Entidade</span>
+                    <h2 class="cat-product-name">Pomba Gira</h2>
+                    <p class="cat-product-excerpt">Força feminina, proteção e caminhos abertos</p>
+                    <a href="https://wa.me/5511965391991?text=Ol%C3%A1!%20Tenho%20interesse%20na%20pe%C3%A7a%20Pomba%20Gira!" target="_blank" rel="noopener noreferrer" class="cat-product-cta">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        Quero essa peça
+                    </a>
+                </div>
+            </article>
+
+            <!-- ═══════════════ PRODUTO 3: Navalha Ritualística ═══════════════ -->
+            <article class="cat-product" data-product="navalha">
+
+                <div class="cat-product-visual">
+                    <div class="cat-page-indicator">
+                        <button class="cat-page-dot active" data-page="0" aria-label="Modelo 3D"></button>
+                        <button class="cat-page-dot" data-page="1" aria-label="Imagem"></button>
+                        <button class="cat-page-dot" data-page="2" aria-label="Descrição"></button>
+                    </div>
+
+                    <div class="cat-page cat-page--3d active">
+                        <div class="cat-model-wrap">
+                            <model-viewer
+                                src="Img/models/web/navalha-web.glb"
+                                alt="Navalha Ritualística — Modelo 3D"
+                                auto-rotate
+                                auto-rotate-delay="0"
+                                rotation-per-second="18deg"
+                                camera-controls
+                                shadow-intensity="0"
+                                shadow-softness="0"
+                                exposure="0.85"
+                                class="cat-model-viewer">
+                            </model-viewer>
+                            <div class="cat-model-vignette"></div>
+                        </div>
+                        <span class="cat-page-label">Arraste para girar</span>
+                    </div>
+
+                    <div class="cat-page cat-page--img">
+                        <div class="cat-img-wrap">
+                            <img src="Img/card3.jpg" alt="Navalha Ritualística — Foto do produto" class="cat-product-img" loading="lazy">
+                        </div>
+                    </div>
+
+                    <div class="cat-page cat-page--desc">
+                        <div class="cat-desc-content">
+                            <div class="cat-desc-icon">&#10041;</div>
+                            <h3 class="cat-desc-title">Sobre a Peça</h3>
+                            <p class="cat-desc-text">Navalha ritualística, ferramenta sagrada de Ogum e Exu, símbolo de corte, proteção e abertura de caminhos. Reprodução fiel em impressão 3D com detalhes que honram a tradição dos terreiros.</p>
+                            <ul class="cat-desc-specs">
+                                <li><strong>Material:</strong> PLA+ de alta resistência</li>
+                                <li><strong>Acabamento:</strong> Pintura manual artística</li>
+                                <li><strong>Tamanho:</strong> Personalizado sob encomenda</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <button class="cat-nav-arrow cat-nav-arrow--prev" aria-label="Anterior">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <button class="cat-nav-arrow cat-nav-arrow--next" aria-label="Próximo">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
+
+                <div class="cat-product-info">
+                    <span class="cat-product-tag">Ferramenta</span>
+                    <h2 class="cat-product-name">Navalha Ritualística</h2>
+                    <p class="cat-product-excerpt">Corte sagrado, proteção e abertura de caminhos</p>
+                    <a href="https://wa.me/5511965391991?text=Ol%C3%A1!%20Tenho%20interesse%20na%20Navalha%20Ritual%C3%ADstica!" target="_blank" rel="noopener noreferrer" class="cat-product-cta">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        Quero essa peça
+                    </a>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="cat-final-cta">
+        <div class="cat-final-grain"></div>
+        <div class="cat-final-content">
+            <h2 class="cat-final-title">Não encontrou o que procura?</h2>
+            <p class="cat-final-sub">Criamos peças exclusivas sob encomenda. Conte-nos sobre seu guia espiritual e materializamos no Ayê.</p>
+            <a href="https://wa.me/5511965391991?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20uma%20pe%C3%A7a%20personalizada!" target="_blank" rel="noopener noreferrer" class="cat-final-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Encomende sua peça exclusiva
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer mínimo -->
+    <footer class="cat-footer">
+        <p>&copy; 2025 Ayê — Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="catalogo.js"></script>
+</body>
+</html>
