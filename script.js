@@ -688,16 +688,7 @@ function initModelCarousel() {
     nextBtn.addEventListener('click', next);
     prevBtn.addEventListener('click', prev);
 
-    // Swipe touch para mobile
-    let touchStartX = 0;
-    const track = document.querySelector('.model-track');
-    if (track) {
-        track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-        track.addEventListener('touchend', e => {
-            const delta = touchStartX - e.changedTouches[0].clientX;
-            if (Math.abs(delta) > 40) delta > 0 ? next() : prev();
-        }, { passive: true });
-    }
+    // Navegação apenas por botões — sem swipe para não conflitar com rotação do model-viewer
 
     // Estado inicial: garante que só o slide 0 seja visível
     gsap.set(slides, { opacity: 0, visibility: 'hidden' });

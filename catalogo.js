@@ -10,8 +10,45 @@ ScrollTrigger.config({
 });
 
 // ──────────────────────────────────
+// Loading overlay nas imagens e modelos 3D
+// ──────────────────────────────────
+function initLoadingOverlays() {
+    // Imagens: overlay some quando img carrega
+    document.querySelectorAll('.cat-page--img').forEach(page => {
+        const img = page.querySelector('.cat-product-img');
+        if (!img) return;
+
+        const overlay = document.createElement('div');
+        overlay.className = 'cat-loading-overlay';
+        overlay.innerHTML = '<img src="Img/logo-colorido-sem-fundo.png" alt="" class="cat-loading-logo">';
+        page.querySelector('.cat-img-wrap').appendChild(overlay);
+
+        const hide = () => overlay.classList.add('hidden');
+        if (img.complete && img.naturalWidth > 0) {
+            hide();
+        } else {
+            img.addEventListener('load', hide);
+            img.addEventListener('error', hide);
+        }
+    });
+
+    // Modelos 3D: overlay some quando model-viewer dispara 'load'
+    document.querySelectorAll('.cat-page--3d').forEach(page => {
+        const mv = page.querySelector('model-viewer');
+        if (!mv) return;
+
+        const overlay = document.createElement('div');
+        overlay.className = 'cat-loading-overlay';
+        overlay.innerHTML = '<img src="Img/logo-colorido-sem-fundo.png" alt="" class="cat-loading-logo">';
+        page.querySelector('.cat-model-wrap').appendChild(overlay);
+
+        mv.addEventListener('load', () => overlay.classList.add('hidden'));
+    });
+}
+
+// ──────────────────────────────────
 // Paginação interna de cada produto
-// (3D → Imagem → Descrição)
+// (Imagem → 3D → Descrição)
 // ──────────────────────────────────
 function initProductPages() {
     document.querySelectorAll('.cat-product').forEach(product => {
@@ -20,39 +57,46 @@ function initProductPages() {
         const prev  = product.querySelector('.cat-nav-arrow--prev');
         const next  = product.querySelector('.cat-nav-arrow--next');
         let current = 0;
+        let animating = false;
 
         function goTo(index) {
-            if (index === current) return;
+            if (index === current || animating) return;
+            animating = true;
+
             const leaving  = pages[current];
             const entering = pages[index];
 
-            // Saída
+            // Saída rápida
+            leaving.classList.remove('active');
             gsap.to(leaving, {
                 opacity: 0,
-                scale: 0.96,
-                duration: 0.3,
+                duration: 0.2,
                 ease: 'power2.in',
-                onComplete: () => {
-                    leaving.classList.remove('active');
-                    gsap.set(leaving, { scale: 1, visibility: 'hidden', pointerEvents: 'none' });
+                onComplete() {
+                    gsap.set(leaving, { visibility: 'hidden', pointerEvents: 'none' });
                 }
             });
 
-            // Entrada
-            gsap.set(entering, { visibility: 'visible', opacity: 0, scale: 1.03 });
+            // Lazy-load: se a página entrando tem model-viewer com data-src, carrega agora
+            const mv = entering.querySelector('model-viewer[data-src]:not([src])');
+            if (mv) {
+                mv.setAttribute('src', mv.getAttribute('data-src'));
+            }
+
+            // Entrada suave
+            gsap.set(entering, { visibility: 'visible', opacity: 0 });
             entering.classList.add('active');
             gsap.to(entering, {
                 opacity: 1,
-                scale: 1,
-                duration: 0.45,
+                duration: 0.3,
                 ease: 'power2.out',
-                delay: 0.2,
-                onStart: () => { entering.style.pointerEvents = 'auto'; }
+                delay: 0.1,
+                onStart() { entering.style.pointerEvents = 'auto'; },
+                onComplete() { animating = false; }
             });
 
             // Dots
             dots.forEach((d, i) => d.classList.toggle('active', i === index));
-
             current = index;
         }
 
@@ -61,28 +105,19 @@ function initProductPages() {
             dot.addEventListener('click', () => goTo(i));
         });
 
-        // Setas
+        // Setas (única forma de navegar entre páginas — sem swipe para não conflitar com model-viewer)
         if (prev) prev.addEventListener('click', () => goTo((current - 1 + pages.length) % pages.length));
         if (next) next.addEventListener('click', () => goTo((current + 1) % pages.length));
-
-        // Swipe touch
-        let touchStartX = 0;
-        const visual = product.querySelector('.cat-product-visual');
-        if (visual) {
-            visual.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-            visual.addEventListener('touchend', e => {
-                const delta = touchStartX - e.changedTouches[0].clientX;
-                if (Math.abs(delta) > 40) {
-                    delta > 0
-                        ? goTo((current + 1) % pages.length)
-                        : goTo((current - 1 + pages.length) % pages.length);
-                }
-            }, { passive: true });
-        }
 
         // Estado inicial
         gsap.set(pages, { opacity: 0, visibility: 'hidden' });
         gsap.set(pages[0], { opacity: 1, visibility: 'visible' });
+
+        // Se a página inicial ativa tem model-viewer com data-src, carrega imediatamente
+        const initialMv = pages[0].querySelector('model-viewer[data-src]:not([src])');
+        if (initialMv) {
+            initialMv.setAttribute('src', initialMv.getAttribute('data-src'));
+        }
     });
 }
 
@@ -90,42 +125,49 @@ function initProductPages() {
 // Animações GSAP do Hero
 // ──────────────────────────────────
 function initHeroAnimations() {
-    const tl = gsap.timeline({ delay: 0.2 });
+    // Se a página carregou já scrollada (F5 com scroll), pula intro
+    if (window.scrollY > 100) {
+        gsap.set(['.cat-hero-eyebrow', '.cat-eyebrow-line', '.cat-hero-title', '.cat-hero-sub', '.cat-hero-scroll-hint'], {
+            clearProps: 'all'
+        });
+        return;
+    }
+
+    const tl = gsap.timeline({ delay: 0.15 });
 
     tl.from('.cat-hero-eyebrow', {
         opacity: 0,
-        y: -15,
-        duration: 0.6,
-        ease: 'power3.out'
+        y: -10,
+        duration: 0.45,
+        ease: 'power2.out'
     })
     .from('.cat-eyebrow-line', {
         scaleX: 0,
-        duration: 0.5,
-        ease: 'power3.out',
-        stagger: 0.1
-    }, '-=0.3')
+        duration: 0.4,
+        ease: 'power2.out',
+        stagger: 0.08
+    }, '-=0.2')
     .from('.cat-hero-title', {
         opacity: 0,
-        y: 40,
-        duration: 0.8,
-        ease: 'power3.out'
-    }, '-=0.2')
+        y: 25,
+        duration: 0.55,
+        ease: 'power2.out'
+    }, '-=0.15')
     .from('.cat-hero-sub', {
         opacity: 0,
-        y: 20,
-        duration: 0.6,
+        y: 15,
+        duration: 0.4,
         ease: 'power2.out'
-    }, '-=0.3')
+    }, '-=0.2')
     .from('.cat-hero-scroll-hint', {
         opacity: 0,
-        y: -15,
-        duration: 0.5,
+        duration: 0.35,
         ease: 'power2.out'
     }, '-=0.1');
 
-    // Scroll line — pulso visual sem afetar layout
+    // Scroll line — pulso sutil
     gsap.to('.cat-scroll-line', {
-        scaleY: 1.3,
+        scaleY: 1.2,
         transformOrigin: 'top center',
         duration: 1.5,
         repeat: -1,
@@ -134,67 +176,28 @@ function initHeroAnimations() {
     });
 }
 
-
 // ──────────────────────────────────
 // Animações dos Produtos ao scroll
+// (uma única timeline por card)
 // ──────────────────────────────────
 function initProductAnimations() {
-    document.querySelectorAll('.cat-product').forEach((product, idx) => {
+    document.querySelectorAll('.cat-product').forEach(product => {
         const visual = product.querySelector('.cat-product-visual');
         const info   = product.querySelector('.cat-product-info');
-        const isEven = idx % 2 === 1;
 
-        // Visual: desliza do lado oposto
-        gsap.fromTo(visual,
-            { x: isEven ? 60 : -60, opacity: 0 },
+        // Uma única animação por card — leve e fluída
+        gsap.fromTo(product,
+            { y: 30, opacity: 0 },
             {
                 scrollTrigger: {
                     trigger: product,
-                    start: 'top 78%',
-                    toggleActions: 'play none none none',
-                    once: true
-                },
-                x: 0,
-                opacity: 1,
-                duration: 0.9,
-                ease: 'power3.out'
-            }
-        );
-
-        // Info: entra com delay
-        gsap.fromTo(info,
-            { y: 40, opacity: 0 },
-            {
-                scrollTrigger: {
-                    trigger: product,
-                    start: 'top 75%',
+                    start: 'top 85%',
                     toggleActions: 'play none none none',
                     once: true
                 },
                 y: 0,
                 opacity: 1,
-                duration: 0.8,
-                delay: 0.25,
-                ease: 'power2.out'
-            }
-        );
-
-        // Tag, nome, excerpt, CTA entram em cascata
-        const children = info.querySelectorAll('.cat-product-tag, .cat-product-name, .cat-product-excerpt, .cat-product-cta');
-        gsap.fromTo(children,
-            { y: 20, opacity: 0 },
-            {
-                scrollTrigger: {
-                    trigger: product,
-                    start: 'top 70%',
-                    toggleActions: 'play none none none',
-                    once: true
-                },
-                y: 0,
-                opacity: 1,
-                duration: 0.6,
-                stagger: 0.1,
-                delay: 0.4,
+                duration: 0.55,
                 ease: 'power2.out'
             }
         );
@@ -212,7 +215,7 @@ function initParallax() {
             end: 'bottom top',
             scrub: 1
         },
-        y: 80,
+        y: 50,
         opacity: 0.3,
         ease: 'none'
     });
@@ -242,27 +245,27 @@ function initFinalCTA() {
     gsap.from('.cat-final-content', {
         scrollTrigger: {
             trigger: '.cat-final-cta',
-            start: 'top 75%',
+            start: 'top 80%',
             toggleActions: 'play none none none',
             once: true
         },
-        y: 50,
+        y: 30,
         opacity: 0,
-        duration: 0.9,
-        ease: 'power3.out'
+        duration: 0.55,
+        ease: 'power2.out'
     });
 }
 
 // ──────────────────────────────────
-// Hover nos CTAs (GSAP)
+// Hover nos CTAs
 // ──────────────────────────────────
 function initButtonEffects() {
-    document.querySelectorAll('.cat-product-cta, .cat-final-btn').forEach(btn => {
+    document.querySelectorAll('.cat-final-btn, .cat-nav-contact').forEach(btn => {
         btn.addEventListener('mouseenter', () => {
-            gsap.to(btn, { scale: 1.04, duration: 0.25, ease: 'power2.out' });
+            gsap.to(btn, { scale: 1.03, duration: 0.2, ease: 'power2.out' });
         });
         btn.addEventListener('mouseleave', () => {
-            gsap.to(btn, { scale: 1, duration: 0.25, ease: 'power2.out' });
+            gsap.to(btn, { scale: 1, duration: 0.2, ease: 'power2.out' });
         });
     });
 }
@@ -271,6 +274,7 @@ function initButtonEffects() {
 // Init
 // ──────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+    initLoadingOverlays();
     initProductPages();
     initHeroAnimations();
     initProductAnimations();
@@ -281,4 +285,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
     ScrollTrigger.refresh();
 });
-
