@@ -785,8 +785,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initInstagramFeed();
     initCarousel();
     initStoryAnimations();
+    initAboutAnimations();
     initProcessAnimations();
     initProductsAnimations();
+    initContactAnimations();
     initHeaderAnimation();
     initParallax();
     initTitleRevealAnimations();
