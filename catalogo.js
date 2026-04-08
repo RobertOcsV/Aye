@@ -47,6 +47,48 @@ function initLoadingOverlays() {
 }
 
 // ──────────────────────────────────
+// Touch gate — "toque para interagir" nos modelos 3D
+// Impede que o model-viewer capture o scroll no mobile
+// ──────────────────────────────────
+const isTouchDevice = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+
+function initTouchGates() {
+    if (!isTouchDevice) return;
+
+    document.querySelectorAll('.cat-page--3d').forEach(page => {
+        const mv = page.querySelector('model-viewer');
+        if (!mv) return;
+
+        // Remove camera-controls para que o scroll passe direto
+        mv.removeAttribute('camera-controls');
+
+        // Cria o gate overlay
+        const gate = document.createElement('div');
+        gate.className = 'cat-3d-touch-gate active';
+        gate.innerHTML = '<span class="cat-3d-touch-gate-label">Toque para interagir</span>';
+        page.querySelector('.cat-model-wrap').appendChild(gate);
+
+        // Ao tocar no gate, ativa interação
+        gate.addEventListener('click', () => {
+            mv.setAttribute('camera-controls', '');
+            gate.classList.remove('active');
+            gate.classList.add('dismissed');
+        });
+
+        // Guarda referência para resetar ao sair da página
+        page._touchGate = gate;
+        page._modelViewer = mv;
+    });
+}
+
+function resetTouchGate(page) {
+    if (!isTouchDevice || !page._touchGate) return;
+    page._modelViewer.removeAttribute('camera-controls');
+    page._touchGate.classList.remove('dismissed');
+    page._touchGate.classList.add('active');
+}
+
+// ──────────────────────────────────
 // Paginação interna de cada produto
 // (Imagem → 3D → Descrição)
 // ──────────────────────────────────
@@ -65,6 +107,11 @@ function initProductPages() {
 
             const leaving  = pages[current];
             const entering = pages[index];
+
+            // Se saindo de uma página 3D, reseta o touch gate
+            if (leaving.classList.contains('cat-page--3d')) {
+                resetTouchGate(leaving);
+            }
 
             // Saída rápida
             leaving.classList.remove('active');
@@ -275,6 +322,7 @@ function initButtonEffects() {
 // ──────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     initLoadingOverlays();
+    initTouchGates();
     initProductPages();
     initHeroAnimations();
     initProductAnimations();

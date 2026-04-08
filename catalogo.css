@@ -363,6 +363,42 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
+/* Overlay "toque para interagir" — bloqueia touch no 3D até o usuário ativar */
+.cat-3d-touch-gate {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: transparent;
+}
+
+.cat-3d-touch-gate-label {
+    background: rgba(42, 31, 24, 0.7);
+    backdrop-filter: blur(6px);
+    color: var(--creme);
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.9rem;
+    border-radius: 20px;
+    border: 1px solid rgba(242, 231, 218, 0.15);
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.cat-3d-touch-gate.active {
+    display: flex;
+}
+
+.cat-3d-touch-gate.dismissed {
+    display: none;
+}
+
 /* Página: Imagem */
 .cat-img-wrap {
     width: 100%;
@@ -659,7 +695,11 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     .cat-nav-arrow {
-        opacity: 0.45;
+        opacity: 0.8;
+        width: 30px;
+        height: 30px;
+        background: rgba(42, 31, 24, 0.45);
+        color: var(--creme);
     }
 
     .cat-products {
@@ -845,18 +885,21 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     .cat-nav-arrow {
-        opacity: 0.4;
-        width: 22px;
-        height: 22px;
+        opacity: 1;
+        width: 32px;
+        height: 32px;
+        background: rgba(42, 31, 24, 0.55);
+        color: var(--creme);
+        border: 1px solid rgba(242, 231, 218, 0.15);
     }
 
     .cat-nav-arrow svg {
-        width: 11px;
-        height: 11px;
+        width: 14px;
+        height: 14px;
     }
 
-    .cat-nav-arrow--prev { left: 0.25rem; }
-    .cat-nav-arrow--next { right: 0.25rem; }
+    .cat-nav-arrow--prev { left: 0.3rem; }
+    .cat-nav-arrow--next { right: 0.3rem; }
 
     .cat-page-label {
         font-size: 0.48rem;
@@ -865,6 +908,11 @@ h1, h2, h3, h4, h5, h6 {
 
     .cat-loading-logo {
         width: 36px;
+    }
+
+    .cat-3d-touch-gate-label {
+        font-size: 0.55rem;
+        padding: 0.35rem 0.75rem;
     }
 
     /* CTA final mobile */
