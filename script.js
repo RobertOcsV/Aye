@@ -1,16 +1,8 @@
 // Registrar plugin ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
-// Inicializar EmailJS
-emailjs.init('8RWTZU4oaOwJ9B8_V');
-
 // Configurações
 const WHATSAPP_NUMBER = '5511965391991';
-
-// Configurações EmailJS
-const EMAILJS_SERVICE_ID = 'service_5zibibsda';
-const EMAILJS_TEMPLATE_ADMIN = 'template_xyx0mqContactUs'; // Para VOCÊ receber
-const EMAILJS_TEMPLATE_AUTOREPLY = 'template_2ng293oConfirma'; 
 
 // Animações do Hero — frases ciclando em loop
 function initHeroAnimations() {
@@ -694,6 +686,13 @@ function initModelCarousel() {
     gsap.set(slides, { opacity: 0, visibility: 'hidden' });
     gsap.set(slides[0], { opacity: 1, visibility: 'visible' });
 
+    // iOS: remove o atributo auto-rotate dos model-viewers inativos para
+    // reduzir pressão na GPU (cada auto-rotate mantém render loop ativo).
+    slides.forEach((slide, i) => {
+        const mv = slide.querySelector('model-viewer');
+        if (mv && i !== 0) mv.removeAttribute('auto-rotate');
+    });
+
     // Configura overlay de loading para cada slide
     slides.forEach(slide => setupLoadingOverlay(slide));
 
@@ -786,13 +785,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initInstagramFeed();
     initCarousel();
     initStoryAnimations();
-    initAboutAnimations();
     initProcessAnimations();
     initProductsAnimations();
-    initBenefitsAnimations();
-    initNewsletterAnimations();
-    initTestimonialsAnimations();
-    initContactAnimations();
     initHeaderAnimation();
     initParallax();
     initTitleRevealAnimations();
@@ -805,12 +799,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-// Performance: adicionar animações mais suaves em dispositivos móveis
-if (window.innerWidth < 768) {
-    ScrollTrigger.config({
-        autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load'
-    });
-}
+// Performance: iOS Safari address bar resize loop fix
+// ignoreMobileResize impede que o ScrollTrigger recalcule quando a barra
+// de endereço do iOS aparece/desaparece ao rolar — sem isso, o layout
+// entra em loop infinito de recálculo (causa do "refresh" constante no iPhone).
+ScrollTrigger.config({
+    ignoreMobileResize: true,
+    autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load'
+});
 
 
 

@@ -5,7 +5,9 @@
 gsap.registerPlugin(ScrollTrigger);
 
 // Impede o ScrollTrigger de ficar recalculando por causa do model-viewer
+// ignoreMobileResize: evita loop infinito no iOS Safari (barra de endereço)
 ScrollTrigger.config({
+    ignoreMobileResize: true,
     autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load'
 });
 
@@ -124,11 +126,19 @@ function initProductPages() {
                 }
             });
 
+            // Se saindo de página 3D, para a rotação para economizar GPU
+            const leavingMv = leaving.querySelector('model-viewer');
+            if (leavingMv) leavingMv.removeAttribute('auto-rotate');
+
             // Lazy-load: se a página entrando tem model-viewer com data-src, carrega agora
             const mv = entering.querySelector('model-viewer[data-src]:not([src])');
             if (mv) {
                 mv.setAttribute('src', mv.getAttribute('data-src'));
             }
+
+            // Se entrando em página 3D, ativa rotação
+            const enteringMv = entering.querySelector('model-viewer[src]');
+            if (enteringMv) enteringMv.setAttribute('auto-rotate', '');
 
             // Entrada suave
             gsap.set(entering, { visibility: 'visible', opacity: 0 });
@@ -160,12 +170,34 @@ function initProductPages() {
         gsap.set(pages, { opacity: 0, visibility: 'hidden' });
         gsap.set(pages[0], { opacity: 1, visibility: 'visible' });
 
-        // Se a página inicial ativa tem model-viewer com data-src, carrega imediatamente
-        const initialMv = pages[0].querySelector('model-viewer[data-src]:not([src])');
-        if (initialMv) {
-            initialMv.setAttribute('src', initialMv.getAttribute('data-src'));
-        }
+        // NÃO carrega modelos 3D aqui — o IntersectionObserver cuida disso
+        // quando o card entrar no viewport (initLazyModels).
     });
+}
+
+// ──────────────────────────────────
+// Lazy-load de modelos 3D via IntersectionObserver
+// Carrega o modelo da página ativa só quando o card entra no viewport.
+// ──────────────────────────────────
+function initLazyModels() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+
+            const product = entry.target;
+            const activePage = product.querySelector('.cat-page.active');
+            if (!activePage) return;
+
+            const mv = activePage.querySelector('model-viewer[data-src]:not([src])');
+            if (mv) {
+                mv.setAttribute('src', mv.getAttribute('data-src'));
+                mv.setAttribute('auto-rotate', '');
+            }
+            observer.unobserve(product);
+        });
+    }, { rootMargin: '300px' }); // começa a carregar 300px antes de ficar visível
+
+    document.querySelectorAll('.cat-product').forEach(p => observer.observe(p));
 }
 
 // ──────────────────────────────────
@@ -324,6 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initLoadingOverlays();
     initTouchGates();
     initProductPages();
+    initLazyModels();
     initHeroAnimations();
     initProductAnimations();
     initParallax();

@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+    <!-- Cormorant Garamond removida — não utilizada no CSS/HTML -->
 </head>
 <body>
     <header class="header">
@@ -36,7 +36,7 @@
                 </div>
 
                 <h1 class="hero-brand">
-                    <img src="Img/logo-colorido-sem-fundo.png" alt="Ayê" class="hero-brand-logo">
+                    <img src="Img/logo-colorido-sem-fundo.png" alt="Ayê" class="hero-brand-logo" fetchpriority="high">
                     <span class="hero-brand-text">Ayê</span>
                 </h1>
 
@@ -74,7 +74,7 @@
                         <div class="model-slide active">
                             <div class="model-viewer-frame">
                                 <div class="model-loading-overlay">
-                                    <img src="Img/logo-colorido-sem-fundo.png" alt="" class="model-loading-logo">
+                                    <img src="Img/logo-colorido-sem-fundo.png" alt="" class="model-loading-logo" loading="lazy">
                                 </div>
                                 <model-viewer
                                     src="Img/models/web/Oroina-web.glb"
@@ -97,7 +97,7 @@
                         <div class="model-slide">
                             <div class="model-viewer-frame">
                                 <div class="model-loading-overlay">
-                                    <img src="Img/logo-colorido-sem-fundo.png" alt="" class="model-loading-logo">
+                                    <img src="Img/logo-colorido-sem-fundo.png" alt="" class="model-loading-logo" loading="lazy">
                                 </div>
                                 <model-viewer
                                     data-src="Img/models/web/Pombogira-web.glb"
@@ -120,7 +120,7 @@
                         <div class="model-slide">
                             <div class="model-viewer-frame">
                                 <div class="model-loading-overlay">
-                                    <img src="Img/logo-colorido-sem-fundo.png" alt="" class="model-loading-logo">
+                                    <img src="Img/logo-colorido-sem-fundo.png" alt="" class="model-loading-logo" loading="lazy">
                                 </div>
                                 <model-viewer
                                     data-src="Img/models/web/navalha-web.glb"
@@ -203,7 +203,7 @@
                     <p class="story-paragraph"><strong>Compromisso:</strong> Mais que fabricantes, somos parte da comunidade umbandista. Oferecemos produtos duráveis, personalizáveis e acessíveis, sem perder de vista o sagrado.</p>
                 </div>
                 <div class="story-image">
-                    <img src="Img/undefined.jpg" alt="Produtos Ayê" class="story-img">
+                    <img src="Img/undefined.jpg" alt="Produtos Ayê" class="story-img" loading="lazy">
                 </div>
             </div>
         </section>
@@ -374,7 +374,7 @@
 
             <!-- Logo & Tagline -->
             <div class="footer-brand">
-                <img src="Img/Ayê-Logo-Principal-horizontal-branco-sem-fundo.png" alt="Ayê" class="footer-logo">
+                <img src="Img/Ayê-Logo-Principal-horizontal-branco-sem-fundo.png" alt="Ayê" class="footer-logo" loading="lazy">
                 <p class="footer-tagline">Do Orum ao Ayê — materializamos o sagrado com respeito e devoção.</p>
             </div>
 
@@ -429,7 +429,7 @@
 </script>
 
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <!-- EmailJS removido — seção newsletter está comentada, não há formulário de email ativo -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="script.js"></script>

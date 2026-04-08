@@ -975,3 +975,34 @@ h1, h2, h3, h4, h5, h6 {
         font-size: 0.65rem;
     }
 }
+
+/* ── iOS GPU relief ── */
+@media (max-width: 968px) {
+    .cat-header {
+        backdrop-filter: none;
+        background: rgba(242, 231, 218, 0.98);
+    }
+
+    .cat-nav-arrow {
+        backdrop-filter: none;
+    }
+
+    .cat-3d-touch-gate-label {
+        backdrop-filter: none;
+        background: rgba(42, 31, 24, 0.85);
+    }
+
+    .cat-hero {
+        min-height: auto;
+    }
+}
+
+/* ── Respeita preferências de acessibilidade ── */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
