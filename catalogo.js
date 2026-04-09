@@ -1,21 +1,144 @@
 // ═══════════════════════════════════════════════
 // Ayê — Catálogo Sagrado — JS
+// Performance-first: max 1 model-viewer ativo
 // ═══════════════════════════════════════════════
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Impede o ScrollTrigger de ficar recalculando por causa do model-viewer
-// ignoreMobileResize: evita loop infinito no iOS Safari (barra de endereço)
 ScrollTrigger.config({
     ignoreMobileResize: true,
     autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load'
 });
 
+const isTouchDevice = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+
 // ──────────────────────────────────
-// Loading overlay nas imagens e modelos 3D
+// Gerenciador global de model-viewer
+// Garante no máximo 1 contexto WebGL ativo por vez
+// ──────────────────────────────────
+let activeModelPage = null; // referência à .cat-page--3d que tem model-viewer vivo
+
+// Mapa: productElement → { goTo, getCurrent } — permite resetar de fora
+const productControllers = new Map();
+
+function createModelViewer(page3d) {
+    const wrap = page3d.querySelector('.cat-model-wrap');
+    if (!wrap || wrap.querySelector('model-viewer')) return; // já existe
+
+    const src = page3d.dataset.modelSrc;
+    const alt = page3d.dataset.modelAlt || '';
+    if (!src) return;
+
+    // Mostra overlay de loading
+    let overlay = wrap.querySelector('.cat-loading-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'cat-loading-overlay';
+        overlay.innerHTML = '<img src="Img/logo-colorido-sem-fundo.png" alt="" class="cat-loading-logo">';
+        wrap.appendChild(overlay);
+    }
+    overlay.classList.remove('hidden');
+
+    const mv = document.createElement('model-viewer');
+    mv.setAttribute('src', src);
+    mv.setAttribute('alt', alt);
+    mv.setAttribute('auto-rotate-delay', '0');
+    mv.setAttribute('rotation-per-second', '18deg');
+    mv.setAttribute('shadow-intensity', '0');
+    mv.setAttribute('shadow-softness', '0');
+    mv.setAttribute('exposure', '0.85');
+    mv.className = 'cat-model-viewer';
+
+    // No mobile: sem auto-rotate para economizar GPU, sem camera-controls até tocar
+    if (isTouchDevice) {
+        // camera-controls será adicionado pelo touch gate
+    } else {
+        mv.setAttribute('camera-controls', '');
+        mv.setAttribute('auto-rotate', '');
+    }
+
+    mv.addEventListener('load', () => {
+        overlay.classList.add('hidden');
+    }, { once: true });
+
+    // Insere antes do vignette
+    const vignette = wrap.querySelector('.cat-model-vignette');
+    if (vignette) {
+        wrap.insertBefore(mv, vignette);
+    } else {
+        wrap.appendChild(mv);
+    }
+
+    // Touch gate no mobile
+    if (isTouchDevice) {
+        setupTouchGate(page3d, mv);
+    }
+
+    activeModelPage = page3d;
+}
+
+function destroyModelViewer(page3d) {
+    if (!page3d) return;
+    const wrap = page3d.querySelector('.cat-model-wrap');
+    if (!wrap) return;
+
+    const mv = wrap.querySelector('model-viewer');
+    if (mv) {
+        mv.removeAttribute('auto-rotate');
+        mv.removeAttribute('camera-controls');
+        mv.removeAttribute('src');
+        mv.remove();
+    }
+
+    // Remove touch gate se existir
+    const gate = wrap.querySelector('.cat-3d-touch-gate');
+    if (gate) gate.remove();
+
+    // Reseta overlay para próxima vez
+    const overlay = wrap.querySelector('.cat-loading-overlay');
+    if (overlay) overlay.classList.remove('hidden');
+
+    if (activeModelPage === page3d) {
+        activeModelPage = null;
+    }
+}
+
+function destroyAllModelViewers() {
+    document.querySelectorAll('.cat-model-wrap model-viewer').forEach(mv => {
+        const page3d = mv.closest('.cat-page--3d');
+        destroyModelViewer(page3d);
+    });
+    activeModelPage = null;
+}
+
+// ──────────────────────────────────
+// Touch gate — "toque para interagir"
+// ──────────────────────────────────
+function setupTouchGate(page3d, mv) {
+    let gate = page3d.querySelector('.cat-3d-touch-gate');
+    if (gate) {
+        gate.classList.remove('dismissed');
+        gate.classList.add('active');
+        return;
+    }
+
+    gate = document.createElement('div');
+    gate.className = 'cat-3d-touch-gate active';
+    gate.innerHTML = '<span class="cat-3d-touch-gate-label">Toque para interagir</span>';
+    page3d.querySelector('.cat-model-wrap').appendChild(gate);
+
+    gate.addEventListener('click', () => {
+        mv.setAttribute('camera-controls', '');
+        mv.setAttribute('auto-rotate', '');
+        gate.classList.remove('active');
+        gate.classList.add('dismissed');
+    });
+}
+
+// ──────────────────────────────────
+// Loading overlay nas imagens
 // ──────────────────────────────────
 function initLoadingOverlays() {
-    // Imagens: overlay some quando img carrega
     document.querySelectorAll('.cat-page--img').forEach(page => {
         const img = page.querySelector('.cat-product-img');
         if (!img) return;
@@ -33,61 +156,6 @@ function initLoadingOverlays() {
             img.addEventListener('error', hide);
         }
     });
-
-    // Modelos 3D: overlay some quando model-viewer dispara 'load'
-    document.querySelectorAll('.cat-page--3d').forEach(page => {
-        const mv = page.querySelector('model-viewer');
-        if (!mv) return;
-
-        const overlay = document.createElement('div');
-        overlay.className = 'cat-loading-overlay';
-        overlay.innerHTML = '<img src="Img/logo-colorido-sem-fundo.png" alt="" class="cat-loading-logo">';
-        page.querySelector('.cat-model-wrap').appendChild(overlay);
-
-        mv.addEventListener('load', () => overlay.classList.add('hidden'));
-    });
-}
-
-// ──────────────────────────────────
-// Touch gate — "toque para interagir" nos modelos 3D
-// Impede que o model-viewer capture o scroll no mobile
-// ──────────────────────────────────
-const isTouchDevice = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
-
-function initTouchGates() {
-    if (!isTouchDevice) return;
-
-    document.querySelectorAll('.cat-page--3d').forEach(page => {
-        const mv = page.querySelector('model-viewer');
-        if (!mv) return;
-
-        // Remove camera-controls para que o scroll passe direto
-        mv.removeAttribute('camera-controls');
-
-        // Cria o gate overlay
-        const gate = document.createElement('div');
-        gate.className = 'cat-3d-touch-gate active';
-        gate.innerHTML = '<span class="cat-3d-touch-gate-label">Toque para interagir</span>';
-        page.querySelector('.cat-model-wrap').appendChild(gate);
-
-        // Ao tocar no gate, ativa interação
-        gate.addEventListener('click', () => {
-            mv.setAttribute('camera-controls', '');
-            gate.classList.remove('active');
-            gate.classList.add('dismissed');
-        });
-
-        // Guarda referência para resetar ao sair da página
-        page._touchGate = gate;
-        page._modelViewer = mv;
-    });
-}
-
-function resetTouchGate(page) {
-    if (!isTouchDevice || !page._touchGate) return;
-    page._modelViewer.removeAttribute('camera-controls');
-    page._touchGate.classList.remove('dismissed');
-    page._touchGate.classList.add('active');
 }
 
 // ──────────────────────────────────
@@ -103,19 +171,42 @@ function initProductPages() {
         let current = 0;
         let animating = false;
 
-        function goTo(index) {
+        function goTo(index, instant) {
             if (index === current || animating) return;
-            animating = true;
+            if (!instant) animating = true;
 
             const leaving  = pages[current];
             const entering = pages[index];
 
-            // Se saindo de uma página 3D, reseta o touch gate
+            // Se saindo de página 3D → DESTRUIR o model-viewer (libera WebGL)
             if (leaving.classList.contains('cat-page--3d')) {
-                resetTouchGate(leaving);
+                destroyModelViewer(leaving);
             }
 
-            // Saída rápida
+            // Se entrando em página 3D → reseta qualquer OUTRO card para sua capa
+            if (entering.classList.contains('cat-page--3d')) {
+                productControllers.forEach((ctrl, prod) => {
+                    if (prod === product) return;
+                    const otherPage3d = prod.querySelector('.cat-page--3d');
+                    if (otherPage3d && otherPage3d.querySelector('model-viewer')) {
+                        ctrl.goTo(0, true); // volta para capa instantaneamente
+                    }
+                });
+                createModelViewer(entering);
+            }
+
+            if (instant) {
+                // Troca instantânea (sem animação) — usado ao resetar outro card
+                leaving.classList.remove('active');
+                gsap.set(leaving, { opacity: 0, visibility: 'hidden', pointerEvents: 'none' });
+                entering.classList.add('active');
+                gsap.set(entering, { opacity: 1, visibility: 'visible', pointerEvents: 'auto' });
+                dots.forEach((d, i) => d.classList.toggle('active', i === index));
+                current = index;
+                return;
+            }
+
+            // Saída animada
             leaving.classList.remove('active');
             gsap.to(leaving, {
                 opacity: 0,
@@ -125,20 +216,6 @@ function initProductPages() {
                     gsap.set(leaving, { visibility: 'hidden', pointerEvents: 'none' });
                 }
             });
-
-            // Se saindo de página 3D, para a rotação para economizar GPU
-            const leavingMv = leaving.querySelector('model-viewer');
-            if (leavingMv) leavingMv.removeAttribute('auto-rotate');
-
-            // Lazy-load: se a página entrando tem model-viewer com data-src, carrega agora
-            const mv = entering.querySelector('model-viewer[data-src]:not([src])');
-            if (mv) {
-                mv.setAttribute('src', mv.getAttribute('data-src'));
-            }
-
-            // Se entrando em página 3D, ativa rotação
-            const enteringMv = entering.querySelector('model-viewer[src]');
-            if (enteringMv) enteringMv.setAttribute('auto-rotate', '');
 
             // Entrada suave
             gsap.set(entering, { visibility: 'visible', opacity: 0 });
@@ -152,17 +229,14 @@ function initProductPages() {
                 onComplete() { animating = false; }
             });
 
-            // Dots
             dots.forEach((d, i) => d.classList.toggle('active', i === index));
             current = index;
         }
 
-        // Dots click
         dots.forEach((dot, i) => {
             dot.addEventListener('click', () => goTo(i));
         });
 
-        // Setas (única forma de navegar entre páginas — sem swipe para não conflitar com model-viewer)
         if (prev) prev.addEventListener('click', () => goTo((current - 1 + pages.length) % pages.length));
         if (next) next.addEventListener('click', () => goTo((current + 1) % pages.length));
 
@@ -170,14 +244,15 @@ function initProductPages() {
         gsap.set(pages, { opacity: 0, visibility: 'hidden' });
         gsap.set(pages[0], { opacity: 1, visibility: 'visible' });
 
-        // NÃO carrega modelos 3D aqui — o IntersectionObserver cuida disso
-        // quando o card entrar no viewport (initLazyModels).
+        // Registra controller para acesso externo
+        productControllers.set(product, { goTo, getCurrent: () => current });
     });
 }
 
 // ──────────────────────────────────
-// Lazy-load de modelos 3D via IntersectionObserver
-// Carrega o modelo da página ativa só quando o card entra no viewport.
+// Lazy-load para cards que começam com 3D ativo
+// (Exu e Iemanjá — sem imagem de capa)
+// Cria o model-viewer apenas quando o card entra no viewport
 // ──────────────────────────────────
 function initLazyModels() {
     const observer = new IntersectionObserver((entries) => {
@@ -186,16 +261,49 @@ function initLazyModels() {
 
             const product = entry.target;
             const activePage = product.querySelector('.cat-page.active');
-            if (!activePage) return;
+            if (!activePage || !activePage.classList.contains('cat-page--3d')) return;
 
-            const mv = activePage.querySelector('model-viewer[data-src]:not([src])');
-            if (mv) {
-                mv.setAttribute('src', mv.getAttribute('data-src'));
-                mv.setAttribute('auto-rotate', '');
+            // Se já existe um model-viewer ativo em outro card, destroi primeiro
+            if (activeModelPage && activeModelPage !== activePage) {
+                destroyModelViewer(activeModelPage);
             }
+
+            createModelViewer(activePage);
             observer.unobserve(product);
         });
-    }, { rootMargin: '300px' }); // começa a carregar 300px antes de ficar visível
+    }, { rootMargin: '200px' });
+
+    // Observa apenas cards que começam com 3D ativo (sem imagem de capa)
+    document.querySelectorAll('.cat-product').forEach(p => {
+        const activePage = p.querySelector('.cat-page.active');
+        if (activePage && activePage.classList.contains('cat-page--3d')) {
+            observer.observe(p);
+        }
+    });
+}
+
+// ──────────────────────────────────
+// Libera WebGL quando o card sai do viewport
+// (evita modelo ativo fora da tela)
+// ──────────────────────────────────
+function initViewportCleanup() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) return;
+
+            const product = entry.target;
+            const page3d = product.querySelector('.cat-page--3d');
+            if (page3d && page3d.querySelector('model-viewer')) {
+                // Volta para a capa e destrói o model-viewer
+                const ctrl = productControllers.get(product);
+                if (ctrl) {
+                    ctrl.goTo(0, true);
+                } else {
+                    destroyModelViewer(page3d);
+                }
+            }
+        });
+    }, { rootMargin: '100px' });
 
     document.querySelectorAll('.cat-product').forEach(p => observer.observe(p));
 }
@@ -204,7 +312,6 @@ function initLazyModels() {
 // Animações GSAP do Hero
 // ──────────────────────────────────
 function initHeroAnimations() {
-    // Se a página carregou já scrollada (F5 com scroll), pula intro
     if (window.scrollY > 100) {
         gsap.set(['.cat-hero-eyebrow', '.cat-eyebrow-line', '.cat-hero-title', '.cat-hero-sub', '.cat-hero-scroll-hint'], {
             clearProps: 'all'
@@ -244,7 +351,6 @@ function initHeroAnimations() {
         ease: 'power2.out'
     }, '-=0.1');
 
-    // Scroll line — pulso sutil
     gsap.to('.cat-scroll-line', {
         scaleY: 1.2,
         transformOrigin: 'top center',
@@ -257,14 +363,9 @@ function initHeroAnimations() {
 
 // ──────────────────────────────────
 // Animações dos Produtos ao scroll
-// (uma única timeline por card)
 // ──────────────────────────────────
 function initProductAnimations() {
     document.querySelectorAll('.cat-product').forEach(product => {
-        const visual = product.querySelector('.cat-product-visual');
-        const info   = product.querySelector('.cat-product-info');
-
-        // Uma única animação por card — leve e fluída
         gsap.fromTo(product,
             { y: 30, opacity: 0 },
             {
@@ -354,9 +455,9 @@ function initButtonEffects() {
 // ──────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     initLoadingOverlays();
-    initTouchGates();
     initProductPages();
     initLazyModels();
+    initViewportCleanup();
     initHeroAnimations();
     initProductAnimations();
     initParallax();

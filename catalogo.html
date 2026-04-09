@@ -59,40 +59,26 @@
             <article class="cat-product" data-product="oroina">
 
                 <div class="cat-product-visual">
-                    <!-- Indicador de página atual -->
                     <div class="cat-page-indicator">
                         <button class="cat-page-dot active" data-page="0" aria-label="Imagem"></button>
                         <button class="cat-page-dot" data-page="1" aria-label="Modelo 3D"></button>
                         <button class="cat-page-dot" data-page="2" aria-label="Descrição"></button>
                     </div>
 
-                    <!-- Página 1: Imagem (capa) -->
                     <div class="cat-page cat-page--img active">
                         <div class="cat-img-wrap">
                             <img src="Img/Oroiná.jpeg" alt="Oroiná — Foto do produto" class="cat-product-img" loading="lazy">
                         </div>
                     </div>
 
-                    <!-- Página 2: Modelo 3D -->
-                    <div class="cat-page cat-page--3d">
+                    <!-- 3D criado dinamicamente via JS -->
+                    <div class="cat-page cat-page--3d" data-model-src="Img/models/web/Oroina-web.glb" data-model-alt="Oroiná — Modelo 3D">
                         <div class="cat-model-wrap">
-                            <model-viewer
-                                data-src="Img/models/web/Oroina-web.glb"
-                                alt="Oroiná — Modelo 3D"
-                                auto-rotate-delay="0"
-                                rotation-per-second="18deg"
-                                camera-controls
-                                shadow-intensity="0"
-                                shadow-softness="0"
-                                exposure="0.85"
-                                class="cat-model-viewer">
-                            </model-viewer>
                             <div class="cat-model-vignette"></div>
                         </div>
                         <span class="cat-page-label">Arraste para girar</span>
                     </div>
 
-                    <!-- Página 3: Descrição -->
                     <div class="cat-page cat-page--desc">
                         <div class="cat-desc-content">
                             <div class="cat-desc-icon">&#10041;</div>
@@ -106,7 +92,6 @@
                         </div>
                     </div>
 
-                    <!-- Navegação prev/next -->
                     <button class="cat-nav-arrow cat-nav-arrow--prev" aria-label="Anterior">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
                     </button>
@@ -138,19 +123,8 @@
                         </div>
                     </div>
 
-                    <div class="cat-page cat-page--3d">
+                    <div class="cat-page cat-page--3d" data-model-src="Img/models/web/Pombogira-web.glb" data-model-alt="Pomba Gira — Modelo 3D">
                         <div class="cat-model-wrap">
-                            <model-viewer
-                                data-src="Img/models/web/Pombogira-web.glb"
-                                alt="Pomba Gira — Modelo 3D"
-                                auto-rotate-delay="0"
-                                rotation-per-second="18deg"
-                                camera-controls
-                                shadow-intensity="0"
-                                shadow-softness="0"
-                                exposure="0.85"
-                                class="cat-model-viewer">
-                            </model-viewer>
                             <div class="cat-model-vignette"></div>
                         </div>
                         <span class="cat-page-label">Arraste para girar</span>
@@ -200,19 +174,8 @@
                         </div>
                     </div>
 
-                    <div class="cat-page cat-page--3d">
+                    <div class="cat-page cat-page--3d" data-model-src="Img/models/web/navalha-web.glb" data-model-alt="Navalha Ritualística — Modelo 3D">
                         <div class="cat-model-wrap">
-                            <model-viewer
-                                data-src="Img/models/web/navalha-web.glb"
-                                alt="Navalha Ritualística — Modelo 3D"
-                                auto-rotate-delay="0"
-                                rotation-per-second="18deg"
-                                camera-controls
-                                shadow-intensity="0"
-                                shadow-softness="0"
-                                exposure="0.85"
-                                class="cat-model-viewer">
-                            </model-viewer>
                             <div class="cat-model-vignette"></div>
                         </div>
                         <span class="cat-page-label">Arraste para girar</span>
@@ -262,19 +225,8 @@
                         </div>
                     </div>
 
-                    <div class="cat-page cat-page--3d">
+                    <div class="cat-page cat-page--3d" data-model-src="Img/models/web/Ogum-web.glb" data-model-alt="Ogum — Modelo 3D">
                         <div class="cat-model-wrap">
-                            <model-viewer
-                                data-src="Img/models/web/Ogum-web.glb"
-                                alt="Ogum — Modelo 3D"
-                                auto-rotate-delay="0"
-                                rotation-per-second="18deg"
-                                camera-controls
-                                shadow-intensity="0"
-                                shadow-softness="0"
-                                exposure="0.85"
-                                class="cat-model-viewer">
-                            </model-viewer>
                             <div class="cat-model-vignette"></div>
                         </div>
                         <span class="cat-page-label">Arraste para girar</span>
@@ -317,19 +269,8 @@
                         <button class="cat-page-dot" data-page="1" aria-label="Descrição"></button>
                     </div>
 
-                    <div class="cat-page cat-page--3d active">
+                    <div class="cat-page cat-page--3d active" data-model-src="Img/models/web/Exu-web.glb" data-model-alt="Exu — Modelo 3D">
                         <div class="cat-model-wrap">
-                            <model-viewer
-                                data-src="Img/models/web/Exu-web.glb"
-                                alt="Exu — Modelo 3D"
-                                auto-rotate-delay="0"
-                                rotation-per-second="18deg"
-                                camera-controls
-                                shadow-intensity="0"
-                                shadow-softness="0"
-                                exposure="0.85"
-                                class="cat-model-viewer">
-                            </model-viewer>
                             <div class="cat-model-vignette"></div>
                         </div>
                         <span class="cat-page-label">Arraste para girar</span>
@@ -372,19 +313,8 @@
                         <button class="cat-page-dot" data-page="1" aria-label="Descrição"></button>
                     </div>
 
-                    <div class="cat-page cat-page--3d active">
+                    <div class="cat-page cat-page--3d active" data-model-src="Img/models/web/Iemanja-web.glb" data-model-alt="Iemanjá — Modelo 3D">
                         <div class="cat-model-wrap">
-                            <model-viewer
-                                data-src="Img/models/web/Iemanja-web.glb"
-                                alt="Iemanjá — Modelo 3D"
-                                auto-rotate-delay="0"
-                                rotation-per-second="18deg"
-                                camera-controls
-                                shadow-intensity="0"
-                                shadow-softness="0"
-                                exposure="0.85"
-                                class="cat-model-viewer">
-                            </model-viewer>
                             <div class="cat-model-vignette"></div>
                         </div>
                         <span class="cat-page-label">Arraste para girar</span>
