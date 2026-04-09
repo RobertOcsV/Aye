@@ -21,7 +21,10 @@ let activeModelPage = null; // referência à .cat-page--3d que tem model-viewer
 // Mapa: productElement → { goTo, getCurrent } — permite resetar de fora
 const productControllers = new Map();
 
-function createModelViewer(page3d) {
+// Promessa que resolve quando o custom element <model-viewer> estiver registrado
+const modelViewerReady = customElements.whenDefined('model-viewer');
+
+async function createModelViewer(page3d) {
     const wrap = page3d.querySelector('.cat-model-wrap');
     if (!wrap || wrap.querySelector('model-viewer')) return; // já existe
 
@@ -38,6 +41,14 @@ function createModelViewer(page3d) {
         wrap.appendChild(overlay);
     }
     overlay.classList.remove('hidden');
+
+    // Espera o módulo model-viewer carregar antes de criar o elemento
+    await modelViewerReady;
+
+    // Checa se a página ainda está ativa (o usuário pode ter saído durante o await)
+    if (!page3d.classList.contains('active')) return;
+    // Checa se já não foi criado por outra chamada concorrente
+    if (wrap.querySelector('model-viewer')) return;
 
     const mv = document.createElement('model-viewer');
     mv.setAttribute('src', src);
