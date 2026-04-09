@@ -71,8 +71,7 @@
                         </div>
                     </div>
 
-                    <!-- 3D criado dinamicamente via JS -->
-                    <div class="cat-page cat-page--3d" data-model-src="Img/models/web/Oroina-web.glb" data-model-alt="Oroiná — Modelo 3D">
+                    <div class="cat-page cat-page--3d" data-model-src="Img/models/web/Oroina-web.glb" data-model-alt="Oroiná — Modelo 3D" data-poster="Img/Oroiná.jpeg">
                         <div class="cat-model-wrap">
                             <div class="cat-model-vignette"></div>
                         </div>
@@ -123,7 +122,7 @@
                         </div>
                     </div>
 
-                    <div class="cat-page cat-page--3d" data-model-src="Img/models/web/Pombogira-web.glb" data-model-alt="Pomba Gira — Modelo 3D">
+                    <div class="cat-page cat-page--3d" data-model-src="Img/models/web/Pombogira-web.glb" data-model-alt="Pomba Gira — Modelo 3D" data-poster="Img/PombaGira.jpeg">
                         <div class="cat-model-wrap">
                             <div class="cat-model-vignette"></div>
                         </div>
@@ -174,7 +173,7 @@
                         </div>
                     </div>
 
-                    <div class="cat-page cat-page--3d" data-model-src="Img/models/web/navalha-web.glb" data-model-alt="Navalha Ritualística — Modelo 3D">
+                    <div class="cat-page cat-page--3d" data-model-src="Img/models/web/navalha-web.glb" data-model-alt="Navalha Ritualística — Modelo 3D" data-poster="Img/card3.jpg">
                         <div class="cat-model-wrap">
                             <div class="cat-model-vignette"></div>
                         </div>
@@ -225,7 +224,7 @@
                         </div>
                     </div>
 
-                    <div class="cat-page cat-page--3d" data-model-src="Img/models/web/Ogum-web.glb" data-model-alt="Ogum — Modelo 3D">
+                    <div class="cat-page cat-page--3d" data-model-src="Img/models/web/Ogum-web.glb" data-model-alt="Ogum — Modelo 3D" data-poster="Img/Ogum.jpeg">
                         <div class="cat-model-wrap">
                             <div class="cat-model-vignette"></div>
                         </div>
@@ -269,7 +268,7 @@
                         <button class="cat-page-dot" data-page="1" aria-label="Descrição"></button>
                     </div>
 
-                    <div class="cat-page cat-page--3d active" data-model-src="Img/models/web/Exu-web.glb" data-model-alt="Exu — Modelo 3D">
+                    <div class="cat-page cat-page--3d active" data-model-src="Img/models/web/Exu-web.glb" data-model-alt="Exu — Modelo 3D" data-poster="Img/logo-colorido-sem-fundo.png">
                         <div class="cat-model-wrap">
                             <div class="cat-model-vignette"></div>
                         </div>
@@ -313,7 +312,7 @@
                         <button class="cat-page-dot" data-page="1" aria-label="Descrição"></button>
                     </div>
 
-                    <div class="cat-page cat-page--3d active" data-model-src="Img/models/web/Iemanja-web.glb" data-model-alt="Iemanjá — Modelo 3D">
+                    <div class="cat-page cat-page--3d active" data-model-src="Img/models/web/Iemanja-web.glb" data-model-alt="Iemanjá — Modelo 3D" data-poster="Img/logo-colorido-sem-fundo.png">
                         <div class="cat-model-wrap">
                             <div class="cat-model-vignette"></div>
                         </div>
@@ -368,6 +367,17 @@
     <footer class="cat-footer">
         <p>&copy; 2025 Ayê — Todos os direitos reservados.</p>
     </footer>
+
+    <!-- Fullscreen 3D viewer (mobile) -->
+    <div class="cat-fullscreen-viewer" id="fullscreenViewer" aria-hidden="true">
+        <div class="cat-fs-header">
+            <span class="cat-fs-title" id="fsTitle"></span>
+            <button class="cat-fs-close" id="fsClose" aria-label="Fechar">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <div class="cat-fs-body" id="fsBody"></div>
+    </div>
 
     <!-- Scripts -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>

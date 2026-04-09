@@ -997,6 +997,170 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
+/* ──────────────────────────────────
+   MOBILE: poster + botão "Ver em 3D"
+────────────────────────────────── */
+.cat-mobile-poster {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--marrom-deep);
+    z-index: 2;
+}
+
+.cat-mobile-poster-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    filter: brightness(0.7);
+}
+
+.cat-mobile-poster-logo {
+    width: 56px;
+    height: auto;
+    opacity: 0.3;
+}
+
+.cat-mobile-3d-btn {
+    position: absolute;
+    bottom: 0.8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 1rem;
+    background: rgba(42, 31, 24, 0.75);
+    backdrop-filter: blur(8px);
+    color: var(--creme);
+    border: 1px solid rgba(242, 231, 218, 0.18);
+    border-radius: 20px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+    z-index: 3;
+}
+
+.cat-mobile-3d-btn:active {
+    transform: translateX(-50%) scale(0.96);
+    background: rgba(166, 91, 66, 0.8);
+}
+
+/* ──────────────────────────────────
+   FULLSCREEN 3D VIEWER (mobile)
+────────────────────────────────── */
+.cat-fullscreen-viewer {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--marrom-deep);
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.cat-fullscreen-viewer.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.cat-fs-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem 1rem;
+    background: rgba(42, 31, 24, 0.95);
+    border-bottom: 1px solid rgba(242, 231, 218, 0.08);
+    flex-shrink: 0;
+}
+
+.cat-fs-title {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 0.9rem;
+    color: var(--creme);
+    font-weight: 600;
+    opacity: 0.85;
+}
+
+.cat-fs-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(242, 231, 218, 0.15);
+    background: rgba(242, 231, 218, 0.08);
+    color: var(--creme);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cat-fs-close:active {
+    background: rgba(166, 91, 66, 0.4);
+    transform: scale(0.92);
+}
+
+.cat-fs-body {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.cat-fs-model-viewer {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    --poster-color: transparent;
+    display: block;
+}
+
+/* ── Mobile adjustments for poster/fullscreen ── */
+@media (max-width: 968px) {
+    .cat-mobile-3d-btn {
+        backdrop-filter: none;
+        background: rgba(42, 31, 24, 0.85);
+    }
+}
+
+@media (max-width: 680px) {
+    .cat-mobile-3d-btn {
+        font-size: 0.6rem;
+        padding: 0.38rem 0.8rem;
+        gap: 0.3rem;
+        bottom: 0.5rem;
+    }
+
+    .cat-mobile-3d-btn svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    .cat-fs-header {
+        padding: 0.6rem 0.8rem;
+    }
+
+    .cat-fs-title {
+        font-size: 0.78rem;
+    }
+
+    .cat-fs-close {
+        width: 32px;
+        height: 32px;
+    }
+}
+
 /* ── Respeita preferências de acessibilidade ── */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
