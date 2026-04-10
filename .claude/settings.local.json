@@ -15,7 +15,8 @@
       "Bash(identify \"D:\\\\Versionados_Projetos\\\\Aye\\\\Img\\\\Oroiná.jpeg\" \"D:\\\\Versionados_Projetos\\\\Aye\\\\Img\\\\PombaGira.jpeg\" \"D:\\\\Versionados_Projetos\\\\Aye\\\\Img\\\\Ogum.jpeg\")",
       "Bash(python3 -c ':*)",
       "Bash(node -e ':*)",
-      "Bash(node -c catalogo.js)"
+      "Bash(node -c catalogo.js)",
+      "Bash(npx --yes gltf-transform --version)"
     ],
     "deny": [],
     "ask": []

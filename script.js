@@ -585,13 +585,15 @@ function initModelCarousel() {
 
     const dots = dotsWrap.querySelectorAll('.model-dot');
 
-    // Esconde o overlay de loading quando o modelo termina de carregar
+    // Esconde o overlay de loading (ou imagem de capa) quando o modelo termina de carregar
     function setupLoadingOverlay(slide) {
         const mv = slide.querySelector('model-viewer');
         const overlay = slide.querySelector('.model-loading-overlay');
-        if (!mv || !overlay) return;
+        const cover = slide.querySelector('.model-cover-img');
+        if (!mv || (!overlay && !cover)) return;
         mv.addEventListener('load', () => {
-            overlay.classList.add('hidden');
+            if (overlay) overlay.classList.add('hidden');
+            if (cover) cover.classList.add('hidden');
         }, { once: true });
     }
 
