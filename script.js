@@ -4,14 +4,46 @@ gsap.registerPlugin(ScrollTrigger);
 // Configurações
 const WHATSAPP_NUMBER = '5511965391991';
 
+// Quebra o texto do hero-phrase-static em spans por letra, agrupando por palavra
+function splitHeroPhrase() {
+    const el = document.querySelector('.hero-phrase-static');
+    if (!el) return [];
+    const text = el.textContent.trim();
+    el.textContent = '';
+    el.setAttribute('aria-label', text);
+
+    const chars = [];
+    text.split(' ').forEach((word, wi, arr) => {
+        const wordSpan = document.createElement('span');
+        wordSpan.style.cssText = 'display:inline-block; white-space:nowrap;';
+
+        word.split('').forEach(char => {
+            const charSpan = document.createElement('span');
+            charSpan.textContent = char;
+            charSpan.style.cssText = 'display:inline-block; opacity:0;';
+            wordSpan.appendChild(charSpan);
+            chars.push(charSpan);
+        });
+
+        el.appendChild(wordSpan);
+
+        // espaço entre palavras (exceto após a última)
+        if (wi < arr.length - 1) {
+            el.appendChild(document.createTextNode(' '));
+        }
+    });
+
+    return chars;
+}
+
 // Animações do Hero — intro de entrada
 function initHeroAnimations() {
     const pageLoadedScrolled = window.scrollY > 100;
+    const chars = splitHeroPhrase();
 
     if (pageLoadedScrolled) {
-        gsap.set(['.eyebrow-bar', '.eyebrow-text', '.hero-brand', '.hero-phrase-static', '.hero-buttons'], {
-            clearProps: 'all'
-        });
+        gsap.set(['.eyebrow-bar', '.eyebrow-text', '.hero-brand', '.hero-buttons'], { clearProps: 'all' });
+        if (chars.length) gsap.set(chars, { opacity: 1 });
     } else {
         const intro = gsap.timeline({ delay: 0.3 });
         intro
@@ -21,10 +53,21 @@ function initHeroAnimations() {
                 duration: 0.6,
                 ease: 'power3.out'
             })
-            .from('.eyebrow-text',       { x: -20, opacity: 0, duration: 0.5, ease: 'power2.out' }, '-=0.2')
-            .from('.hero-brand',          { x: -25, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.2')
-            .from('.hero-phrase-static',  { y: 10,  opacity: 0, duration: 0.6, ease: 'power2.out' }, '-=0.1')
-            .from('.hero-buttons',        { y: 15,  opacity: 0, duration: 0.5, ease: 'power2.out' }, '-=0.2');
+            .from('.eyebrow-text', { x: -20, opacity: 0, duration: 0.5, ease: 'power2.out' }, '-=0.2')
+            .from('.hero-brand',   { x: -25, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.2');
+
+        if (chars.length) {
+            gsap.set(chars, { y: -18, opacity: 0 });
+            intro.to(chars, {
+                y: 0,
+                opacity: 1,
+                duration: 0.35,
+                stagger: 0.018,
+                ease: 'power2.out'
+            }, '-=0.1');
+        }
+
+        intro.from('.hero-buttons', { y: 15, opacity: 0, duration: 0.5, ease: 'power2.out' }, '-=0.3');
 
         const rings = document.querySelectorAll('.hero-3d-ring, .hero-3d-glow');
         if (rings.length) {
