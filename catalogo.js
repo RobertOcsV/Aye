@@ -3,6 +3,10 @@
 // Performance-first: max 1 model-viewer ativo
 // ═══════════════════════════════════════════════
 
+// Garante que a página sempre começa no topo ao carregar/recarregar
+if (history.scrollRestoration) history.scrollRestoration = 'manual';
+window.scrollTo(0, 0);
+
 gsap.registerPlugin(ScrollTrigger);
 
 ScrollTrigger.config({
@@ -251,10 +255,15 @@ function initViewportCleanup() {
 // Animações GSAP
 // ──────────────────────────────────
 function initHeroAnimations() {
-    if (window.scrollY > 100) {
-        gsap.set(['.cat-hero-eyebrow', '.cat-eyebrow-line', '.cat-hero-title', '.cat-hero-sub', '.cat-hero-scroll-hint'], {
-            clearProps: 'all'
+    const hero = document.querySelector('.cat-hero');
+    const heroInView = hero && hero.getBoundingClientRect().bottom > 0 && hero.getBoundingClientRect().top < window.innerHeight;
+
+    if (!heroInView) {
+        // Hero fora do viewport no carregamento: garante estado final visível sem animar
+        gsap.set(['.cat-hero-eyebrow', '.cat-hero-title', '.cat-hero-sub', '.cat-hero-scroll-hint'], {
+            opacity: 1, y: 0
         });
+        gsap.set('.cat-eyebrow-line', { scaleX: 1 });
         return;
     }
 

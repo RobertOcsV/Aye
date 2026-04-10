@@ -346,7 +346,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .cat-loading-logo {
-    width: 52px;
+    width: 72px;
     height: auto;
     animation: cat-logo-pulse 1.8s ease-in-out infinite;
     filter: drop-shadow(0 0 10px rgba(166, 91, 66, 0.4));
@@ -518,29 +518,29 @@ h1, h2, h3, h4, h5, h6 {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 26px;
-    height: 26px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     border: none;
-    background: rgba(42, 31, 24, 0.25);
+    background: rgba(42, 31, 24, 0.4);
     backdrop-filter: blur(6px);
-    color: rgba(242, 231, 218, 0.65);
+    color: rgba(242, 231, 218, 0.85);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 10;
     transition: all 0.25s ease;
-    opacity: 0;
+    opacity: 0.45;
 }
 
 .cat-nav-arrow svg {
-    width: 13px;
-    height: 13px;
+    width: 17px;
+    height: 17px;
 }
 
 .cat-product-visual:hover .cat-nav-arrow {
-    opacity: 0.65;
+    opacity: 0.85;
 }
 
 .cat-nav-arrow:hover {

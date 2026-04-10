@@ -139,8 +139,8 @@ function initStoryAnimations() {
     // Animação da imagem da story ao entrar na viewport
     gsap.from('.story-img', {
         scrollTrigger: {
-            trigger: '.story-img',
-            start: 'top 85%',
+            trigger: '.story',
+            start: 'top 60%',
             toggleActions: 'play none none none',
             once: true
         },
@@ -284,11 +284,11 @@ function initParallax() {
 // Animação de reveal nos títulos das seções
 function initTitleRevealAnimations() {
     gsap.utils.toArray('.section-title').forEach(title => {
-        // Animação simples e suave sem split text
+        const section = title.closest('section') || title;
         gsap.from(title, {
             scrollTrigger: {
-                trigger: title,
-                start: 'top 88%',
+                trigger: section,
+                start: 'top 65%',
                 toggleActions: 'play none none none',
                 once: true
             },
@@ -674,6 +674,10 @@ function initModelCarousel() {
     // Estado inicial: garante que só o slide 0 seja visível
     gsap.set(slides, { opacity: 0, visibility: 'hidden' });
     gsap.set(slides[0], { opacity: 1, visibility: 'visible' });
+
+    // Carrega o modelo do primeiro slide (usa data-src como os demais)
+    loadModel(slides[0]);
+    prefetchNext(0);
 
     // iOS: remove o atributo auto-rotate dos model-viewers inativos para
     // reduzir pressão na GPU (cada auto-rotate mantém render loop ativo).
