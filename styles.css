@@ -185,21 +185,16 @@ main {
 
 /* Phrase cycling stage */
 .hero-phrase-stage {
-    display: grid;
-    min-height: 100px;
-    align-items: center;
     margin-bottom: 1.2rem;
 }
 
-.hero-phrase {
-    grid-area: 1 / 1;
+.hero-phrase-static {
     font-family: 'Josefin Sans', 'Raleway', 'serif';
     font-weight: 500;
     color: var(--marrom);
-    line-height: 1.1;
+    line-height: 1.4;
     max-width: 95%;
-    visibility: hidden;
-    opacity: 0;
+    margin: 0;
 }
 
 /* Size variants */
@@ -213,24 +208,6 @@ main {
 .phrase-terracota { color: var(--terracota); }
 .phrase-verde     { color: var(--verde); }
 .phrase-italic    { font-style: italic; }
-
-/* Progress bar */
-.phrase-progress {
-    width: 100%;
-    max-width: 260px;
-    height: 1px;
-    background-color: rgba(65, 50, 42, 0.12);
-    margin-bottom: 2.5rem;
-    overflow: hidden;
-}
-
-.phrase-progress-bar {
-    height: 100%;
-    width: 100%;
-    background: linear-gradient(to right, var(--terracota), var(--verde));
-    transform: scaleX(0);
-    transform-origin: left center;
-}
 
 /* Buttons */
 .hero-buttons {

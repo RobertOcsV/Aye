@@ -4,33 +4,15 @@ gsap.registerPlugin(ScrollTrigger);
 // Configurações
 const WHATSAPP_NUMBER = '5511965391991';
 
-// Animações do Hero — frases ciclando em loop
+// Animações do Hero — intro de entrada
 function initHeroAnimations() {
-    const phrases = document.querySelectorAll('.hero-phrase');
-    const progressBar = document.querySelector('.phrase-progress-bar');
-
-    // Estado inicial: todas invisíveis
-    gsap.set(phrases, { autoAlpha: 0, y: 0, clipPath: 'inset(0 100% 0 0)' });
-
-    // Se a página foi carregada com scroll já descido (ex: F5 no meio da página),
-    // ignora a intro e mostra os elementos do hero imediatamente — evita logo travada
     const pageLoadedScrolled = window.scrollY > 100;
 
-    let idx = 0;
-
-    // Duração de exibição de cada frase (segundos)
-    const HOLD_DURATION = 5;
-    const IN_DURATION   = 0.8;
-    const OUT_DURATION  = 0.65;
-
     if (pageLoadedScrolled) {
-        // Garante que os elementos do hero estejam visíveis sem animação de entrada
-        gsap.set(['.eyebrow-bar', '.eyebrow-text', '.hero-brand', '.hero-buttons'], {
+        gsap.set(['.eyebrow-bar', '.eyebrow-text', '.hero-brand', '.hero-phrase-static', '.hero-buttons'], {
             clearProps: 'all'
         });
-        startCycle();
     } else {
-        // Intro normal: eyebrow + brand + botões entram uma vez
         const intro = gsap.timeline({ delay: 0.3 });
         intro
             .from('.eyebrow-bar', {
@@ -39,12 +21,11 @@ function initHeroAnimations() {
                 duration: 0.6,
                 ease: 'power3.out'
             })
-            .from('.eyebrow-text', { x: -20, opacity: 0, duration: 0.5, ease: 'power2.out' }, '-=0.2')
-            .from('.hero-brand',   { x: -25, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.2')
-            .from('.hero-buttons', { y: 15,  opacity: 0, duration: 0.5, ease: 'power2.out' }, '-=0.1')
-            .add(startCycle);
+            .from('.eyebrow-text',       { x: -20, opacity: 0, duration: 0.5, ease: 'power2.out' }, '-=0.2')
+            .from('.hero-brand',          { x: -25, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.2')
+            .from('.hero-phrase-static',  { y: 10,  opacity: 0, duration: 0.6, ease: 'power2.out' }, '-=0.1')
+            .from('.hero-buttons',        { y: 15,  opacity: 0, duration: 0.5, ease: 'power2.out' }, '-=0.2');
 
-        // Anéis do 3D stage entram com a intro (somente se existirem no DOM)
         const rings = document.querySelectorAll('.hero-3d-ring, .hero-3d-glow');
         if (rings.length) {
             gsap.from(rings, {
@@ -55,44 +36,6 @@ function initHeroAnimations() {
                 stagger: 0.2,
                 delay: 0.4
             });
-        }
-    }
-
-    function startCycle() {
-        showPhrase(idx);
-    }
-
-    function showPhrase(i) {
-        const phrase = phrases[i];
-
-        const tl = gsap.timeline({
-            onComplete: () => {
-                idx = (idx + 1) % phrases.length;
-                showPhrase(idx);
-            }
-        });
-
-        // Entrada: clip-path wipe da esquerda + leve slide
-        tl.fromTo(phrase,
-            { autoAlpha: 0, clipPath: 'inset(0 100% 0 0)', x: -18, y: 0 },
-            { autoAlpha: 1, clipPath: 'inset(0 0% 0 0)',   x: 0,   duration: IN_DURATION, ease: 'power3.out' }
-        )
-        // Pausa para leitura
-        .to(phrase, { duration: HOLD_DURATION })
-        // Saída: flutua para cima e some (como fumaça de vela)
-        .to(phrase, {
-            autoAlpha: 0,
-            y: -30,
-            duration: OUT_DURATION,
-            ease: 'power2.in'
-        });
-
-        // Barra de progresso reinicia e preenche durante entrada + hold
-        if (progressBar) {
-            gsap.fromTo(progressBar,
-                { scaleX: 0 },
-                { scaleX: 1, duration: IN_DURATION + HOLD_DURATION, ease: 'none', transformOrigin: 'left center' }
-            );
         }
     }
 }
@@ -154,19 +97,20 @@ function initStoryAnimations() {
     gsap.from('.story-img', {
         scrollTrigger: {
             trigger: '.story-img',
-            start: 'top 80%',
-            toggleActions: 'play none none reverse'
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+            once: true
         },
-        scale: 0.8,
         opacity: 0,
-        duration: 1,
+        y: 16,
+        duration: 0.9,
         ease: 'power2.out'
     });
 
     // Flutuação sutil na imagem
     gsap.to('.story-img', {
-        y: -10,
-        duration: 2.5,
+        y: -6,
+        duration: 3,
         repeat: -1,
         yoyo: true,
         ease: 'sine.inOut'
@@ -301,14 +245,14 @@ function initTitleRevealAnimations() {
         gsap.from(title, {
             scrollTrigger: {
                 trigger: title,
-                start: 'top 80%',
-                toggleActions: 'play none none none', // Não reverter
-                once: true // Animar apenas uma vez
+                start: 'top 88%',
+                toggleActions: 'play none none none',
+                once: true
             },
             opacity: 0,
-            y: 30,
-            duration: 0.8,
-            ease: 'power3.out'
+            y: 14,
+            duration: 0.55,
+            ease: 'power2.out'
         });
     });
 }
