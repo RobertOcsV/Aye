@@ -60,6 +60,8 @@ async function createModelViewer(page3d) {
     mv.setAttribute('shadow-intensity', '0');
     mv.setAttribute('shadow-softness', '0');
     mv.setAttribute('exposure', '0.85');
+    mv.setAttribute('environment-image', 'neutral');
+    mv.setAttribute('interaction-prompt', 'none');
     mv.className = 'cat-model-viewer';
 
     // Mobile: sem auto-rotate para economizar GPU, camera-controls via touch gate
@@ -88,8 +90,13 @@ function destroyModelViewer(page3d) {
 
     const mv = wrap.querySelector('model-viewer');
     if (mv) {
+        // Pausa o render loop antes de liberar recursos
+        try { mv.pause && mv.pause(); } catch (_) {}
         mv.removeAttribute('auto-rotate');
         mv.removeAttribute('camera-controls');
+        // Zera o src explicitamente para liberar o buffer do GLB do heap
+        // antes do elemento ser removido (importante em Safari iOS)
+        try { mv.src = ''; } catch (_) {}
         mv.removeAttribute('src');
         mv.remove();
     }
@@ -121,7 +128,8 @@ function setupTouchGate(page3d, mv) {
 
     gate.addEventListener('click', () => {
         mv.setAttribute('camera-controls', '');
-        mv.setAttribute('auto-rotate', '');
+        // Em touch devices, não ligamos auto-rotate: mantém o render loop
+        // acordado continuamente e drena bateria/GPU no iPhone.
         gate.classList.remove('active');
         gate.classList.add('dismissed');
     });
@@ -235,6 +243,9 @@ function initProductPages() {
 // Viewport cleanup: destrói model-viewer fora da tela
 // ──────────────────────────────────
 function initViewportCleanup() {
+    // Em touch (iPhone), destrói o contexto WebGL assim que o produto sai
+    // do centro da tela. Desktop pode ter margem maior sem estressar a GPU.
+    const rootMargin = isTouchDevice ? '-20% 0px -20% 0px' : '100px';
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) return;
@@ -246,7 +257,7 @@ function initViewportCleanup() {
                 else destroyModelViewer(page3d);
             }
         });
-    }, { rootMargin: '100px' });
+    }, { rootMargin });
 
     document.querySelectorAll('.cat-product').forEach(p => observer.observe(p));
 }
@@ -334,6 +345,23 @@ document.addEventListener('DOMContentLoaded', () => {
     initHeaderScroll();
     initFinalCTA();
     initButtonEffects();
+
+    // Libera o modelo ativo quando a aba some ou a página é backgrounded.
+    // Evita estado "zumbi" no Safari iOS quando o usuário troca de app
+    // e volta: o iOS pode ter despejado o contexto WebGL e a página
+    // voltaria inconsistente, causando o reload automático.
+    const releaseActiveModel = () => {
+        if (activeModelPage) {
+            const prod = activeModelPage.closest('.cat-product');
+            const ctrl = prod && productControllers.get(prod);
+            if (ctrl) ctrl.goTo(0, true);
+            else destroyModelViewer(activeModelPage);
+        }
+    };
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) releaseActiveModel();
+    });
+    window.addEventListener('pagehide', releaseActiveModel);
 
     ScrollTrigger.refresh();
 });
