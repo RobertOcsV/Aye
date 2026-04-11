@@ -37,7 +37,8 @@
       "Bash(node -c \"D:/Versionados_Projetos/Aye/catalogo.js\")",
       "Bash(gltf-transform draco:*)",
       "Bash(rm -f *.glb *.bin)",
-      "Bash(cp ../web-backup-draco/*.glb .)"
+      "Bash(cp ../web-backup-draco/*.glb .)",
+      "Bash(du -ch Img/models/web/*.glb)"
     ],
     "deny": [],
     "ask": []
