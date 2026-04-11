@@ -38,7 +38,11 @@
       "Bash(gltf-transform draco:*)",
       "Bash(rm -f *.glb *.bin)",
       "Bash(cp ../web-backup-draco/*.glb .)",
-      "Bash(du -ch Img/models/web/*.glb)"
+      "Bash(du -ch Img/models/web/*.glb)",
+      "Bash(mkdir -p _tmp)",
+      "Bash(gltfpack -i Oxossi.glb -o _tmp/simp.glb -si 0.15 -sp)",
+      "Bash(awk -F'│' '{gsub\\(/[, ]/,\"\",$7\\); print \"verts=\" $7}')",
+      "Bash(du -ch *.glb)"
     ],
     "deny": [],
     "ask": []
