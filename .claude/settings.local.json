@@ -34,7 +34,10 @@
       "Bash(rm -f Nana-pack.glb)",
       "Bash(gltfpack -i Nana-raw.glb -o Nana-pack.glb -si 0.05 -sp -cc)",
       "Bash(rm:*)",
-      "Bash(node -c \"D:/Versionados_Projetos/Aye/catalogo.js\")"
+      "Bash(node -c \"D:/Versionados_Projetos/Aye/catalogo.js\")",
+      "Bash(gltf-transform draco:*)",
+      "Bash(rm -f *.glb *.bin)",
+      "Bash(cp ../web-backup-draco/*.glb .)"
     ],
     "deny": [],
     "ask": []
