@@ -42,7 +42,21 @@
       "Bash(mkdir -p _tmp)",
       "Bash(gltfpack -i Oxossi.glb -o _tmp/simp.glb -si 0.15 -sp)",
       "Bash(awk -F'│' '{gsub\\(/[, ]/,\"\",$7\\); print \"verts=\" $7}')",
-      "Bash(du -ch *.glb)"
+      "Bash(du -ch *.glb)",
+      "Bash(gltfpack -i Obaluae.glb -o _tmp/pass1.glb -si 0.2 -sp)",
+      "Bash(gltfpack -i Obaluae.glb -o _tmp/test.glb -cc)",
+      "Bash(gltfpack -i \"_tmp/test.glb\" -o \"_tmp/simp.glb\" -si 0.10 -sp)",
+      "Bash(NODE_OPTIONS=\"--max-old-space-size=8192\" gltf-transform simplify \"D:/Versionados_Projetos/Aye/Img/models/web/_tmp/welded.glb\" \"D:/Versionados_Projetos/Aye/Img/models/web/_tmp/simp.glb\" --ratio 0.05 --error 0.01)",
+      "Bash(gltfpack -i \"Obaluae.glb\" -o \"_tmp/try1.glb\" -si 0.05 -sp -sa)",
+      "Bash(python:*)",
+      "Bash(where blender:*)",
+      "Bash(blender --version)",
+      "Read(//c/Program Files/**)",
+      "Read(//c/Users/rober/AppData/Local/Programs//**)",
+      "Bash(NODE_OPTIONS=\"--max-old-space-size=12288\" node \"D:/Versionados_Projetos/Aye/Img/models/web/_tmp/compress-obaluae.mjs\")",
+      "Bash(gltf-transform normals:*)",
+      "Bash(gltf-transform)",
+      "Bash(gltf-transform prune:*)"
     ],
     "deny": [],
     "ask": []
