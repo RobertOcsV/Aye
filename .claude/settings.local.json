@@ -56,7 +56,11 @@
       "Bash(NODE_OPTIONS=\"--max-old-space-size=12288\" node \"D:/Versionados_Projetos/Aye/Img/models/web/_tmp/compress-obaluae.mjs\")",
       "Bash(gltf-transform normals:*)",
       "Bash(gltf-transform)",
-      "Bash(gltf-transform prune:*)"
+      "Bash(gltf-transform prune:*)",
+      "PowerShell(if \\(-not \\(Test-Path \"D:\\\\Versionados_Projetos\\\\Aye\\\\Img\\\\models\\\\web\\\\_tmp\"\\)\\) { New-Item -ItemType Directory -Path \"D:\\\\Versionados_Projetos\\\\Aye\\\\Img\\\\models\\\\web\\\\_tmp\" -Force | Out-Null; \"Created _tmp\" } else { \"_tmp already exists\" })",
+      "PowerShell(Remove-Item \"D:\\\\Versionados_Projetos\\\\Aye\\\\Img\\\\models\\\\web\\\\_tmp\" -Recurse -Force -Confirm:$false)",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "mcp__Claude_Preview__preview_start"
     ],
     "deny": [],
     "ask": []

@@ -359,6 +359,93 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ──────────────────────────────────
+   PAGINAÇÃO
+────────────────────────────────── */
+.cat-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 2rem 1rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.cat-page-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    height: 38px;
+    border: 1.5px solid rgba(65, 50, 42, 0.2);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--marrom);
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cat-page-btn:hover:not(:disabled):not(.active) {
+    border-color: var(--terracota);
+    color: var(--terracota);
+}
+
+.cat-page-btn.active {
+    background: var(--verde);
+    border-color: var(--verde);
+    color: var(--creme);
+    font-weight: 600;
+}
+
+.cat-page-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.cat-page-prev,
+.cat-page-next {
+    min-width: 36px;
+    height: 36px;
+}
+
+.cat-page-dots {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.85rem;
+    color: var(--marrom);
+    opacity: 0.5;
+    letter-spacing: 1px;
+}
+
+@media (max-width: 600px) {
+    .cat-pagination {
+        gap: 0.3rem;
+        padding: 1.5rem 0.6rem 0.8rem;
+    }
+    .cat-page-btn {
+        min-width: 32px;
+        height: 32px;
+        font-size: 0.75rem;
+        border-radius: 6px;
+    }
+    .cat-page-prev,
+    .cat-page-next {
+        min-width: 30px;
+        height: 30px;
+    }
+    .cat-page-dots {
+        min-width: 22px;
+        font-size: 0.75rem;
+    }
+}
+
+/* ──────────────────────────────────
    GRID DE PRODUTOS  (3 colunas)
 ────────────────────────────────── */
 .cat-products {

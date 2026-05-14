@@ -6,6 +6,9 @@ node_modules/
 Img/models/*.glb
 Img/navalha.glb
 
+# Claude Code
+.claude/worktrees/
+
 # Sistema
 .DS_Store
 Thumbs.db
