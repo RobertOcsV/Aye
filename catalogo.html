@@ -52,12 +52,29 @@
         </div>
     </section>
 
+    <!-- Barra de filtros e pesquisa -->
+    <section class="cat-filter-bar">
+        <div class="cat-filter-container">
+            <div class="cat-search-wrap">
+                <svg class="cat-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" placeholder="Buscar pelo nome..." class="cat-search-input" id="catSearch" autocomplete="off">
+            </div>
+            <div class="cat-filter-tabs" id="catFilterTabs">
+                <button class="cat-filter-btn active" data-filter="todos">Todos <span class="cat-filter-count" id="countTodos">0</span></button>
+                <button class="cat-filter-btn" data-filter="guia">Guias <span class="cat-filter-count" id="countGuia">0</span></button>
+                <button class="cat-filter-btn" data-filter="orixa">Orixás <span class="cat-filter-count" id="countOrixa">0</span></button>
+                <button class="cat-filter-btn" data-filter="entidade">Entidades <span class="cat-filter-count" id="countEntidade">0</span></button>
+            </div>
+            <p class="cat-filter-result"><span id="catResultCount">0</span> imagens encontradas <span class="cat-filter-result-total">de <span id="catTotalCount">0</span></span></p>
+        </div>
+    </section>
+
     <!-- Grid de Produtos -->
     <section class="cat-products">
-        <div class="cat-products-container">
+        <div class="cat-products-container" id="catProductsGrid">
 
             <!-- ═══════════════ PRODUTO 1: Oroiná ═══════════════ -->
-            <article class="cat-product" data-product="oroina">
+            <article class="cat-product" data-product="oroina" data-category="orixa">
 
                 <div class="cat-product-visual">
                     <div class="cat-page-indicator">
@@ -108,7 +125,7 @@
             </article>
 
             <!-- ═══════════════ PRODUTO 2: Pomba Gira ═══════════════ -->
-            <article class="cat-product" data-product="pombagira">
+            <article class="cat-product" data-product="pombagira" data-category="entidade">
 
                 <div class="cat-product-visual">
                     <div class="cat-page-indicator">
@@ -159,7 +176,7 @@
             </article>
 
             <!-- ═══════════════ PRODUTO 3: Navalha Ritualística ═══════════════ -->
-            <article class="cat-product" data-product="navalha">
+            <article class="cat-product" data-product="navalha" data-category="entidade">
 
                 <div class="cat-product-visual">
                     <div class="cat-page-indicator">
@@ -211,7 +228,7 @@
             </article>
 
             <!-- ═══════════════ PRODUTO 4: Ogum ═══════════════ -->
-            <article class="cat-product" data-product="ogum">
+            <article class="cat-product" data-product="ogum" data-category="orixa">
 
                 <div class="cat-product-visual">
                     <div class="cat-page-indicator">
@@ -262,7 +279,7 @@
             </article>
 
             <!-- ═══════════════ PRODUTO 5: Exu ═══════════════ -->
-            <article class="cat-product" data-product="exu">
+            <article class="cat-product" data-product="exu" data-category="entidade">
 
                 <div class="cat-product-visual">
                     <div class="cat-page-indicator">
@@ -314,7 +331,7 @@
 
 
             <!-- ═══════════════ PRODUTO 9: Logunan ═══════════════ -->
-            <article class="cat-product" data-product="logunan">
+            <article class="cat-product" data-product="logunan" data-category="orixa">
 
                 <div class="cat-product-visual">
                     <div class="cat-page-indicator">
@@ -366,7 +383,7 @@
 
 
             <!-- ═══════════════ PRODUTO 6: Iemanjá ═══════════════ -->
-            <article class="cat-product" data-product="iemanja">
+            <article class="cat-product" data-product="iemanja" data-category="orixa">
 
                 <div class="cat-product-visual">
                     <div class="cat-page-indicator">
@@ -417,7 +434,7 @@
             </article>
 
             <!-- ═══════════════ PRODUTO 7: Nana ═══════════════ -->
-            <article class="cat-product" data-product="nana">
+            <article class="cat-product" data-product="nana" data-category="orixa">
 
                 <div class="cat-product-visual">
                     <div class="cat-page-indicator">
@@ -468,7 +485,7 @@
             </article>
 
             <!-- ═══════════════ PRODUTO 8: Iansã ═══════════════ -->
-            <article class="cat-product" data-product="iansa">
+            <article class="cat-product" data-product="iansa" data-category="orixa">
 
                 <div class="cat-product-visual">
                     <div class="cat-page-indicator">
@@ -519,7 +536,7 @@
             </article>
 
             <!-- ═══════════════ PRODUTO 10: Obá ═══════════════ -->
-            <article class="cat-product" data-product="oba">
+            <article class="cat-product" data-product="oba" data-category="orixa">
 
                 <div class="cat-product-visual">
                     <div class="cat-page-indicator">
@@ -570,7 +587,7 @@
             </article>
 
             <!-- ═══════════════ PRODUTO 11: Oxalá ═══════════════ -->
-            <article class="cat-product" data-product="oxala">
+            <article class="cat-product" data-product="oxala" data-category="orixa">
 
                 <div class="cat-product-visual">
                     <div class="cat-page-indicator">
@@ -621,7 +638,7 @@
             </article>
 
             <!-- ═══════════════ PRODUTO 12: Oxum ═══════════════ -->
-            <article class="cat-product" data-product="oxum">
+            <article class="cat-product" data-product="oxum" data-category="orixa">
 
                 <div class="cat-product-visual">
                     <div class="cat-page-indicator">
@@ -672,7 +689,7 @@
             </article>
 
             <!-- ═══════════════ PRODUTO 13: Oxumaré ═══════════════ -->
-            <article class="cat-product" data-product="oxumare">
+            <article class="cat-product" data-product="oxumare" data-category="orixa">
 
                 <div class="cat-product-visual">
                     <div class="cat-page-indicator">
@@ -723,7 +740,7 @@
             </article>
 
             <!-- ═══════════════ PRODUTO 14: Oxóssi ═══════════════ -->
-            <article class="cat-product" data-product="oxossi">
+            <article class="cat-product" data-product="oxossi" data-category="orixa">
 
                 <div class="cat-product-visual">
                     <div class="cat-page-indicator">
@@ -773,8 +790,8 @@
                 </div>
             </article>
 
-            <!-- Produto 15: Obaluaê -->
-            <article class="cat-product" data-product="obaluae">
+            <!-- Produto 15: Obaluaiê -->
+            <article class="cat-product" data-product="obaluaie" data-category="orixa">
 
                 <div class="cat-product-visual">
                     <div class="cat-page-indicator">
@@ -785,11 +802,11 @@
 
                     <div class="cat-page cat-page--img active">
                         <div class="cat-img-wrap">
-                            <img src="Img/Obaluae.jpeg" alt="Obaluaê — Foto do produto" class="cat-product-img" loading="lazy">
+                            <img src="Img/Obaluae.jpeg" alt="Obaluaiê — Foto do produto" class="cat-product-img" loading="lazy">
                         </div>
                     </div>
 
-                    <div class="cat-page cat-page--3d" data-model-src="Img/models/web/Obaluae-web.glb" data-model-alt="Obaluaê — Modelo 3D">
+                    <div class="cat-page cat-page--3d" data-model-src="Img/models/web/Obaluae-web.glb" data-model-alt="Obaluaiê — Modelo 3D">
                         <div class="cat-model-wrap">
                             <div class="cat-model-vignette"></div>
                         </div>
@@ -800,7 +817,7 @@
                         <div class="cat-desc-content">
                             <div class="cat-desc-icon">&#10041;</div>
                             <h3 class="cat-desc-title">Sobre a Peça</h3>
-                            <p class="cat-desc-text">Obaluaê, o jovem orixá da cura, senhor da terra e das moléstias. Aquele que veste a palha da costa para esconder as marcas do mundo e, com o xaxará, varre as doenças e renova a vida. Escultura que reverencia o médico dos pobres, mestre da medicina e da transformação pela fé.</p>
+                            <p class="cat-desc-text">Obaluaiê, o jovem orixá da cura, senhor da terra e das moléstias. Aquele que veste a palha da costa para esconder as marcas do mundo e, com o xaxará, varre as doenças e renova a vida. Escultura que reverencia o médico dos pobres, mestre da medicina e da transformação pela fé.</p>
                             <ul class="cat-desc-specs">
                                 <li><strong>Material:</strong> Resina de alta resistência</li>
                                 <li><strong>Acabamento:</strong> Pintura feita a mão</li>
@@ -819,13 +836,13 @@
 
                 <div class="cat-product-info">
                     <span class="cat-product-tag">Orixá</span>
-                    <h2 class="cat-product-name">Obaluaê</h2>
+                    <h2 class="cat-product-name">Obaluaiê</h2>
                     <p class="cat-product-excerpt">Médico dos pobres, senhor da cura</p>
                 </div>
             </article>
 
             <!-- Produto 16: Xangô -->
-            <article class="cat-product" data-product="xango">
+            <article class="cat-product" data-product="xango" data-category="orixa">
 
                 <div class="cat-product-visual">
                     <div class="cat-page-indicator">
@@ -875,8 +892,8 @@
                 </div>
             </article>
 
-            <!-- Produto 17: Omulu -->
-            <article class="cat-product" data-product="omulu">
+            <!-- Produto 17: Omolu -->
+            <article class="cat-product" data-product="omolu" data-category="orixa">
 
                 <div class="cat-product-visual">
                     <div class="cat-page-indicator">
@@ -887,11 +904,11 @@
 
                     <div class="cat-page cat-page--img active">
                         <div class="cat-img-wrap">
-                            <img src="Img/Omulu.jpeg" alt="Omulu — Foto do produto" class="cat-product-img" loading="lazy">
+                            <img src="Img/Omulu.jpeg" alt="Omolu — Foto do produto" class="cat-product-img" loading="lazy">
                         </div>
                     </div>
 
-                    <div class="cat-page cat-page--3d" data-model-src="Img/models/web/Omulu-web.glb" data-model-alt="Omulu — Modelo 3D">
+                    <div class="cat-page cat-page--3d" data-model-src="Img/models/web/Omulu-web.glb" data-model-alt="Omolu — Modelo 3D">
                         <div class="cat-model-wrap">
                             <div class="cat-model-vignette"></div>
                         </div>
@@ -902,7 +919,7 @@
                         <div class="cat-desc-content">
                             <div class="cat-desc-icon">&#10041;</div>
                             <h3 class="cat-desc-title">Sobre a Peça</h3>
-                            <p class="cat-desc-text">Omulu, o velho senhor da terra, guardião dos cemitérios e das almas que atravessam. Orixá ancião que rege a passagem entre o mundo dos vivos e o dos mortos, dono da palha e do segredo. Escultura que reverencia o pai da cura profunda, aquele que ensina pelo sofrimento e acolhe pela compaixão.</p>
+                            <p class="cat-desc-text">Omolu, o velho senhor da terra, guardião dos cemitérios e das almas que atravessam. Orixá ancião que rege a passagem entre o mundo dos vivos e o dos mortos, dono da palha e do segredo. Escultura que reverencia o pai da cura profunda, aquele que ensina pelo sofrimento e acolhe pela compaixão.</p>
                             <ul class="cat-desc-specs">
                                 <li><strong>Material:</strong> Resina de alta resistência</li>
                                 <li><strong>Acabamento:</strong> Pintura feita a mão</li>
@@ -921,7 +938,7 @@
 
                 <div class="cat-product-info">
                     <span class="cat-product-tag">Orixá</span>
-                    <h2 class="cat-product-name">Omulu</h2>
+                    <h2 class="cat-product-name">Omolu</h2>
                     <p class="cat-product-excerpt">Guardião dos caminhos entre mundos</p>
                 </div>
             </article>

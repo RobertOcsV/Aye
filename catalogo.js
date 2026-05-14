@@ -333,9 +333,87 @@ function initButtonEffects() {
 }
 
 // ──────────────────────────────────
+// Filtro e Pesquisa do Catálogo
+// ──────────────────────────────────
+function initCatalogFilter() {
+    const searchInput = document.getElementById('catSearch');
+    const filterTabs  = document.getElementById('catFilterTabs');
+    const grid        = document.getElementById('catProductsGrid');
+    if (!searchInput || !filterTabs || !grid) return;
+
+    const allProducts   = Array.from(grid.querySelectorAll('.cat-product[data-category]'));
+    const filterBtns    = filterTabs.querySelectorAll('.cat-filter-btn');
+    const resultCount   = document.getElementById('catResultCount');
+    const totalCount    = document.getElementById('catTotalCount');
+
+    let activeFilter = 'todos';
+
+    function updateCounts() {
+        const counts = { todos: allProducts.length, guia: 0, orixa: 0, entidade: 0 };
+        allProducts.forEach(p => {
+            const cat = p.dataset.category;
+            if (counts[cat] !== undefined) counts[cat]++;
+        });
+        document.getElementById('countTodos').textContent    = counts.todos;
+        document.getElementById('countGuia').textContent      = counts.guia;
+        document.getElementById('countOrixa').textContent     = counts.orixa;
+        document.getElementById('countEntidade').textContent  = counts.entidade;
+        totalCount.textContent = counts.todos;
+    }
+
+    function normalize(str) {
+        return str.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+    }
+
+    function applyFilter() {
+        const query = normalize(searchInput.value.trim());
+        let visible = 0;
+
+        allProducts.forEach(product => {
+            const name     = normalize(product.querySelector('.cat-product-name')?.textContent || '');
+            const category = product.dataset.category;
+
+            const matchesFilter = activeFilter === 'todos' || category === activeFilter;
+            const matchesSearch = !query || name.includes(query);
+            const show = matchesFilter && matchesSearch;
+
+            product.classList.toggle('hidden-by-filter', !show);
+            if (show) visible++;
+        });
+
+        resultCount.textContent = visible;
+
+        const existing = grid.querySelector('.cat-no-results');
+        if (visible === 0 && !existing) {
+            const msg = document.createElement('div');
+            msg.className = 'cat-no-results';
+            msg.textContent = 'Nenhuma imagem encontrada';
+            grid.appendChild(msg);
+        } else if (visible > 0 && existing) {
+            existing.remove();
+        }
+    }
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeFilter = btn.dataset.filter;
+            applyFilter();
+        });
+    });
+
+    searchInput.addEventListener('input', applyFilter);
+
+    updateCounts();
+    applyFilter();
+}
+
+// ──────────────────────────────────
 // Init
 // ──────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+    initCatalogFilter();
     initLoadingOverlays();
     initProductPages();
     initViewportCleanup();
