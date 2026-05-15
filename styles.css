@@ -185,16 +185,27 @@ main {
 
 /* Phrase cycling stage */
 .hero-phrase-stage {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.6rem;
 }
 
 .hero-phrase-static {
     font-family: 'Josefin Sans', 'Raleway', 'serif';
     font-weight: 500;
     color: var(--marrom);
-    line-height: 1.4;
+    line-height: 1.25;
     max-width: 95%;
     margin: 0;
+}
+
+.hero-phrase-sub {
+    font-family: 'Raleway', sans-serif;
+    font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+    font-weight: 400;
+    color: var(--marrom);
+    opacity: 0.78;
+    line-height: 1.55;
+    max-width: 46ch;
+    margin-top: 0.75rem;
 }
 
 /* Size variants */
@@ -990,33 +1001,60 @@ main {
 
 .about-card {
     background-color: rgba(242, 231, 218, 0.95);
-    padding: 3rem 2rem;
-    border-radius: 12px;
+    padding: 2.5rem 1.75rem;
+    border-radius: 14px;
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(166, 91, 66, 0);
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
     opacity: 1;
 }
 
 .about-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    border-color: rgba(166, 91, 66, 0.28);
 }
 
-.card-icon {
-    font-size: 3rem;
-    margin-bottom: 1.5rem;
+/* Container circular do ícone — sacred medallion */
+.card-icon-wrap {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(166, 91, 66, 0.35);
+    background: rgba(255, 255, 255, 0.4);
+    color: var(--terracota);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    transition: border-color 0.35s ease;
+    will-change: transform;
+}
+
+.card-icon-wrap svg {
+    width: 28px;
+    height: 28px;
+    display: block;
+}
+
+.about-card:hover .card-icon-wrap {
+    border-color: var(--terracota);
 }
 
 .about-card h3 {
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     color: var(--marrom);
-    margin-bottom: 1rem;
+    margin-bottom: 0.85rem;
     font-weight: 700;
+    letter-spacing: 0.005em;
 }
 
 .about-card p {
     color: var(--verde);
-    font-size: 1.1rem;
+    font-size: 1rem;
+    line-height: 1.65;
+    max-width: 32ch;
+    margin: 0 auto;
 }
 
 /* Products Section */
@@ -2019,8 +2057,8 @@ main {
         grid-template-columns: 1fr;
         text-align: center;
         min-height: auto;
-        padding: 3rem 1.5rem 2rem;
-        gap: 3rem;           /* era 0 — este era o problema */
+        padding: 2rem 1.25rem 1.5rem;
+        gap: 2rem;
     }
 
     .hero-content {
@@ -2035,10 +2073,61 @@ main {
         text-align: center;
         justify-content: center;
         font-size: clamp(2rem, 6vw, 3rem);
+        margin-bottom: 1.2rem;
+    }
+
+    .hero-phrase-sub {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
     }
 
     .hero-buttons {
         justify-content: center;
+        flex-direction: column;
+        gap: 0.75rem;
+        width: 100%;
+        max-width: 360px;
+        margin: 0 auto;
+    }
+
+    .cta-primary,
+    .cta-secondary {
+        width: 100%;
+        justify-content: center;
+        padding: 0.95rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    /* Seções gerais — menos padding lateral no mobile */
+    .story,
+    .about,
+    .process {
+        padding: 4rem 1.25rem;
+    }
+
+    .story-paragraph {
+        font-size: 1rem;
+        line-height: 1.7;
+        text-align: left;
+    }
+
+    .about-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .card-icon-wrap {
+        width: 56px;
+        height: 56px;
+    }
+
+    .card-icon-wrap svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .nav-link-catalog {
+        padding: 0.65rem 0.25rem;
     }
 
     .hero-3d-stage {
@@ -2086,10 +2175,6 @@ main {
 
     .story-content {
         grid-template-columns: 1fr;
-        text-align: center;
-    }
-
-    .story-paragraph {
         text-align: center;
     }
 
@@ -2171,7 +2256,22 @@ main {
     }
 
     main {
-        margin-top: 80px;
+        margin-top: 72px;
+    }
+
+    .section-title {
+        margin-bottom: 2.5rem;
+        font-size: clamp(2rem, 7vw, 2.6rem);
+    }
+
+    .story,
+    .about,
+    .process {
+        padding: 3.5rem 1rem;
+    }
+
+    .about-card h3 {
+        font-size: 1.2rem;
     }
 
     .cta-primary,

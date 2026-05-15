@@ -363,7 +363,7 @@ function initButtonEffects() {
 // ──────────────────────────────────
 // Filtro, Pesquisa e Paginação
 // ──────────────────────────────────
-const ITEMS_PER_PAGE = 3;
+const ITEMS_PER_PAGE = 8;
 
 function initCatalogFilter() {
     const searchInput = document.getElementById('catSearch');
@@ -528,12 +528,207 @@ function initCatalogFilter() {
 }
 
 // ──────────────────────────────────
+// Modal de Expansão
+// ──────────────────────────────────
+function initExpandModal() {
+    const overlay = document.createElement('div');
+    overlay.className = 'cat-modal-overlay';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-hidden', 'true');
+
+    overlay.innerHTML = `
+      <div class="cat-modal">
+        <button class="cat-modal-close" aria-label="Fechar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+
+        <div class="cat-modal-visual">
+          <div class="cat-page-indicator">
+            <button class="cat-page-dot active" data-page="0" aria-label="Imagem"></button>
+            <button class="cat-page-dot" data-page="1" aria-label="Modelo 3D"></button>
+            <button class="cat-page-dot" data-page="2" aria-label="Descrição"></button>
+          </div>
+          <div class="cat-page cat-page--img active">
+            <div class="cat-img-wrap">
+              <img class="cat-product-img" alt="" loading="lazy">
+            </div>
+          </div>
+          <div class="cat-page cat-page--3d" data-model-src="" data-model-alt="">
+            <div class="cat-model-wrap">
+              <div class="cat-model-vignette"></div>
+            </div>
+            <span class="cat-page-label">Arraste para girar</span>
+          </div>
+          <div class="cat-page cat-page--desc">
+            <div class="cat-desc-content"></div>
+          </div>
+          <button class="cat-nav-arrow cat-nav-arrow--prev" aria-label="Anterior">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="cat-nav-arrow cat-nav-arrow--next" aria-label="Próximo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+
+        <div class="cat-modal-info">
+          <span class="cat-product-tag"></span>
+          <h2 class="cat-modal-name"></h2>
+          <p class="cat-product-excerpt"></p>
+          <hr class="cat-modal-divider">
+          <p class="cat-modal-desc-text"></p>
+          <ul class="cat-modal-specs"></ul>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    const modal       = overlay.querySelector('.cat-modal');
+    const closeBtn    = overlay.querySelector('.cat-modal-close');
+    const pages       = overlay.querySelectorAll('.cat-page');
+    const dots        = overlay.querySelectorAll('.cat-page-dot');
+    const prevBtn     = overlay.querySelector('.cat-nav-arrow--prev');
+    const nextBtn     = overlay.querySelector('.cat-nav-arrow--next');
+    const imgEl       = overlay.querySelector('.cat-product-img');
+    const page3d      = overlay.querySelector('.cat-page--3d');
+    const descContent = overlay.querySelector('.cat-desc-content');
+    const tagEl       = overlay.querySelector('.cat-product-tag');
+    const nameEl      = overlay.querySelector('.cat-modal-name');
+    const excerptEl   = overlay.querySelector('.cat-product-excerpt');
+    const descText    = overlay.querySelector('.cat-modal-desc-text');
+    const specsList   = overlay.querySelector('.cat-modal-specs');
+
+    let currentPage = 0;
+    let isOpen = false;
+
+    function goTo(index) {
+        if (index === currentPage) return;
+        const leaving  = pages[currentPage];
+        const entering = pages[index];
+
+        if (leaving.classList.contains('cat-page--3d')) destroyModelViewer(leaving);
+
+        if (entering.classList.contains('cat-page--3d')) {
+            if (activeModelPage) {
+                const prod = activeModelPage.closest('.cat-product');
+                const ctrl = prod && productControllers.get(prod);
+                if (ctrl) ctrl.goTo(0, true); else destroyModelViewer(activeModelPage);
+            }
+            createModelViewer(entering);
+        }
+
+        leaving.classList.remove('active');
+        gsap.to(leaving, {
+            opacity: 0, duration: 0.2, ease: 'power2.in',
+            onComplete() { gsap.set(leaving, { visibility: 'hidden', pointerEvents: 'none' }); }
+        });
+        gsap.set(entering, { visibility: 'visible', opacity: 0 });
+        entering.classList.add('active');
+        gsap.to(entering, {
+            opacity: 1, duration: 0.3, ease: 'power2.out', delay: 0.1,
+            onStart() { entering.style.pointerEvents = 'auto'; }
+        });
+
+        dots.forEach((d, i) => d.classList.toggle('active', i === index));
+        currentPage = index;
+    }
+
+    dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+    prevBtn.addEventListener('click', () => goTo((currentPage - 1 + pages.length) % pages.length));
+    nextBtn.addEventListener('click', () => goTo((currentPage + 1) % pages.length));
+
+    function open(product) {
+        const cardImg    = product.querySelector('.cat-page--img .cat-product-img');
+        const cardPage3d = product.querySelector('.cat-page--3d');
+        const cardTag    = product.querySelector('.cat-product-tag');
+        const cardName   = product.querySelector('.cat-product-name');
+        const cardExcerpt = product.querySelector('.cat-product-excerpt');
+        const cardDescText = product.querySelector('.cat-desc-text');
+        const cardSpecs  = product.querySelector('.cat-desc-specs');
+
+        imgEl.src = cardImg ? cardImg.src : '';
+        imgEl.alt = cardImg ? cardImg.alt : '';
+        page3d.dataset.modelSrc = cardPage3d ? (cardPage3d.dataset.modelSrc || '') : '';
+        page3d.dataset.modelAlt = cardPage3d ? (cardPage3d.dataset.modelAlt || '') : '';
+        descContent.innerHTML = product.querySelector('.cat-desc-content') ? product.querySelector('.cat-desc-content').innerHTML : '';
+        tagEl.textContent  = cardTag     ? cardTag.textContent  : '';
+        nameEl.textContent = cardName    ? cardName.textContent : '';
+        excerptEl.textContent = cardExcerpt ? cardExcerpt.textContent : '';
+        descText.textContent  = cardDescText ? cardDescText.textContent : '';
+        specsList.innerHTML   = cardSpecs ? cardSpecs.innerHTML : '';
+
+        currentPage = 0;
+        pages.forEach((p, i) => {
+            p.classList.toggle('active', i === 0);
+            gsap.set(p, { opacity: i === 0 ? 1 : 0, visibility: i === 0 ? 'visible' : 'hidden', pointerEvents: i === 0 ? 'auto' : 'none' });
+        });
+        dots.forEach((d, i) => d.classList.toggle('active', i === 0));
+
+        if (activeModelPage) {
+            const prod = activeModelPage.closest('.cat-product');
+            const ctrl = prod && productControllers.get(prod);
+            if (ctrl) ctrl.goTo(0, true); else destroyModelViewer(activeModelPage);
+        }
+
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        overlay.classList.add('open');
+
+        gsap.fromTo(modal,
+            { scale: 0.88, opacity: 0, y: 24 },
+            { scale: 1, opacity: 1, y: 0, duration: 0.38, ease: 'back.out(1.5)' }
+        );
+
+        isOpen = true;
+    }
+
+    function close() {
+        if (!isOpen) return;
+        if (page3d.querySelector('model-viewer')) destroyModelViewer(page3d);
+
+        gsap.to(modal, {
+            scale: 0.92, opacity: 0, y: 12, duration: 0.22, ease: 'power2.in',
+            onComplete() {
+                overlay.classList.remove('open');
+                overlay.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+                isOpen = false;
+            }
+        });
+    }
+
+    closeBtn.addEventListener('click', close);
+    overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && isOpen) close(); });
+
+    const expandSVG = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+      <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+    </svg>`;
+
+    document.querySelectorAll('.cat-product').forEach(product => {
+        const visual = product.querySelector('.cat-product-visual');
+        if (!visual) return;
+        const btn = document.createElement('button');
+        btn.className = 'cat-expand-btn';
+        btn.setAttribute('aria-label', 'Expandir');
+        btn.innerHTML = expandSVG;
+        btn.addEventListener('click', e => { e.stopPropagation(); open(product); });
+        visual.appendChild(btn);
+    });
+}
+
+// ──────────────────────────────────
 // Init
 // ──────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     initCatalogFilter();
     initLoadingOverlays();
     initProductPages();
+    initExpandModal();
     initViewportCleanup();
     initHeroAnimations();
     initProductAnimations();

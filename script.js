@@ -88,6 +88,36 @@ function initAboutAnimations() {
     // Animações simplificadas - cards já estão visíveis
 }
 
+// Scroll-reveal sutil dos cards About + micro-interação no ícone
+function initAboutCardReveal() {
+    const cards = gsap.utils.toArray('.about-card');
+    if (!cards.length) return;
+
+    gsap.from(cards, {
+        scrollTrigger: {
+            trigger: '.about-grid',
+            start: 'top 78%',
+            toggleActions: 'play none none reverse'
+        },
+        y: 28,
+        opacity: 0,
+        duration: 0.7,
+        stagger: 0.12,
+        ease: 'power3.out'
+    });
+
+    cards.forEach(card => {
+        const icon = card.querySelector('.card-icon-wrap');
+        if (!icon) return;
+        card.addEventListener('mouseenter', () => {
+            gsap.to(icon, { rotate: -6, scale: 1.06, duration: 0.4, ease: 'power2.out' });
+        });
+        card.addEventListener('mouseleave', () => {
+            gsap.to(icon, { rotate: 0, scale: 1, duration: 0.4, ease: 'power2.out' });
+        });
+    });
+}
+
 // Animações dos produtos ao scroll - Simplificadas
 function initProductsAnimations() {
     // Animações de entrada desabilitadas - elementos já estão visíveis
@@ -779,6 +809,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initCarousel();
     initStoryAnimations();
     initAboutAnimations();
+    initAboutCardReveal();
     initProcessAnimations();
     initProductsAnimations();
     initContactAnimations();
