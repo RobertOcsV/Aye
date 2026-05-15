@@ -1290,6 +1290,21 @@ h1, h2, h3, h4, h5, h6 {
         background: rgba(42, 31, 24, 0.85);
     }
 
+    .cat-expand-btn {
+        opacity: 0.75;
+        backdrop-filter: none;
+        background: rgba(42, 31, 24, 0.65);
+    }
+
+    .cat-modal-overlay {
+        backdrop-filter: none;
+    }
+
+    .cat-modal-close {
+        backdrop-filter: none;
+        background: rgba(42, 31, 24, 0.85);
+    }
+
     .cat-hero {
         min-height: auto;
     }
@@ -1351,22 +1366,19 @@ h1, h2, h3, h4, h5, h6 {
     position: fixed;
     inset: 0;
     z-index: 3000;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     padding: 1.25rem;
     background: rgba(18, 12, 7, 0.9);
     backdrop-filter: blur(12px);
     opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition: opacity 0.3s ease;
 }
 
 .cat-modal-overlay.open {
+    display: flex;
     opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
 }
 
 /* ── Container do modal ── */

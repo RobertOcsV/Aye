@@ -529,6 +529,7 @@ function initCatalogFilter() {
 
 // ──────────────────────────────────
 // Modal de Expansão
+// Apenas Imagem + 3D, abre no 3D
 // ──────────────────────────────────
 function initExpandModal() {
     const overlay = document.createElement('div');
@@ -547,23 +548,19 @@ function initExpandModal() {
 
         <div class="cat-modal-visual">
           <div class="cat-page-indicator">
-            <button class="cat-page-dot active" data-page="0" aria-label="Imagem"></button>
-            <button class="cat-page-dot" data-page="1" aria-label="Modelo 3D"></button>
-            <button class="cat-page-dot" data-page="2" aria-label="Descrição"></button>
+            <button class="cat-page-dot" data-page="0" aria-label="Imagem"></button>
+            <button class="cat-page-dot active" data-page="1" aria-label="Modelo 3D"></button>
           </div>
-          <div class="cat-page cat-page--img active">
+          <div class="cat-page cat-page--img">
             <div class="cat-img-wrap">
               <img class="cat-product-img" alt="" loading="lazy">
             </div>
           </div>
-          <div class="cat-page cat-page--3d" data-model-src="" data-model-alt="">
+          <div class="cat-page cat-page--3d active" data-model-src="" data-model-alt="">
             <div class="cat-model-wrap">
               <div class="cat-model-vignette"></div>
             </div>
             <span class="cat-page-label">Arraste para girar</span>
-          </div>
-          <div class="cat-page cat-page--desc">
-            <div class="cat-desc-content"></div>
           </div>
           <button class="cat-nav-arrow cat-nav-arrow--prev" aria-label="Anterior">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -586,27 +583,26 @@ function initExpandModal() {
 
     document.body.appendChild(overlay);
 
-    const modal       = overlay.querySelector('.cat-modal');
-    const closeBtn    = overlay.querySelector('.cat-modal-close');
-    const pages       = overlay.querySelectorAll('.cat-page');
-    const dots        = overlay.querySelectorAll('.cat-page-dot');
-    const prevBtn     = overlay.querySelector('.cat-nav-arrow--prev');
-    const nextBtn     = overlay.querySelector('.cat-nav-arrow--next');
-    const imgEl       = overlay.querySelector('.cat-product-img');
-    const page3d      = overlay.querySelector('.cat-page--3d');
-    const descContent = overlay.querySelector('.cat-desc-content');
-    const tagEl       = overlay.querySelector('.cat-product-tag');
-    const nameEl      = overlay.querySelector('.cat-modal-name');
-    const excerptEl   = overlay.querySelector('.cat-product-excerpt');
-    const descText    = overlay.querySelector('.cat-modal-desc-text');
-    const specsList   = overlay.querySelector('.cat-modal-specs');
+    const modal    = overlay.querySelector('.cat-modal');
+    const closeBtn = overlay.querySelector('.cat-modal-close');
+    const pages    = overlay.querySelectorAll('.cat-modal-visual > .cat-page');
+    const dots     = overlay.querySelectorAll('.cat-modal-visual .cat-page-dot');
+    const prevBtn  = overlay.querySelector('.cat-modal-visual .cat-nav-arrow--prev');
+    const nextBtn  = overlay.querySelector('.cat-modal-visual .cat-nav-arrow--next');
+    const imgEl    = overlay.querySelector('.cat-modal-visual .cat-product-img');
+    const page3d   = overlay.querySelector('.cat-modal-visual .cat-page--3d');
+    const tagEl    = overlay.querySelector('.cat-modal-info .cat-product-tag');
+    const nameEl   = overlay.querySelector('.cat-modal-name');
+    const excerptEl = overlay.querySelector('.cat-modal-info .cat-product-excerpt');
+    const descText  = overlay.querySelector('.cat-modal-desc-text');
+    const specsList = overlay.querySelector('.cat-modal-specs');
 
-    let currentPage = 0;
+    let modalCurrentPage = 1;
     let isOpen = false;
 
-    function goTo(index) {
-        if (index === currentPage) return;
-        const leaving  = pages[currentPage];
+    function modalGoTo(index) {
+        if (index === modalCurrentPage || index < 0 || index >= pages.length) return;
+        const leaving  = pages[modalCurrentPage];
         const entering = pages[index];
 
         if (leaving.classList.contains('cat-page--3d')) destroyModelViewer(leaving);
@@ -633,45 +629,51 @@ function initExpandModal() {
         });
 
         dots.forEach((d, i) => d.classList.toggle('active', i === index));
-        currentPage = index;
+        modalCurrentPage = index;
     }
 
-    dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
-    prevBtn.addEventListener('click', () => goTo((currentPage - 1 + pages.length) % pages.length));
-    nextBtn.addEventListener('click', () => goTo((currentPage + 1) % pages.length));
+    dots.forEach((dot, i) => dot.addEventListener('click', () => modalGoTo(i)));
+    prevBtn.addEventListener('click', () => modalGoTo((modalCurrentPage - 1 + pages.length) % pages.length));
+    nextBtn.addEventListener('click', () => modalGoTo((modalCurrentPage + 1) % pages.length));
 
     function open(product) {
-        const cardImg    = product.querySelector('.cat-page--img .cat-product-img');
-        const cardPage3d = product.querySelector('.cat-page--3d');
-        const cardTag    = product.querySelector('.cat-product-tag');
-        const cardName   = product.querySelector('.cat-product-name');
+        const cardImg     = product.querySelector('.cat-page--img .cat-product-img');
+        const cardPage3d  = product.querySelector('.cat-page--3d');
+        const cardTag     = product.querySelector('.cat-product-tag');
+        const cardName    = product.querySelector('.cat-product-name');
         const cardExcerpt = product.querySelector('.cat-product-excerpt');
         const cardDescText = product.querySelector('.cat-desc-text');
-        const cardSpecs  = product.querySelector('.cat-desc-specs');
+        const cardSpecs   = product.querySelector('.cat-desc-specs');
 
         imgEl.src = cardImg ? cardImg.src : '';
         imgEl.alt = cardImg ? cardImg.alt : '';
         page3d.dataset.modelSrc = cardPage3d ? (cardPage3d.dataset.modelSrc || '') : '';
         page3d.dataset.modelAlt = cardPage3d ? (cardPage3d.dataset.modelAlt || '') : '';
-        descContent.innerHTML = product.querySelector('.cat-desc-content') ? product.querySelector('.cat-desc-content').innerHTML : '';
-        tagEl.textContent  = cardTag     ? cardTag.textContent  : '';
-        nameEl.textContent = cardName    ? cardName.textContent : '';
+        tagEl.textContent     = cardTag     ? cardTag.textContent     : '';
+        nameEl.textContent    = cardName    ? cardName.textContent    : '';
         excerptEl.textContent = cardExcerpt ? cardExcerpt.textContent : '';
         descText.textContent  = cardDescText ? cardDescText.textContent : '';
-        specsList.innerHTML   = cardSpecs ? cardSpecs.innerHTML : '';
-
-        currentPage = 0;
-        pages.forEach((p, i) => {
-            p.classList.toggle('active', i === 0);
-            gsap.set(p, { opacity: i === 0 ? 1 : 0, visibility: i === 0 ? 'visible' : 'hidden', pointerEvents: i === 0 ? 'auto' : 'none' });
-        });
-        dots.forEach((d, i) => d.classList.toggle('active', i === 0));
+        specsList.innerHTML   = cardSpecs   ? cardSpecs.innerHTML     : '';
 
         if (activeModelPage) {
             const prod = activeModelPage.closest('.cat-product');
             const ctrl = prod && productControllers.get(prod);
             if (ctrl) ctrl.goTo(0, true); else destroyModelViewer(activeModelPage);
         }
+
+        modalCurrentPage = 1;
+        pages.forEach((p, i) => {
+            const is3d = i === 1;
+            p.classList.toggle('active', is3d);
+            gsap.set(p, {
+                opacity: is3d ? 1 : 0,
+                visibility: is3d ? 'visible' : 'hidden',
+                pointerEvents: is3d ? 'auto' : 'none'
+            });
+        });
+        dots.forEach((d, i) => d.classList.toggle('active', i === 1));
+
+        createModelViewer(page3d);
 
         overlay.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
