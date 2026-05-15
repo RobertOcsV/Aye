@@ -504,12 +504,6 @@ function initCatalogFilter() {
 
         renderPagination(totalFiltered);
         revealFilteredProducts(pageItems);
-
-        // Scroll suave para o grid ao trocar de página
-        if (resetPage === false) {
-            const filterBar = document.querySelector('.cat-filter-bar');
-            if (filterBar) filterBar.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
     }
 
     filterBtns.forEach(btn => {

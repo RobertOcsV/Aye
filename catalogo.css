@@ -1507,6 +1507,13 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
 }
 
+/* Imagem no modal: sem corte, mostra completa */
+.cat-modal-visual .cat-product-img {
+    object-fit: contain;
+    object-position: center;
+    background: var(--marrom-deep);
+}
+
 /* ── Mobile: stacked ── */
 @media (max-width: 640px) {
     .cat-modal-overlay {
@@ -1524,15 +1531,20 @@ h1, h2, h3, h4, h5, h6 {
     .cat-modal-visual {
         flex: none;
         width: 100%;
-        aspect-ratio: 2 / 3;
-        max-height: 55vh;
+        height: 55vh;
         min-height: unset;
         align-self: auto;
+    }
+
+    .cat-modal-close {
+        top: 1.1rem;
+        right: 1.1rem;
     }
 
     .cat-modal-info {
         padding: 1.5rem 1.5rem 2.5rem;
         justify-content: flex-start;
+        overflow-y: auto;
     }
 
     .cat-modal-name {
