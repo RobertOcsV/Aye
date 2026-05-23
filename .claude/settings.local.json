@@ -60,7 +60,11 @@
       "PowerShell(if \\(-not \\(Test-Path \"D:\\\\Versionados_Projetos\\\\Aye\\\\Img\\\\models\\\\web\\\\_tmp\"\\)\\) { New-Item -ItemType Directory -Path \"D:\\\\Versionados_Projetos\\\\Aye\\\\Img\\\\models\\\\web\\\\_tmp\" -Force | Out-Null; \"Created _tmp\" } else { \"_tmp already exists\" })",
       "PowerShell(Remove-Item \"D:\\\\Versionados_Projetos\\\\Aye\\\\Img\\\\models\\\\web\\\\_tmp\" -Recurse -Force -Confirm:$false)",
       "mcp__Claude_in_Chrome__tabs_context_mcp",
-      "mcp__Claude_Preview__preview_start"
+      "mcp__Claude_Preview__preview_start",
+      "Bash(where magick *)",
+      "Bash(where convert *)",
+      "Bash(where python *)",
+      "Bash(where python3 *)"
     ],
     "deny": [],
     "ask": []
