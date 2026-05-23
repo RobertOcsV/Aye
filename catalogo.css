@@ -1552,6 +1552,75 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
+/* ──────────────────────────────────
+   FITA "PROMOÇÃO"
+   Banner ornamentado no topo do card
+────────────────────────────────── */
+.cat-product-ribbon {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 6;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.45rem 1.45rem 0.7rem;
+    background: linear-gradient(180deg, #8a2828 0%, #6b1d1d 100%);
+    color: #f2e7da;
+    font-family: 'Lora', Georgia, serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    font-style: italic;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    pointer-events: none;
+    clip-path: polygon(0% 0%, 100% 0%, 92% 55%, 100% 100%, 50% 78%, 0% 100%, 8% 55%);
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.28));
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+}
+
+.cat-ribbon-ornament {
+    color: rgba(242, 231, 218, 0.9);
+    font-size: 0.7rem;
+    line-height: 1;
+    transform: translateY(-1px);
+}
+
+.cat-ribbon-text {
+    line-height: 1;
+}
+
+/* Empurra os dots de paginação para baixo da fita quando ela está presente */
+.cat-product-visual:has(.cat-product-ribbon) .cat-page-indicator {
+    top: 2.5rem;
+}
+
+@media (max-width: 968px) {
+    .cat-product-ribbon {
+        font-size: 0.68rem;
+        padding: 0.38rem 1.15rem 0.6rem;
+        gap: 0.4rem;
+    }
+    .cat-ribbon-ornament {
+        font-size: 0.58rem;
+    }
+}
+
+@media (max-width: 680px) {
+    .cat-product-ribbon {
+        font-size: 0.6rem;
+        padding: 0.32rem 0.9rem 0.5rem;
+        gap: 0.32rem;
+    }
+    .cat-ribbon-ornament {
+        font-size: 0.5rem;
+    }
+    .cat-product-visual:has(.cat-product-ribbon) .cat-page-indicator {
+        top: 1.9rem;
+    }
+}
+
 /* ── Respeita preferências de acessibilidade ── */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {

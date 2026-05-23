@@ -361,10 +361,8 @@ function initButtonEffects() {
 }
 
 // ──────────────────────────────────
-// Filtro, Pesquisa e Paginação
+// Filtro e Pesquisa
 // ──────────────────────────────────
-const ITEMS_PER_PAGE = 8;
-
 function initCatalogFilter() {
     const searchInput = document.getElementById('catSearch');
     const filterTabs  = document.getElementById('catFilterTabs');
@@ -377,24 +375,17 @@ function initCatalogFilter() {
     const totalCount    = document.getElementById('catTotalCount');
 
     let activeFilter = 'todos';
-    let currentPage  = 1;
-    let filteredList = [];
-
-    // Cria container de paginação
-    const paginationWrap = document.createElement('div');
-    paginationWrap.className = 'cat-pagination';
-    grid.parentNode.insertBefore(paginationWrap, grid.nextSibling);
 
     function updateCounts() {
-        const counts = { todos: allProducts.length, guia: 0, orixa: 0, entidade: 0 };
+        const counts = { todos: allProducts.length, personalizada: 0, orixa: 0, entidade: 0 };
         allProducts.forEach(p => {
             const cat = p.dataset.category;
             if (counts[cat] !== undefined) counts[cat]++;
         });
-        document.getElementById('countTodos').textContent    = counts.todos;
-        document.getElementById('countGuia').textContent      = counts.guia;
-        document.getElementById('countOrixa').textContent     = counts.orixa;
-        document.getElementById('countEntidade').textContent  = counts.entidade;
+        document.getElementById('countTodos').textContent          = counts.todos;
+        document.getElementById('countPersonalizada').textContent  = counts.personalizada;
+        document.getElementById('countOrixa').textContent          = counts.orixa;
+        document.getElementById('countEntidade').textContent       = counts.entidade;
         totalCount.textContent = counts.todos;
     }
 
@@ -413,81 +404,12 @@ function initCatalogFilter() {
         });
     }
 
-    function renderPagination(totalItems) {
-        const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
-        paginationWrap.innerHTML = '';
-
-        if (totalPages <= 1) return;
-
-        // Botão anterior
-        const prevBtn = document.createElement('button');
-        prevBtn.className = 'cat-page-btn cat-page-prev';
-        prevBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>';
-        prevBtn.disabled = currentPage === 1;
-        prevBtn.addEventListener('click', () => { if (currentPage > 1) { currentPage--; applyFilter(false); } });
-        paginationWrap.appendChild(prevBtn);
-
-        // Números de página
-        const maxVisible = 5;
-        let start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
-        let end   = Math.min(totalPages, start + maxVisible - 1);
-        if (end - start + 1 < maxVisible) start = Math.max(1, end - maxVisible + 1);
-
-        if (start > 1) {
-            paginationWrap.appendChild(createPageBtn(1));
-            if (start > 2) {
-                const dots = document.createElement('span');
-                dots.className = 'cat-page-dots';
-                dots.textContent = '...';
-                paginationWrap.appendChild(dots);
-            }
-        }
-
-        for (let i = start; i <= end; i++) {
-            paginationWrap.appendChild(createPageBtn(i));
-        }
-
-        if (end < totalPages) {
-            if (end < totalPages - 1) {
-                const dots = document.createElement('span');
-                dots.className = 'cat-page-dots';
-                dots.textContent = '...';
-                paginationWrap.appendChild(dots);
-            }
-            paginationWrap.appendChild(createPageBtn(totalPages));
-        }
-
-        // Botão próximo
-        const nextBtn = document.createElement('button');
-        nextBtn.className = 'cat-page-btn cat-page-next';
-        nextBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>';
-        nextBtn.disabled = currentPage === totalPages;
-        nextBtn.addEventListener('click', () => { if (currentPage < totalPages) { currentPage++; applyFilter(false); } });
-        paginationWrap.appendChild(nextBtn);
-    }
-
-    function createPageBtn(page) {
-        const btn = document.createElement('button');
-        btn.className = 'cat-page-btn cat-page-num' + (page === currentPage ? ' active' : '');
-        btn.textContent = page;
-        btn.addEventListener('click', () => { if (page !== currentPage) { currentPage = page; applyFilter(false); } });
-        return btn;
-    }
-
-    function applyFilter(resetPage) {
-        if (resetPage !== false) currentPage = 1;
-
-        filteredList = getFilteredProducts();
+    function applyFilter() {
+        const filteredList = getFilteredProducts();
         const totalFiltered = filteredList.length;
-        const totalPages    = Math.ceil(totalFiltered / ITEMS_PER_PAGE);
-
-        if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
-
-        const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
-        const pageItems = filteredList.slice(startIdx, startIdx + ITEMS_PER_PAGE);
 
         allProducts.forEach(product => {
-            product.classList.toggle('hidden-by-filter', !pageItems.includes(product));
+            product.classList.toggle('hidden-by-filter', !filteredList.includes(product));
         });
 
         resultCount.textContent = totalFiltered;
@@ -502,8 +424,7 @@ function initCatalogFilter() {
             existing.remove();
         }
 
-        renderPagination(totalFiltered);
-        revealFilteredProducts(pageItems);
+        revealFilteredProducts(filteredList);
     }
 
     filterBtns.forEach(btn => {
@@ -516,6 +437,14 @@ function initCatalogFilter() {
     });
 
     searchInput.addEventListener('input', () => applyFilter());
+
+    // Mobile: fecha o teclado quando o usuário aperta Enter na busca
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            searchInput.blur();
+        }
+    });
 
     updateCounts();
     applyFilter();
