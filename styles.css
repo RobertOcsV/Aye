@@ -37,6 +37,7 @@ h1, h2, h3, h4, h5, h6 {
     background-color: rgba(242, 231, 218, 0.95);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--verde);
+    transition: background-color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
 }
 
 .nav {
@@ -50,12 +51,23 @@ h1, h2, h3, h4, h5, h6 {
 
 .logo-container {
     width: 80px;
+    position: relative;
 }
 
 .logo {
     width: 100%;
     height: auto;
     display: block;
+    transition: opacity 0.45s ease;
+}
+
+/* Logo claro empilhado sobre o colorido (troca por opacidade sobre o banner) */
+.logo--light {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
 }
 
 .nav-actions {
@@ -112,9 +124,422 @@ h1, h2, h3, h4, h5, h6 {
     transform: translateY(-2px);
 }
 
-/* Main */
+/* Header sobre o banner Portal: transparente (o script.js liga .is-over) */
+.header.is-scrolled {
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+}
+
+.header.is-over {
+    background-color: transparent !important;
+    border-bottom-color: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+/* Banner escuro por trás → header claro (o portal troca o tema quando amanhece) */
+body[data-banner-theme="dark"] .header.is-over {
+    border-bottom-color: rgba(242, 231, 218, 0.1) !important;
+}
+
+body[data-banner-theme="dark"] .header.is-over .logo:not(.logo--light) {
+    opacity: 0;
+}
+
+body[data-banner-theme="dark"] .header.is-over .logo--light {
+    opacity: 1;
+}
+
+body[data-banner-theme="dark"] .header.is-over .nav-link-catalog {
+    color: var(--creme);
+}
+
+body[data-banner-theme="dark"] .header.is-over .nav-cta {
+    background-color: rgba(242, 231, 218, 0.08);
+    box-shadow: inset 0 0 0 1px rgba(242, 231, 218, 0.35);
+    color: var(--creme);
+}
+
+body[data-banner-theme="dark"] .header.is-over .nav-cta:hover {
+    background-color: var(--terracota);
+    box-shadow: inset 0 0 0 1px var(--terracota);
+}
+
+/* Main — o banner Portal é o topo da página (fica por baixo do header transparente) */
 main {
-    margin-top: 100px;
+    margin-top: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PORTAL — banner do topo · "Do Orum ao Ayê"
+   Céu do Orum → poeira de estrelas forma a Sankofa → o scroll
+   atravessa o portal e amanhece no Ayê (o creme do hero).
+   A seção é alta (260svh) e o palco fica "sticky" enquanto o
+   scroll conduz a animação (initPortal no script.js).
+   ═══════════════════════════════════════════════════════════ */
+
+.portal {
+    --night-0: #0b0705;
+    --night-1: #170f0b;
+    --night-2: #2a1c15;
+    --gold: #e9c48c;
+    --terra-light: #e2a083;
+    --portal-y: 50%;
+    position: relative;
+    height: 260vh;
+    height: 260svh;
+    background: var(--night-0);
+}
+
+.portal-stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+    isolation: isolate;
+    color: var(--creme);
+}
+
+/* Céu */
+.portal-sky {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background:
+        radial-gradient(ellipse 55% 45% at 50% var(--portal-y), rgba(166, 91, 66, .2) 0%, transparent 70%),
+        radial-gradient(ellipse 95% 75% at 50% var(--portal-y), var(--night-2) 0%, var(--night-1) 45%, var(--night-0) 100%);
+}
+
+/* brilho que respira atrás do portal */
+.portal-sky::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: var(--portal-y);
+    width: min(72vmin, 680px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(233, 196, 140, .16) 0%, rgba(166, 91, 66, .08) 40%, transparent 70%);
+    animation: portal-breathe 6s ease-in-out infinite;
+}
+
+.portal-canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Anéis do portal */
+.portal-rings {
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    top: var(--portal-y);
+    width: min(88vmin, 860px);
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%) scale(var(--ring-scale, 1));
+    opacity: var(--ring-opacity, 1);
+    pointer-events: none;
+    will-change: transform, opacity;
+}
+
+.portal-ring {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.portal-ring--names { animation: portal-spin 140s linear infinite; }
+.portal-ring--frame { animation: portal-spin 220s linear infinite reverse; }
+.portal-ring--inner { animation: portal-spin 80s linear infinite; }
+
+.portal-names-text {
+    font-family: 'Raleway', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: .3em;
+    fill: rgba(242, 231, 218, .42);
+}
+
+.portal-frame-path {
+    fill: none;
+    stroke: rgba(157, 190, 140, .6);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.portal-frame-dot {
+    fill: rgba(157, 190, 140, .75);
+}
+
+.portal-inner-circle {
+    fill: none;
+    stroke: rgba(233, 196, 140, .3);
+    stroke-width: 1.2;
+    stroke-dasharray: 2 12;
+}
+
+/* Logo em imagem — só aparece no modo reserva (sem leitura de pixels, ex.: file://) */
+.portal-logo-fallback {
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    top: var(--portal-y);
+    width: 360px;
+    height: auto;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    filter: drop-shadow(0 0 26px rgba(233, 196, 140, .35));
+    pointer-events: none;
+    will-change: transform, opacity;
+}
+
+/* Texto */
+.portal-copy {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.portal-copy a,
+.portal-copy button {
+    pointer-events: auto;
+}
+
+.portal-title {
+    margin: 0;
+    font-family: 'Lora', Georgia, serif;
+    font-weight: 600;
+}
+
+.portal-title-line {
+    position: absolute;
+    font-size: clamp(3.4rem, 10vw, 10.5rem);
+    line-height: .95;
+    letter-spacing: -.015em;
+    white-space: nowrap;
+    will-change: transform, opacity;
+}
+
+.portal-title-line--orum {
+    top: calc(96px + 3vh);
+    left: 5vw;
+    color: var(--creme);
+}
+
+.portal-title-line--aye {
+    right: 5vw;
+    bottom: 8vh;
+    font-style: italic;
+    color: var(--terra-light);
+}
+
+.portal-title .char {
+    display: inline-block;
+    will-change: transform, opacity, filter;
+}
+
+.portal-intro {
+    position: absolute;
+    left: 5vw;
+    bottom: 9vh;
+    max-width: 26rem;
+    will-change: transform, opacity;
+}
+
+.portal-lede {
+    font-size: clamp(.98rem, 1.1vw, 1.1rem);
+    line-height: 1.7;
+    color: rgba(242, 231, 218, .78);
+    margin-bottom: 1.6rem;
+}
+
+.portal-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+}
+
+.portal-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: .65rem;
+    padding: .95rem 1.6rem;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--terracota) 0%, #c4714f 100%);
+    color: var(--creme);
+    font-family: 'Raleway', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(166, 91, 66, .35), inset 0 0 0 1px rgba(255, 255, 255, .12);
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.portal-cta svg {
+    transition: transform .3s ease;
+}
+
+.portal-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px rgba(166, 91, 66, .5), inset 0 0 0 1px rgba(255, 255, 255, .18);
+}
+
+.portal-cta:hover svg {
+    transform: translateY(3px);
+}
+
+.portal-link {
+    font-family: 'Raleway', sans-serif;
+    font-size: .95rem;
+    font-weight: 500;
+    color: var(--creme);
+    text-decoration: none;
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgba(242, 231, 218, .35);
+    transition: border-color .3s ease, color .3s ease;
+}
+
+.portal-link:hover {
+    color: var(--gold);
+    border-color: var(--gold);
+}
+
+/* Indicador de scroll */
+.portal-scroll-cue {
+    position: absolute;
+    left: 50%;
+    bottom: 3.2vh;
+    transform: translateX(-50%);
+}
+
+.portal-scroll-cue-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .6rem;
+    font-family: 'Raleway', sans-serif;
+    font-size: .66rem;
+    font-weight: 600;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: rgba(242, 231, 218, .55);
+}
+
+.portal-scroll-line {
+    display: block;
+    width: 1px;
+    height: 46px;
+    background: linear-gradient(to bottom, transparent, var(--gold));
+    transform-origin: top;
+    animation: portal-cue 2.2s ease-in-out infinite;
+}
+
+/* Amanhecer no Ayê */
+.portal-dawn {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(circle at 50% var(--portal-y), #fbf5ec 0%, var(--creme) 60%);
+    clip-path: circle(0px at 50% 50%);
+    pointer-events: none;
+}
+
+.portal-arrival {
+    text-align: center;
+    color: var(--marrom);
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+.portal-arrival-eyebrow {
+    display: block;
+    font-family: 'Raleway', sans-serif;
+    font-size: .78rem;
+    font-weight: 500;
+    letter-spacing: .42em;
+    text-transform: uppercase;
+    color: var(--terracota);
+    margin-bottom: .4rem;
+}
+
+.portal-arrival-word {
+    display: block;
+    font-family: 'Lora', Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(4.5rem, 15vw, 13rem);
+    line-height: .95;
+    letter-spacing: -.01em;
+}
+
+@keyframes portal-spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes portal-breathe {
+    0%, 100% { opacity: .7; transform: translate(-50%, -50%) scale(1); }
+    50%      { opacity: 1;  transform: translate(-50%, -50%) scale(1.08); }
+}
+
+@keyframes portal-cue {
+    0%   { transform: scaleY(0); opacity: 0; }
+    35%  { transform: scaleY(1); opacity: 1; }
+    100% { transform: scaleY(1); opacity: 0; }
+}
+
+@media (max-width: 1180px) {
+    .portal-scroll-cue { display: none; }
+}
+
+@media (max-width: 968px) {
+    .portal { --portal-y: 47%; }
+
+    .portal-title-line {
+        font-size: clamp(3rem, 15vw, 6.5rem);
+        left: 0;
+        right: 0;
+        text-align: center;
+    }
+
+    .portal-title-line--orum { top: calc(76px + 4svh); }
+
+    .portal-title-line--aye {
+        bottom: auto;
+        top: 64svh;
+    }
+
+    .portal-intro {
+        left: 1.25rem;
+        right: 1.25rem;
+        bottom: 4svh;
+        max-width: none;
+        text-align: center;
+    }
+
+    .portal-lede {
+        font-size: .95rem;
+        margin-bottom: 1rem;
+    }
+
+    .portal-actions { justify-content: center; }
+}
+
+@media (max-width: 968px) and (max-height: 760px) {
+    .portal-lede { display: none; }
 }
 
 /* Hero Section */
@@ -2253,10 +2678,6 @@ main {
     .nav-cta {
         padding: 0.6rem 1rem;
         font-size: 0.9rem;
-    }
-
-    main {
-        margin-top: 72px;
     }
 
     .section-title {
