@@ -61,9 +61,11 @@ export async function onRequest(context) {
             });
         }
 
-        const data = await res.json();
+        // Devolve só os posts. A Meta manda paging.next com o token dentro da URL:
+        // repassar o JSON inteiro entregava o token a qualquer visitante
+        const { data } = await res.json();
 
-        return new Response(JSON.stringify(data), {
+        return new Response(JSON.stringify({ data: data ?? [] }), {
             status: 200,
             headers: okHeaders
         });
